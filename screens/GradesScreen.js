@@ -1,7 +1,9 @@
-import { Text, FlatList } from "react-native";
+import { useLayoutEffect } from "react";
+import { FlatList, Button } from "react-native";
 
 import { grades } from "../dummyData/data";
 import GradeGirdTitle from "../components/GradeGirdTitle";
+import IconButton from "../components/icons/IconButton";
 
 const GradesScreen = ({ navigation }) => {
   const renderGradesItem = (itemData) => {
@@ -17,6 +19,14 @@ const GradesScreen = ({ navigation }) => {
       />
     );
   };
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return <IconButton icon="add" color="black" />;
+      },
+    });
+  }, []);
 
   return (
     <FlatList

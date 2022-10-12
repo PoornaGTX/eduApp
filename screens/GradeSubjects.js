@@ -1,9 +1,14 @@
-import { View, FlatList, StyleSheet, Text } from "react-native";
+import { useLayoutEffect } from "react";
+import { View, FlatList, StyleSheet, Button } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import { Subjects } from "../dummyData/data";
+import SubjectGirdTitle from "../components/SubjectGirdTitle";
+import IconButton from "../components/icons/IconButton";
 
 //route will resive to any registred screens
 const GradeSubjects = ({ route }) => {
+  const navigation = useNavigation();
   const gradeID = route.params.singlegardeID;
 
   const displaySubjects = Subjects.filter((singleSubject) => {
@@ -12,11 +17,20 @@ const GradeSubjects = ({ route }) => {
 
   const renderSubjectItem = (itemData) => {
     return (
-      <View>
-        <Text>{itemData.item.subjectName}</Text>
-      </View>
+      <SubjectGirdTitle
+        subjectName={itemData.item.subjectName}
+        subjectcolor={itemData.item.color}
+      />
     );
   };
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return <IconButton icon="add" color="black" />;
+      },
+    });
+  }, []);
 
   return (
     <View>
@@ -24,6 +38,7 @@ const GradeSubjects = ({ route }) => {
         data={displaySubjects}
         keyExtractor={(item) => item.id}
         renderItem={renderSubjectItem}
+        numColumns={2}
       />
     </View>
   );

@@ -14,6 +14,13 @@ export const Subjects = [
   { id: "g1s4", gID: "g1", subjectName: "Tamil", color: "#f5d142" },
   { id: "g1s5", gID: "g1", subjectName: "Hisory", color: "#368dff" },
   { id: "g1s6", gID: "g1", subjectName: "Maths", color: "#41d95d" },
+  { id: "g1s7", gID: "g1", subjectName: "Civics", color: "#41d95d" },
+  { id: "g1s8", gID: "g1", subjectName: "Buddhisam", color: "#9eecff" },
+  { id: "g1s9", gID: "g1", subjectName: "Buddhisam", color: "#ffc7ff" },
+  { id: "g1s10", gID: "g1", subjectName: "Buddhisam", color: "#47fced" },
+  { id: "g1s11", gID: "g1", subjectName: "Buddhisam", color: "#f5a442" },
+  { id: "g1s12", gID: "g1", subjectName: "Buddhisam", color: "#368dff" },
+
   { id: "g2s1", gID: "g2", subjectName: "English", color: "#f5428d" },
   { id: "g2s2", gID: "g2", subjectName: "Sinhala", color: "#f54242" },
   { id: "g2s3", gID: "g2", subjectName: "IT", color: "#f5a442" },

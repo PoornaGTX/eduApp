@@ -14,7 +14,9 @@ export default function App() {
       <StatusBar style="dark" />
 
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator
+          screenOptions={{ headerStyle: { backgroundColor: "yellow" } }}
+        >
           <Stack.Screen name="All Grades" component={GradesScreen} />
           <Stack.Screen name="Subjects" component={GradeSubjects} />
         </Stack.Navigator>
