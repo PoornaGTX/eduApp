@@ -38,6 +38,7 @@ const GradeSubjects = ({ route }) => {
           <IconButton
             icon="add"
             color="black"
+            size={24}
             onPressProp={headerButtonHandler}
           />
         );

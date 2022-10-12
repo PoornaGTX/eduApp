@@ -23,7 +23,7 @@ const GradesScreen = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
-        return <IconButton icon="add" color="black" />;
+        return <IconButton icon="add" color="black" size={24} />;
       },
     });
   }, []);
