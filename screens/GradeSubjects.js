@@ -5,6 +5,8 @@ import { useNavigation } from "@react-navigation/native";
 import { Subjects } from "../dummyData/data";
 import SubjectGirdTitle from "../components/SubjectGirdTitle";
 import IconButton from "../components/icons/IconButton";
+import ManageSubjectScreen from "./ManageSubjectScreen";
+ManageSubjectScreen;
 
 //route will resive to any registred screens
 const GradeSubjects = ({ route }) => {
@@ -15,11 +17,16 @@ const GradeSubjects = ({ route }) => {
     return singleSubject.gID === gradeID;
   });
 
+  const headerButtonHandler = () => {
+    navigation.navigate("ManageGrade");
+  };
+
   const renderSubjectItem = (itemData) => {
     return (
       <SubjectGirdTitle
         subjectName={itemData.item.subjectName}
         subjectcolor={itemData.item.color}
+        subjectID={itemData.item.id}
       />
     );
   };
@@ -27,7 +34,13 @@ const GradeSubjects = ({ route }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
-        return <IconButton icon="add" color="black" />;
+        return (
+          <IconButton
+            icon="add"
+            color="black"
+            onPressProp={headerButtonHandler}
+          />
+        );
       },
     });
   }, []);

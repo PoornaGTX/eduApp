@@ -1,6 +1,13 @@
 import { View, Text, Pressable, StyleSheet, Platform } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-const SubjectGirdTitle = ({ subjectName, subjectcolor, onPressProp }) => {
+const SubjectGirdTitle = ({ subjectName, subjectID, subjectcolor }) => {
+  const navigation = useNavigation();
+
+  const headerButtonHandlerSubject = () => {
+    navigation.navigate("ManageGrade", { subID: subjectID });
+  };
+
   return (
     <View style={styles.gridItem}>
       <Pressable
@@ -9,7 +16,7 @@ const SubjectGirdTitle = ({ subjectName, subjectcolor, onPressProp }) => {
           pressed ? styles.buttonPressed : null, //this for ios
         ]}
         android_ripple={{ color: "#ccc" }}
-        // onPress={onPressProp}
+        onPress={headerButtonHandlerSubject}
       >
         <View
           style={[styles.innerContainer, { backgroundColor: subjectcolor }]}

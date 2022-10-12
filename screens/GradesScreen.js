@@ -1,5 +1,5 @@
 import { useLayoutEffect } from "react";
-import { FlatList, Button } from "react-native";
+import { FlatList } from "react-native";
 
 import { grades } from "../dummyData/data";
 import GradeGirdTitle from "../components/GradeGirdTitle";
