@@ -1,23 +1,20 @@
 import { useLayoutEffect, useContext } from "react";
-import { View, StyleSheet, TextInput } from "react-native";
+import { View, StyleSheet } from "react-native";
 
 import IconButton from "../components/icons/IconButton";
 import Button from "../components/icons/Button";
 import { KnowledgelabContext } from "../store/KLab-context";
-import AdminForm from "../components/Form/AdminForm";
 
-const ManageSubjectScreen = ({ route, navigation }) => {
-  const subjectID = route.params?.subID;
-  const Grade = route.params?.Grade;
-  const isEditing = !!subjectID;
+const ManageGradesScreen = ({ route, navigation }) => {
+  const GradeID = route.params?.GradeNumberID;
 
   const SubjectCtx = useContext(KnowledgelabContext);
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: isEditing ? "Edit Subject" : "Add Subject",
+      title: "Add Subject",
     });
-  }, [navigation, isEditing]);
+  }, [navigation]);
 
   const deleteSubject = () => {
     SubjectCtx.deleteSubject(subjectID);
@@ -29,40 +26,25 @@ const ManageSubjectScreen = ({ route, navigation }) => {
   };
 
   const confirmHandler = () => {
-    if (isEditing) {
-      SubjectCtx.updateSubject(subjectID, { subjectName: "update" });
-    } else {
-      SubjectCtx.addSubject();
-    }
+    SubjectCtx.addSubject();
     navigation.goBack();
   };
 
   return (
     <View style={styles.container}>
-      <AdminForm labelName1="Grade" labelName2="Subject" Grade={Grade} />
       <View style={styles.buttons}>
         <Button mode="flat" onPressProp={cancleHandler} style={styles.button}>
           Cancle
         </Button>
         <Button onPressProp={confirmHandler} style={styles.button}>
-          {isEditing ? "Update" : "Add"}
+          Add Grade
         </Button>
       </View>
-      {isEditing && (
-        <View style={styles.deleteContainer}>
-          <IconButton
-            icon="trash"
-            color="green"
-            size={36}
-            onPressProp={deleteSubject}
-          />
-        </View>
-      )}
     </View>
   );
 };
 
-export default ManageSubjectScreen;
+export default ManageGradesScreen;
 
 const styles = StyleSheet.create({
   container: {

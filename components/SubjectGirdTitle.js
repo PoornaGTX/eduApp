@@ -1,11 +1,11 @@
 import { View, Text, Pressable, StyleSheet, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const SubjectGirdTitle = ({ subjectName, subjectID, subjectcolor }) => {
+const SubjectGirdTitle = ({ subjectName, subjectID, subjectcolor, Grade }) => {
   const navigation = useNavigation();
 
   const headerButtonHandlerSubject = () => {
-    navigation.navigate("ManageGrade", { subID: subjectID });
+    navigation.navigate("ManageSubjects", { subID: subjectID, Grade: Grade });
   };
 
   return (

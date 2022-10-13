@@ -1,8 +1,19 @@
 import { View, Text, Pressable, StyleSheet, Platform } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
+import ManageButton from "./icons/ManageButton";
 
 const GradeGirdTitle = ({ grade, color, onPressProp }) => {
+  const user = "Admin"; //tempory
+  const navigation = useNavigation();
+
+  //for manage button
+  const MangeButtonHanlder = () => {
+    navigation.navigate("ManageGrade", { GradeNumberID: grade });
+  };
+
   return (
-    <View style={styles.gridItem}>
+    <View style={[styles.gridItem, user === "Admin" && styles.gridItemupdate]}>
       <Pressable
         style={({ pressed }) => [
           styles.button,
@@ -15,6 +26,9 @@ const GradeGirdTitle = ({ grade, color, onPressProp }) => {
           <Text style={styles.title}>{grade}</Text>
         </View>
       </Pressable>
+      {user === "Admin" && (
+        <ManageButton onPressProp={MangeButtonHanlder}>Manage</ManageButton>
+      )}
     </View>
   );
 };
@@ -33,6 +47,9 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     overflow: Platform.OS === "android" ? "hidden" : "visible",
   },
+  gridItemupdate: {
+    height: 200,
+  },
   button: {
     flex: 1,
   },
@@ -44,7 +61,6 @@ const styles = StyleSheet.create({
     padding: 16,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 8,
   },
   title: {
     fontWeight: "bold",

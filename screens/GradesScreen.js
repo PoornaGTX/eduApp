@@ -20,10 +20,21 @@ const GradesScreen = ({ navigation }) => {
     );
   };
 
+  const headerButtonHandler = () => {
+    navigation.navigate("ManageGrade");
+  };
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
-        return <IconButton icon="add" color="black" size={24} />;
+        return (
+          <IconButton
+            icon="add"
+            color="black"
+            size={24}
+            onPressProp={headerButtonHandler}
+          />
+        );
       },
     });
   }, []);
