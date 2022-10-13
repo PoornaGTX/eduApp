@@ -22,10 +22,6 @@ const GradeSubjects = ({ route }) => {
     navigation.navigate("ManageSubjects");
   };
 
-  if (displaySubjects.length === 0) {
-    return <Text style={styles.infoText}>No subjects availble</Text>;
-  }
-
   const renderSubjectItem = (itemData) => {
     return (
       <SubjectGirdTitle
@@ -51,6 +47,10 @@ const GradeSubjects = ({ route }) => {
       },
     });
   }, []);
+
+  if (displaySubjects.length === 0) {
+    return <Text style={styles.infoText}>No subjects availble</Text>;
+  }
 
   return (
     <FlatList

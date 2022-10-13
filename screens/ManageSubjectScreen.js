@@ -28,26 +28,30 @@ const ManageSubjectScreen = ({ route, navigation }) => {
     navigation.goBack();
   };
 
-  const confirmHandler = () => {
+  const confirmHandler = (SubName) => {
     if (isEditing) {
-      SubjectCtx.updateSubject(subjectID, { subjectName: "update" });
+      SubjectCtx.updateSubject(subjectID, { subjectName: SubName });
     } else {
-      SubjectCtx.addSubject();
+      SubjectCtx.addSubject({
+        subjectName: SubName,
+        gID: "Grade 3",
+        color: "#41d95d",
+      });
     }
     navigation.goBack();
   };
 
   return (
     <View style={styles.container}>
-      <AdminForm labelName1="Grade" labelName2="Subject" Grade={Grade} />
-      <View style={styles.buttons}>
-        <Button mode="flat" onPressProp={cancleHandler} style={styles.button}>
-          Cancle
-        </Button>
-        <Button onPressProp={confirmHandler} style={styles.button}>
-          {isEditing ? "Update" : "Add"}
-        </Button>
-      </View>
+      <AdminForm
+        labelName1="Grade"
+        labelName2="Subject"
+        Grade={Grade}
+        onCancel={cancleHandler}
+        submitButtonLabel={isEditing ? "Update" : "Add"}
+        onSubmit={confirmHandler}
+      />
+
       {isEditing && (
         <View style={styles.deleteContainer}>
           <IconButton
@@ -69,15 +73,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 24,
     backgroundColor: "#200364",
-  },
-  buttons: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  button: {
-    minWidth: 120,
-    marginHorizontal: 8,
   },
   deleteContainer: {
     marginTop: 16,

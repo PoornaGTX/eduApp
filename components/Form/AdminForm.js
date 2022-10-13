@@ -2,13 +2,31 @@ import { useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 
 import AdminInput from "./AdminInput";
+import Button from "../icons/Button";
 
-const AdminForm = ({ labelName1, labelName2, Grade }) => {
+const AdminForm = ({
+  labelName1,
+  labelName2,
+  Grade,
+  onCancel,
+  onSubmit,
+  submitButtonLabel,
+}) => {
   const [subjectValue, setSubjectValue] = useState();
 
   const subjectChangeHandler = (enteredAmount) => {
     setSubjectValue(enteredAmount);
   };
+
+  const sumbitHandler = () => {
+    onSubmit(subjectValue);
+  };
+
+  let subjectStatus = true;
+
+  if (submitButtonLabel === "Update") {
+    subjectStatus = false;
+  }
 
   return (
     <View style={styles.form}>
@@ -17,7 +35,7 @@ const AdminForm = ({ labelName1, labelName2, Grade }) => {
         label={labelName1}
         textInputAllProps={{
           value: Grade,
-          editable: false,
+          editable: subjectStatus ? true : false,
         }}
       />
       <AdminInput
@@ -27,6 +45,14 @@ const AdminForm = ({ labelName1, labelName2, Grade }) => {
           value: subjectValue,
         }}
       />
+      <View style={styles.buttons}>
+        <Button mode="flat" onPressProp={onCancel} style={styles.button}>
+          Cancle
+        </Button>
+        <Button onPressProp={sumbitHandler} style={styles.button}>
+          {submitButtonLabel}
+        </Button>
+      </View>
     </View>
   );
 };
@@ -44,5 +70,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     marginVertical: 16,
+  },
+  buttons: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  button: {
+    minWidth: 120,
+    marginHorizontal: 8,
   },
 });
