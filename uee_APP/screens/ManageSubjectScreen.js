@@ -1,10 +1,13 @@
 import { useLayoutEffect, useContext } from "react";
-import { View, StyleSheet, TextInput } from "react-native";
+import { View, StyleSheet } from "react-native";
 
+//components
 import IconButton from "../components/icons/IconButton";
-import Button from "../components/icons/Button";
 import { KnowledgelabContext } from "../store/KLab-context";
 import AdminForm from "../components/Form/AdminForm";
+
+//http request
+import { createSubject } from "../utill/http";
 
 const ManageSubjectScreen = ({ route, navigation }) => {
   const subjectID = route.params?.subID;
@@ -44,6 +47,9 @@ const ManageSubjectScreen = ({ route, navigation }) => {
         color: colorforEdit && colorselect,
       });
     } else {
+      //http
+      createSubject({ subjectName: SubName, gID: GradeID, color: colorselect });
+
       SubjectCtx.addSubject({
         subjectName: SubName,
         gID: GradeID,
