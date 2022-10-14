@@ -19,7 +19,8 @@ export default ManageButton;
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 4,
+    borderBottomEndRadius: 4,
+    borderBottomRightRadius: 4,
     padding: 8,
     backgroundColor: "#368dff",
     height: 45,

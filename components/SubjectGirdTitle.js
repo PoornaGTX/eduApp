@@ -1,7 +1,10 @@
 import { View, Text, Pressable, StyleSheet, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
+import ManageButton from "./icons/ManageButton";
+
 const SubjectGirdTitle = ({ subjectName, subjectID, subjectcolor, Grade }) => {
+  const user = "Admin"; //tempory
   const navigation = useNavigation();
 
   const headerButtonHandlerSubject = () => {
@@ -9,7 +12,7 @@ const SubjectGirdTitle = ({ subjectName, subjectID, subjectcolor, Grade }) => {
   };
 
   return (
-    <View style={styles.gridItem}>
+    <View style={[styles.gridItem, user === "Admin" && styles.gridItemupdate]}>
       <Pressable
         style={({ pressed }) => [
           styles.button,
@@ -19,11 +22,16 @@ const SubjectGirdTitle = ({ subjectName, subjectID, subjectcolor, Grade }) => {
         onPress={headerButtonHandlerSubject}
       >
         <View
-          style={[styles.innerContainer, { backgroundColor: subjectcolor }]}
+          style={[
+            styles.innerContainer,
+            { backgroundColor: subjectcolor },
+            user === "Admin" && styles.innerContainerUpdateAdmin,
+          ]}
         >
           <Text style={styles.title}>{subjectName}</Text>
         </View>
       </Pressable>
+      {user === "Admin" && <ManageButton>Manage</ManageButton>}
     </View>
   );
 };
@@ -42,6 +50,9 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     overflow: Platform.OS === "android" ? "hidden" : "visible",
   },
+  gridItemupdate: {
+    height: 200,
+  },
   button: {
     flex: 1,
   },
@@ -54,6 +65,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 8,
+  },
+  innerContainerUpdateAdmin: {
+    borderRadius: 0,
   },
   title: {
     fontWeight: "bold",

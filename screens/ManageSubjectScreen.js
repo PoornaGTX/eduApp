@@ -36,8 +36,13 @@ const ManageSubjectScreen = ({ route, navigation }) => {
   };
 
   const confirmHandler = (SubName, GradeID, colorselect) => {
+    const colorforEdit = !!colorselect;
+
     if (isEditing) {
-      SubjectCtx.updateSubject(subjectID, { subjectName: SubName });
+      SubjectCtx.updateSubject(subjectID, {
+        subjectName: SubName,
+        color: colorforEdit && colorselect,
+      });
     } else {
       SubjectCtx.addSubject({
         subjectName: SubName,
