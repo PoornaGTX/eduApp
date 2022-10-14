@@ -33,7 +33,7 @@ export const KnowledgelabContext = createContext({
 const knowledgelabReducer = (state, action) => {
   if (action.type === "ADD") {
     const id = new Date().toString() + Math.random().toString();
-    return [...state, { ...action.payload, id: id, color: "#41d95d" }];
+    return [...state, { ...action.payload, id: id }];
   }
   if (action.type === "UPDATE") {
     const updatebleSubjectIndex = state.findIndex(

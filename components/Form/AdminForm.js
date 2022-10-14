@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Pressable } from "react-native";
 
 import AdminInput from "./AdminInput";
 import Button from "../icons/Button";
+import ColorPixer from "../colorPixer/ColorPixer";
 
 const AdminForm = ({
   labelName1,
@@ -18,19 +19,22 @@ const AdminForm = ({
     defaultValuesForEdit ? defaultValuesForEdit.subjectName : ""
   );
 
+  const [colorSub, setColorSub] = useState("");
+
+  //subject input handler
   const subjectChangeHandler = (enteredAmount) => {
     setSubjectValue(enteredAmount);
   };
 
-  const sumbitHandler = () => {
-    onSubmit(subjectValue);
+  //subject color handler
+  const subjectColorHandler = (colorselect) => {
+    setColorSub(colorselect);
   };
 
-  // let subjectStatus = true;
-
-  // if (submitButtonLabel === "Update") {
-  //   subjectStatus = false;
-  // }
+  const sumbitHandler = () => {
+    //validate subject input
+    onSubmit(subjectValue, GradeValueForNewSubject, colorSub);
+  };
 
   return (
     <View style={styles.form}>
@@ -49,6 +53,25 @@ const AdminForm = ({
           value: subjectValue,
         }}
       />
+
+      <Text style={styles.colorTilte}>Select Color</Text>
+      <View style={styles.colorViewContainer}>
+        <ColorPixer subjectColor="#f54242" onPressProp={subjectColorHandler} />
+        <ColorPixer subjectColor="#f5a442" onPressProp={subjectColorHandler} />
+        <ColorPixer subjectColor="#f5428d" onPressProp={subjectColorHandler} />
+        <ColorPixer subjectColor="#f5d142" onPressProp={subjectColorHandler} />
+        <ColorPixer subjectColor="#368dff" onPressProp={subjectColorHandler} />
+        <ColorPixer subjectColor="#41d95d" onPressProp={subjectColorHandler} />
+        <ColorPixer subjectColor="#f5428d" onPressProp={subjectColorHandler} />
+        <ColorPixer subjectColor="#9eecff" onPressProp={subjectColorHandler} />
+        <ColorPixer subjectColor="#ffc7ff" onPressProp={subjectColorHandler} />
+        <ColorPixer subjectColor="#47fced" onPressProp={subjectColorHandler} />
+        <ColorPixer subjectColor="#dbde3c" onPressProp={subjectColorHandler} />
+        <ColorPixer subjectColor="#e386fc" onPressProp={subjectColorHandler} />
+        <ColorPixer subjectColor="#ff5c95" onPressProp={subjectColorHandler} />
+        <ColorPixer subjectColor="red" onPressProp={subjectColorHandler} />
+      </View>
+
       <View style={styles.buttons}>
         <Button mode="flat" onPressProp={onCancel} style={styles.button}>
           Cancle
@@ -65,7 +88,6 @@ export default AdminForm;
 
 const styles = StyleSheet.create({
   form: {
-    marginTop: 30,
     marginBottom: 20,
   },
   formTitle: {
@@ -83,5 +105,21 @@ const styles = StyleSheet.create({
   button: {
     minWidth: 120,
     marginHorizontal: 8,
+  },
+
+  colorTilte: {
+    marginHorizontal: 4,
+    marginVertical: 8,
+    fontSize: 14,
+    color: "#c6affc",
+    marginBottom: 4,
+  },
+
+  colorViewContainer: {
+    flexDirection: "row",
+    alignContent: "center",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    marginBottom: 10,
   },
 });

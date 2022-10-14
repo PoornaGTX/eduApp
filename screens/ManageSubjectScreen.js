@@ -35,14 +35,14 @@ const ManageSubjectScreen = ({ route, navigation }) => {
     navigation.goBack();
   };
 
-  const confirmHandler = (SubName) => {
+  const confirmHandler = (SubName, GradeID, colorselect) => {
     if (isEditing) {
       SubjectCtx.updateSubject(subjectID, { subjectName: SubName });
     } else {
       SubjectCtx.addSubject({
         subjectName: SubName,
-        gID: "Grade 3",
-        color: "#41d95d",
+        gID: GradeID,
+        color: colorselect,
       });
     }
     navigation.goBack();
