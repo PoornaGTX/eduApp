@@ -18,8 +18,9 @@ const GradeSubjects = ({ route }) => {
     return singleSubject.gID === gradeID;
   });
 
+  //for header button for adding new subject
   const headerButtonHandler = () => {
-    navigation.navigate("ManageSubjects");
+    navigation.navigate("ManageSubjects", { gradeNameID: gradeID });
   };
 
   const renderSubjectItem = (itemData) => {
@@ -32,6 +33,8 @@ const GradeSubjects = ({ route }) => {
       />
     );
   };
+
+  //header Button
 
   useLayoutEffect(() => {
     navigation.setOptions({

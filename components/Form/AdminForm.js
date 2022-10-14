@@ -11,8 +11,12 @@ const AdminForm = ({
   onCancel,
   onSubmit,
   submitButtonLabel,
+  defaultValuesForEdit,
+  GradeValueForNewSubject,
 }) => {
-  const [subjectValue, setSubjectValue] = useState();
+  const [subjectValue, setSubjectValue] = useState(
+    defaultValuesForEdit ? defaultValuesForEdit.subjectName : ""
+  );
 
   const subjectChangeHandler = (enteredAmount) => {
     setSubjectValue(enteredAmount);
@@ -22,11 +26,11 @@ const AdminForm = ({
     onSubmit(subjectValue);
   };
 
-  let subjectStatus = true;
+  // let subjectStatus = true;
 
-  if (submitButtonLabel === "Update") {
-    subjectStatus = false;
-  }
+  // if (submitButtonLabel === "Update") {
+  //   subjectStatus = false;
+  // }
 
   return (
     <View style={styles.form}>
@@ -34,8 +38,8 @@ const AdminForm = ({
       <AdminInput
         label={labelName1}
         textInputAllProps={{
-          value: Grade,
-          editable: subjectStatus ? true : false,
+          value: Grade || GradeValueForNewSubject,
+          editable: false,
         }}
       />
       <AdminInput

@@ -11,7 +11,14 @@ const ManageSubjectScreen = ({ route, navigation }) => {
   const Grade = route.params?.Grade;
   const isEditing = !!subjectID;
 
+  //grade id coming from adding new subject
+  const addNewSubjectGradeValue = route.params?.gradeNameID;
+
   const SubjectCtx = useContext(KnowledgelabContext);
+
+  const subjectDataForForm = SubjectCtx.subjects.find(
+    (subject) => subject.id === subjectID
+  );
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -50,6 +57,8 @@ const ManageSubjectScreen = ({ route, navigation }) => {
         onCancel={cancleHandler}
         submitButtonLabel={isEditing ? "Update" : "Add"}
         onSubmit={confirmHandler}
+        defaultValuesForEdit={subjectDataForForm}
+        GradeValueForNewSubject={addNewSubjectGradeValue}
       />
 
       {isEditing && (
