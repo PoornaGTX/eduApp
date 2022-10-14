@@ -19,7 +19,9 @@ const AdminForm = ({
     defaultValuesForEdit ? defaultValuesForEdit.subjectName : ""
   );
 
-  const [colorSub, setColorSub] = useState("");
+  const [colorSub, setColorSub] = useState(
+    defaultValuesForEdit ? defaultValuesForEdit.color : ""
+  );
 
   //subject input handler
   const subjectChangeHandler = (enteredAmount) => {
@@ -40,6 +42,7 @@ const AdminForm = ({
 
     const checkSubjectHasNumber = containsNumbers(subjectValue);
     const checkSubjectNotEmpty = !!subjectValue;
+    const checkColorSelect = !!colorSub;
 
     if (checkSubjectHasNumber || !checkSubjectNotEmpty) {
       {
@@ -50,6 +53,11 @@ const AdminForm = ({
             )
           : Alert.alert("Invalid Input", "Please enter subject name");
       }
+      return;
+    }
+
+    if (!checkColorSelect) {
+      Alert.alert("Invalid Input", "Please select color for subject");
       return;
     }
 
@@ -73,8 +81,11 @@ const AdminForm = ({
           value: subjectValue,
         }}
       />
+      <View style={styles.selectColorView}>
+        <Text style={styles.colorTilte}>Select Color for subject</Text>
+        <View style={[styles.viewSelect, { backgroundColor: colorSub }]}></View>
+      </View>
 
-      <Text style={styles.colorTilte}>Select Color</Text>
       <View style={styles.colorViewContainer}>
         <ColorPixer subjectColor="#f54242" onPressProp={subjectColorHandler} />
         <ColorPixer subjectColor="#f5a442" onPressProp={subjectColorHandler} />
@@ -133,6 +144,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#c6affc",
     marginBottom: 4,
+    fontWeight: "bold",
   },
 
   colorViewContainer: {
@@ -141,5 +153,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexWrap: "wrap",
     marginBottom: 10,
+  },
+  selectColorView: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  viewSelect: {
+    height: 15,
+    width: 15,
+    marginHorizontal: 8,
+    marginTop: 5,
   },
 });
