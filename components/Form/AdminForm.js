@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, StyleSheet, Text, Pressable } from "react-native";
+import { View, StyleSheet, Text, Alert } from "react-native";
 
 import AdminInput from "./AdminInput";
 import Button from "../icons/Button";
@@ -33,6 +33,26 @@ const AdminForm = ({
 
   const sumbitHandler = () => {
     //validate subject input
+    //CHECK STRING CONTAINS NUMBER FUNCTION
+    function containsNumbers(str) {
+      return /\d/.test(str);
+    }
+
+    const checkSubjectHasNumber = containsNumbers(subjectValue);
+    const checkSubjectNotEmpty = !!subjectValue;
+
+    if (checkSubjectHasNumber || !checkSubjectNotEmpty) {
+      {
+        checkSubjectHasNumber
+          ? Alert.alert(
+              "Invalid Input",
+              "Subject name cannot contain numeric values"
+            )
+          : Alert.alert("Invalid Input", "Please enter subject name");
+      }
+      return;
+    }
+
     onSubmit(subjectValue, GradeValueForNewSubject, colorSub);
   };
 

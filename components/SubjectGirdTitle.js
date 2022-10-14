@@ -19,7 +19,7 @@ const SubjectGirdTitle = ({ subjectName, subjectID, subjectcolor, Grade }) => {
           pressed ? styles.buttonPressed : null, //this for ios
         ]}
         android_ripple={{ color: "#ccc" }}
-        onPress={headerButtonHandlerSubject}
+        // onPress={} this onPress is for view teachers
       >
         <View
           style={[
@@ -31,7 +31,11 @@ const SubjectGirdTitle = ({ subjectName, subjectID, subjectcolor, Grade }) => {
           <Text style={styles.title}>{subjectName}</Text>
         </View>
       </Pressable>
-      {user === "Admin" && <ManageButton>Manage</ManageButton>}
+      {user === "Admin" && (
+        <ManageButton onPressProp={headerButtonHandlerSubject}>
+          Manage
+        </ManageButton>
+      )}
     </View>
   );
 };
