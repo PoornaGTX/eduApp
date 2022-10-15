@@ -1,4 +1,4 @@
-import { useLayoutEffect, useContext } from "react";
+import { useLayoutEffect, useContext, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 
 //components
@@ -7,20 +7,25 @@ import { KnowledgelabContext } from "../store/KLab-context";
 import AdminForm from "../components/Form/AdminForm";
 
 //http request
-import { createSubject } from "../utill/http";
+import {
+  createSubject,
+  updateSubject,
+  deleteSubjecthttp,
+  getAllSubject,
+} from "../utill/http";
 
 const ManageSubjectScreen = ({ route, navigation }) => {
-  const subjectID = route.params?.subID;
-  const Grade = route.params?.Grade;
+  const subjectID = route.params?.subID; //this contain mongoose _id
+  const Grade = route.params?.Grade; //this contain gradeID 'Grade 1'
   const isEditing = !!subjectID;
 
   //grade id coming from adding new subject
-  const addNewSubjectGradeValue = route.params?.gradeNameID;
+  const addNewSubjectGradeValue = route.params?.gradeNameID; //this contain gradeID 'Grade 1'
 
   const SubjectCtx = useContext(KnowledgelabContext);
 
   const subjectDataForForm = SubjectCtx.subjects.find(
-    (subject) => subject.id === subjectID
+    (subject) => subject._id === subjectID
   );
 
   useLayoutEffect(() => {
@@ -29,8 +34,10 @@ const ManageSubjectScreen = ({ route, navigation }) => {
     });
   }, [navigation, isEditing]);
 
-  const deleteSubject = () => {
+  const deleteSubject = async () => {
     SubjectCtx.deleteSubject(subjectID);
+    //http
+    await deleteSubjecthttp(subjectID);
     navigation.goBack();
   };
 
@@ -38,7 +45,7 @@ const ManageSubjectScreen = ({ route, navigation }) => {
     navigation.goBack();
   };
 
-  const confirmHandler = (SubName, GradeID, colorselect) => {
+  const confirmHandler = async (SubName, GradeID, colorselect) => {
     const colorforEdit = !!colorselect;
 
     if (isEditing) {
@@ -46,9 +53,18 @@ const ManageSubjectScreen = ({ route, navigation }) => {
         subjectName: SubName,
         color: colorforEdit && colorselect,
       });
+      //http
+      await updateSubject(subjectID, {
+        subjectName: SubName,
+        color: colorforEdit && colorselect,
+      });
     } else {
       //http
-      createSubject({ subjectName: SubName, gID: GradeID, color: colorselect });
+      await createSubject({
+        subjectName: SubName,
+        gID: GradeID,
+        color: colorselect,
+      });
 
       SubjectCtx.addSubject({
         subjectName: SubName,

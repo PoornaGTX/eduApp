@@ -1,17 +1,30 @@
-import { useLayoutEffect, useContext } from "react";
-import { View, FlatList, StyleSheet, Text } from "react-native";
+import { useLayoutEffect, useContext, useEffect } from "react";
+import { FlatList, StyleSheet, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
+//components
 import SubjectGirdTitle from "../components/SubjectGirdTitle";
 import IconButton from "../components/icons/IconButton";
 import { KnowledgelabContext } from "../store/KLab-context";
 
+//http request
+import { getAllSubject } from "../utill/http";
+
 //route will resive to any registred screens
 const GradeSubjects = ({ route }) => {
   const navigation = useNavigation();
-  const gradeID = route.params.singlegardeID;
-
+  const gradeID = route.params.singlegardeID; ////this contain gradeID 'Grade 1'
   const SubjectCtx = useContext(KnowledgelabContext);
+
+  useEffect(() => {
+    const getAllSub = async () => {
+      const allSubjects = await getAllSubject();
+      console.log(allSubjects);
+      SubjectCtx.setSubjects(allSubjects);
+    };
+    getAllSub();
+  }, [navigation]);
+
   const Subjects = SubjectCtx.subjects;
 
   const displaySubjects = Subjects.filter((singleSubject) => {
@@ -28,7 +41,7 @@ const GradeSubjects = ({ route }) => {
       <SubjectGirdTitle
         subjectName={itemData.item.subjectName}
         subjectcolor={itemData.item.color}
-        subjectID={itemData.item.id}
+        subjectID={itemData.item._id}
         Grade={gradeID}
       />
     );
@@ -51,6 +64,8 @@ const GradeSubjects = ({ route }) => {
     });
   }, []);
 
+  //get all subjects
+
   if (displaySubjects.length === 0) {
     return <Text style={styles.infoText}>No subjects availble</Text>;
   }
@@ -58,7 +73,7 @@ const GradeSubjects = ({ route }) => {
   return (
     <FlatList
       data={displaySubjects}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item._id}
       renderItem={renderSubjectItem}
       numColumns={2}
     />
