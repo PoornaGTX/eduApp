@@ -7,12 +7,7 @@ import { KnowledgelabContext } from "../store/KLab-context";
 import AdminForm from "../components/Form/AdminForm";
 
 //http request
-import {
-  createSubject,
-  updateSubject,
-  deleteSubjecthttp,
-  getAllSubject,
-} from "../utill/http";
+import { createSubject, updateSubject, deleteSubjecthttp } from "../utill/http";
 
 const ManageSubjectScreen = ({ route, navigation }) => {
   const subjectID = route.params?.subID; //this contain mongoose _id

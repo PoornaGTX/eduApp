@@ -1,6 +1,7 @@
 import { useLayoutEffect, useContext, useEffect } from "react";
 import { FlatList, StyleSheet, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useIsFocused } from "@react-navigation/core";
 
 //components
 import SubjectGirdTitle from "../components/SubjectGirdTitle";
@@ -16,18 +17,21 @@ const GradeSubjects = ({ route }) => {
   const gradeID = route.params.singlegardeID; ////this contain gradeID 'Grade 1'
   const SubjectCtx = useContext(KnowledgelabContext);
 
+  const isFocused = useIsFocused();
   useEffect(() => {
-    const getAllSub = async () => {
-      const allSubjects = await getAllSubject();
-      console.log(allSubjects);
-      SubjectCtx.setSubjects(allSubjects);
-    };
-    getAllSub();
-  }, [navigation]);
+    if (isFocused) {
+      const getAllSub = async () => {
+        const allSubjects = await getAllSubject();
+        SubjectCtx.setSubjects(allSubjects);
+        console.log(SubjectCtx.subjects);
+      };
+      getAllSub();
+    }
+  }, [isFocused]);
 
-  const Subjects = SubjectCtx.subjects;
+  // const Subjects = SubjectCtx.subjects;
 
-  const displaySubjects = Subjects.filter((singleSubject) => {
+  const displaySubjects = SubjectCtx.subjects.filter((singleSubject) => {
     return singleSubject.gID === gradeID;
   });
 
