@@ -26,8 +26,8 @@ export const KnowledgelabContext = createContext({
 
 const knowledgelabReducer = (state, action) => {
   if (action.type === "ADD") {
-    const id = new Date().toString() + Math.random().toString();
-    return [...state, { ...action.payload, id: id }];
+    // const id = new Date().toString() + Math.random().toString();
+    return [...state, { ...action.payload }];
   }
 
   if (action.type === "SET") {

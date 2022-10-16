@@ -1,4 +1,4 @@
-import { useLayoutEffect, useContext, useEffect } from "react";
+import { useLayoutEffect, useContext, useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/core";
@@ -7,6 +7,9 @@ import { useIsFocused } from "@react-navigation/core";
 import SubjectGirdTitle from "../components/SubjectGirdTitle";
 import IconButton from "../components/icons/IconButton";
 import { KnowledgelabContext } from "../store/KLab-context";
+
+//LoadingOverlay
+import LoadingOverLay from "../components/LoadingOverLay/LoadingOverLay";
 
 //http request
 import { getAllSubject } from "../utill/http";
@@ -18,16 +21,18 @@ const GradeSubjects = ({ route }) => {
   const SubjectCtx = useContext(KnowledgelabContext);
 
   const isFocused = useIsFocused();
+
   useEffect(() => {
     if (isFocused) {
       const getAllSub = async () => {
         const allSubjects = await getAllSubject();
         SubjectCtx.setSubjects(allSubjects);
-        console.log(SubjectCtx.subjects);
       };
       getAllSub();
     }
   }, [isFocused]);
+
+  //loading spiriner
 
   // const Subjects = SubjectCtx.subjects;
 
@@ -58,7 +63,7 @@ const GradeSubjects = ({ route }) => {
       headerRight: () => {
         return (
           <IconButton
-            icon="add"
+            icon="add-circle"
             color="black"
             size={24}
             onPressProp={headerButtonHandler}
