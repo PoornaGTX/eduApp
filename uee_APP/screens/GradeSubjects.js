@@ -11,32 +11,25 @@ import { KnowledgelabContext } from "../store/KLab-context";
 //LoadingOverlay
 import LoadingOverLay from "../components/LoadingOverLay/LoadingOverLay";
 
-//http request
-import { getAllSubject } from "../utill/http";
+//context
+import { useAppContext } from "../context/appContext";
 
 //route will resive to any registred screens
 const GradeSubjects = ({ route }) => {
   const navigation = useNavigation();
   const gradeID = route.params.singlegardeID; ////this contain gradeID 'Grade 1'
-  const SubjectCtx = useContext(KnowledgelabContext);
+
+  const { getAllSubjects, subjects } = useAppContext();
 
   const isFocused = useIsFocused();
 
   useEffect(() => {
     if (isFocused) {
-      const getAllSub = async () => {
-        const allSubjects = await getAllSubject();
-        SubjectCtx.setSubjects(allSubjects);
-      };
-      getAllSub();
+      getAllSubjects();
     }
   }, [isFocused]);
 
-  //loading spiriner
-
-  // const Subjects = SubjectCtx.subjects;
-
-  const displaySubjects = SubjectCtx.subjects.filter((singleSubject) => {
+  const displaySubjects = subjects.filter((singleSubject) => {
     return singleSubject.gID === gradeID;
   });
 

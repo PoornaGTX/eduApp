@@ -20,6 +20,8 @@ import StatsScreenAdmin from "./screens/StatsScreenAdmin";
 const Stack = createNativeStackNavigator();
 const Bottom = createBottomTabNavigator();
 
+import { AppProvider } from "./context/appContext";
+
 //use by admin
 const AdminBottomTabHome = () => {
   return (
@@ -100,7 +102,7 @@ export default function App() {
   return (
     <>
       <StatusBar style="light" />
-      <KnowledgelabContextProvider>
+      <AppProvider>
         <NavigationContainer>
           <Bottom.Navigator
             screenOptions={{
@@ -136,7 +138,7 @@ export default function App() {
             )}
           </Bottom.Navigator>
         </NavigationContainer>
-      </KnowledgelabContextProvider>
+      </AppProvider>
     </>
   );
 }

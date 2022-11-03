@@ -14,6 +14,8 @@ const AdminForm = ({
   submitButtonLabel,
   defaultValuesForEdit,
   GradeValueForNewSubject,
+  showAlert,
+  alertText,
 }) => {
   const [subjectValue, setSubjectValue] = useState(
     defaultValuesForEdit ? defaultValuesForEdit.subjectName : ""
@@ -66,7 +68,10 @@ const AdminForm = ({
 
   return (
     <View style={styles.form}>
-      <Text style={styles.formTitle}>Subject Manager</Text>
+      <Text style={styles.formTitle}>
+        {labelName2 === false ? "Grade Manager" : "Subject Manager"}
+      </Text>
+      {showAlert === true && <Text>{alertText}</Text>}
       <AdminInput
         label={labelName1}
         textInputAllProps={{
@@ -74,15 +79,19 @@ const AdminForm = ({
           editable: false,
         }}
       />
-      <AdminInput
-        label={labelName2}
-        textInputAllProps={{
-          onChangeText: subjectChangeHandler,
-          value: subjectValue,
-        }}
-      />
+      {labelName2 && (
+        <AdminInput
+          label={labelName2}
+          textInputAllProps={{
+            onChangeText: subjectChangeHandler,
+            value: subjectValue,
+          }}
+        />
+      )}
       <View style={styles.selectColorView}>
-        <Text style={styles.colorTilte}>Select Color for subject</Text>
+        <Text style={styles.colorTilte}>
+          {labelName2 ? "Select Color for Subject" : "Select Color for Grade"}
+        </Text>
         <View style={[styles.viewSelect, { backgroundColor: colorSub }]}></View>
       </View>
 

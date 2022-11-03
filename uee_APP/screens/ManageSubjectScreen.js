@@ -1,4 +1,4 @@
-import { useLayoutEffect, useContext, useState } from "react";
+import { useLayoutEffect, useContext, useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 
 //components
@@ -7,21 +7,38 @@ import { KnowledgelabContext } from "../store/KLab-context";
 import AdminForm from "../components/Form/AdminForm";
 
 //http request
-import { createSubject, updateSubject, deleteSubjecthttp } from "../utill/http";
+// import { createSubject, updateSubject, deleteSubjecthttp } from "../utill/http";
+import { useAppContext } from "../context/appContext";
+import { useIsFocused } from "@react-navigation/core";
 
 const ManageSubjectScreen = ({ route, navigation }) => {
   const subjectID = route.params?.subID; //this contain mongoose _id
   const Grade = route.params?.Grade; //this contain gradeID 'Grade 1'
   const isEditing = !!subjectID;
+  const isFocused = useIsFocused();
+
+  const {
+    updateSubject,
+    getAllSubjects,
+    subjects,
+    deleteSubject,
+    addSubject,
+    alertText,
+    showAlert,
+  } = useAppContext();
 
   //grade id coming from adding new subject
   const addNewSubjectGradeValue = route.params?.gradeNameID; //this contain gradeID 'Grade 1'
 
-  const SubjectCtx = useContext(KnowledgelabContext);
-
-  const subjectDataForForm = SubjectCtx.subjects.find(
+  const subjectDataForForm = subjects.find(
     (subject) => subject._id === subjectID
   );
+
+  useEffect(() => {
+    if (isFocused) {
+      getAllSubjects();
+    }
+  }, [isFocused]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -29,10 +46,9 @@ const ManageSubjectScreen = ({ route, navigation }) => {
     });
   }, [navigation, isEditing]);
 
-  const deleteSubject = async () => {
-    SubjectCtx.deleteSubject(subjectID);
-    //http
-    await deleteSubjecthttp(subjectID);
+  const deleteSubjectHnadler = async () => {
+    deleteSubject(subjectID);
+
     navigation.goBack();
   };
 
@@ -44,30 +60,18 @@ const ManageSubjectScreen = ({ route, navigation }) => {
     const colorforEdit = !!colorselect;
 
     if (isEditing) {
-      SubjectCtx.updateSubject(subjectID, {
-        subjectName: SubName,
-        color: colorforEdit && colorselect,
-      });
-      //http
-      await updateSubject(subjectID, {
+      updateSubject(subjectID, {
         subjectName: SubName,
         color: colorforEdit && colorselect,
       });
     } else {
-      //http
-      await createSubject({
-        subjectName: SubName,
-        gID: GradeID,
-        color: colorselect,
-      });
-
-      SubjectCtx.addSubject({
+      addSubject({
         subjectName: SubName,
         gID: GradeID,
         color: colorselect,
       });
     }
-    navigation.goBack();
+    //navigation.goBack();
   };
 
   return (
@@ -81,6 +85,8 @@ const ManageSubjectScreen = ({ route, navigation }) => {
         onSubmit={confirmHandler}
         defaultValuesForEdit={subjectDataForForm}
         GradeValueForNewSubject={addNewSubjectGradeValue}
+        alertText={alertText}
+        showAlert={showAlert}
       />
 
       {isEditing && (
@@ -89,7 +95,7 @@ const ManageSubjectScreen = ({ route, navigation }) => {
             icon="trash"
             color="green"
             size={36}
-            onPressProp={deleteSubject}
+            onPressProp={deleteSubjectHnadler}
           />
         </View>
       )}

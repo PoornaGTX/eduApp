@@ -1,18 +1,32 @@
-import { useLayoutEffect, useContext } from "react";
+import { useLayoutEffect, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 
 import IconButton from "../components/icons/IconButton";
 import Button from "../components/icons/Button";
 import { KnowledgelabContext } from "../store/KLab-context";
+import AdminForm from "../components/Form/AdminForm";
+
+import { useAppContext } from "../context/appContext";
+import { useIsFocused } from "@react-navigation/core";
 
 const ManageGradesScreen = ({ route, navigation }) => {
   const GradeID = route.params?.GradeNumberID;
+  const isEditing = !!GradeID;
+  const isFocused = useIsFocused();
 
-  const SubjectCtx = useContext(KnowledgelabContext);
+  const { grades, getAllGrades, alertText, showAlert } = useAppContext();
+
+  const gardeDataForForm = grades.find((grade) => grade._id === GradeID);
+
+  useEffect(() => {
+    if (isFocused) {
+      getAllGrades();
+    }
+  }, [isFocused]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Add Subject",
+      title: isEditing ? "Edit Grade" : "Add Grade",
     });
   }, [navigation]);
 
@@ -32,14 +46,28 @@ const ManageGradesScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.buttons}>
-        <Button mode="flat" onPressProp={cancleHandler} style={styles.button}>
-          Cancle
-        </Button>
-        <Button onPressProp={confirmHandler} style={styles.button}>
-          Add Grade
-        </Button>
-      </View>
+      <AdminForm
+        labelName1="Grade"
+        labelName2={false}
+        Grade={GradeID}
+        onCancel={cancleHandler}
+        submitButtonLabel={isEditing ? "Update" : "Add"}
+        onSubmit={confirmHandler}
+        defaultValuesForEdit={gardeDataForForm}
+        alertText={alertText}
+        showAlert={showAlert}
+      />
+
+      {isEditing && (
+        <View style={styles.deleteContainer}>
+          <IconButton
+            icon="trash"
+            color="green"
+            size={36}
+            // onPressProp={deleteSubjectHnadler}
+          />
+        </View>
+      )}
     </View>
   );
 };

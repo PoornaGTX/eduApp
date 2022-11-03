@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
   res.json({ msg: "Welcome" });
 });
 
-app.use("/api/v1/subjects", adminRoutes);
+app.use("/api/v1/admin", adminRoutes);
 
 const start = async () => {
   try {
