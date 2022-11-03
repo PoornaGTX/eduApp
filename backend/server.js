@@ -13,6 +13,7 @@ import connectDB from "./db/connect.js";
 
 // // routers
 import adminRoutes from "./routes/adminRoutes.js";
+import teacherRoutes from "./routes/teacherRoutes.js"
 
 // // middleware
 // import errorHandlerMiddleware from "./middleware/error-handler.js";
@@ -31,7 +32,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/admin", adminRoutes);
-
+app.use("/api/v1/teacher", teacherRoutes);
 const start = async () => {
   try {
     await connectDB(process.env.MONGO_URL);
