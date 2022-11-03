@@ -6,7 +6,9 @@ const createNotice = async (req, res) => {
   //   req.body.createdBy = req.user.userId;
   req.body.createdBy = "dilupa";
   const notice = await Notice.create(req.body);
-  res.status(StatusCodes.CREATED).json({ data: notice, msg: "Notice successfully added" });
+  res
+    .status(StatusCodes.CREATED)
+    .json({ data: notice, msg: "Notice successfully added" });
 };
 
 const getAllNotices = async (req, res) => {
