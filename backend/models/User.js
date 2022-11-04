@@ -28,6 +28,14 @@ const userScheme = new mongoose.Schema(
       },
       unique: true,
     },
+    teacherSubject: {
+      type: String,
+      default: "no",
+    },
+    Grade: {
+      type: String,
+      default: "no",
+    },
     type: {
       type: String,
       required: [true, "Please provide ac type."],

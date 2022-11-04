@@ -30,6 +30,7 @@ import {
   UPDATE_GRADE_SUCCESS,
   UPDATE_GRADE_ERROR,
   DELETE_GRADE_BEGIN,
+  LOGOUT_BEGIN,
 } from "./action";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -77,7 +78,7 @@ const AppProvider = ({ children }) => {
     dispatch({ type: REGISTER_USER_BEGIN });
     try {
       const response = await axios.post(
-        "http://10.0.2.2:5000/api/v1/auth/register",
+        "http://10.0.2.2:5000/api/auth/register",
         currentUser
       );
       const { user, token, location } = response.data;
@@ -116,6 +117,10 @@ const AppProvider = ({ children }) => {
         // payload: { msg: error.response.data.msg },
       });
     }
+  };
+
+  const logOutUser = async () => {
+    dispatch({ type: LOGOUT_BEGIN });
   };
 
   //ADD USER TO LOCAL STORAGE
@@ -427,6 +432,7 @@ const AppProvider = ({ children }) => {
         addSubject,
         updateGrade,
         deleteGrade,
+        logOutUser,
       }}
     >
       {children}

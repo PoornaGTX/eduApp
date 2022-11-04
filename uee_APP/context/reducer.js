@@ -25,6 +25,7 @@ import {
   UPDATE_GRADE_SUCCESS,
   UPDATE_GRADE_ERROR,
   DELETE_GRADE_BEGIN,
+  LOGOUT_BEGIN,
 } from "./action";
 
 const reducer = (state, action) => {
@@ -39,6 +40,7 @@ const reducer = (state, action) => {
       isLoading: false,
       token: action.payload.token,
       user: action.payload.user,
+      isLogedIn: true,
       showAlert: true,
       alertType: "success",
       alertText: "User Created! Redirecting",
@@ -81,6 +83,20 @@ const reducer = (state, action) => {
       showAlert: true,
       alertType: "danger",
       // alertText: action.payload.msg,
+    };
+  }
+
+  //logOut user
+  if (action.type === LOGOUT_BEGIN) {
+    return {
+      ...state,
+      isLoading: false,
+      token: "",
+      user: "",
+      isLogedIn: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: "Login Successful! Redirecting",
     };
   }
 
