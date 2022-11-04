@@ -10,6 +10,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 //screens
+import MySubjects from "./screens/MySubjects";
 import GradesScreen from "./screens/GradesScreen";
 import GradeSubjects from "./screens/GradeSubjects";
 import ManageSubjectScreen from "./screens/ManageSubjectScreen";
@@ -21,6 +22,10 @@ const Stack = createNativeStackNavigator();
 const Bottom = createBottomTabNavigator();
 
 import { AppProvider } from "./context/appContext";
+import StudentTimeTableScreen from "./screens/StudentTimeTableScreen";
+import AllTeachersScreen from "./screens/AllTeachersScreen";
+import SelectedTeacherScreen from "./screens/SelectedTeacherScreen";
+export const user = { type: "Student", grade: "Grade 5", subscribeIds: ["2"] }; //temp
 
 //use by admin
 const AdminBottomTabHome = () => {
@@ -56,7 +61,6 @@ const AdminBottomTabHome = () => {
           headerTitleAlign: "center",
         }}
       />
-
       <Stack.Screen
         name="ManageGrade"
         component={ManageGradesScreen}
@@ -96,9 +100,46 @@ const AdminBottomTabHome = () => {
           </Stack.Navigator> */
 }
 
-export default function App() {
-  const user = "Admin"; //temp
+//use by admin
+const StudentBottomTabHome = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: "#3db1ff" },
+        headerTitleAlign: "center",
+      }}
+    >
+      <Stack.Screen
+        name="My Subjects"
+        component={MySubjects}
+        options={{
+          contentStyle: { backgroundColor: "white" },
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="AllTeachersScreen"
+        component={AllTeachersScreen}
+        options={{
+          presentation: "modal",
+          title: "All Teachers",
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="SelectedTeacher"
+        component={SelectedTeacherScreen}
+        options={{
+          presentation: "modal",
+          title: "Teacher",
+          headerTitleAlign: "center",
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
 
+export default function App() {
   return (
     <>
       <StatusBar style="light" />
@@ -111,18 +152,49 @@ export default function App() {
               tabBarActiveTintColor: "red",
             }}
           >
-            <Bottom.Screen
-              name="AdminHome"
-              component={AdminBottomTabHome}
-              options={{
-                headerShown: false,
-                tabBarShowLabel: false,
-                tabBarIcon: ({ color, size }) => (
-                  <Ionicons name="home" size={size} color="black" />
-                ),
-              }}
-            />
-
+            {user.type === "Admin" && (
+              <Bottom.Screen
+                name="AdminHome"
+                component={AdminBottomTabHome}
+                options={{
+                  headerShown: false,
+                  tabBarShowLabel: false,
+                  tabBarIcon: ({ color, size }) => (
+                    <Ionicons name="home" size={size} color="black" />
+                  ),
+                }}
+              />
+            )}
+            {user.type === "Student" && (
+              <Bottom.Screen
+                name="StudentHome"
+                component={StudentBottomTabHome}
+                options={{
+                  headerShown: false,
+                  tabBarShowLabel: false,
+                  tabBarIcon: ({ color, size }) => (
+                    <Ionicons name="home" size={size} color="black" />
+                  ),
+                }}
+              />
+            )}
+            {
+              <Bottom.Screen
+                name="Timetable"
+                component={StudentTimeTableScreen}
+                options={{
+                  headerShown: false,
+                  tabBarShowLabel: false,
+                  tabBarIcon: ({ color, size }) => (
+                    <Ionicons
+                      name="tablet-landscape"
+                      size={size}
+                      color="black"
+                    />
+                  ),
+                }}
+              />
+            }
             {user === "Admin" && (
               <Bottom.Screen
                 name="Stats"
