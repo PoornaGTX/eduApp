@@ -8,7 +8,7 @@ import { useAppContext } from "../context/appContext";
 import { useIsFocused } from "@react-navigation/core";
 
 const GradesScreen = ({ navigation }) => {
-  const { getAllGrades, grades } = useAppContext();
+  const { getAllGrades, grades, logOutUser, user } = useAppContext();
   const isFocused = useIsFocused();
 
   const renderGradesItem = (itemData) => {
@@ -46,6 +46,11 @@ const GradesScreen = ({ navigation }) => {
             size={24}
             onPressProp={headerButtonHandler}
           />
+        );
+      },
+      headerLeft: () => {
+        return (
+          <IconButton icon="exit" size={24} onPressProp={() => logOutUser()} />
         );
       },
     });

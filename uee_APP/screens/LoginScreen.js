@@ -2,9 +2,6 @@ import { useState, useContext } from "react";
 import { Alert, View, StyleSheet } from "react-native";
 import AuthContent from "../components/Auth/AuthContent";
 import { useAppContext } from "../context/appContext";
-// import { login } from "../util/auth";
-// import LoadingOverlay from "../components/ui/LoadingOverlay";
-// import { AuthContext } from "../store/auth-context";
 
 function LoginScreen({ navigation }) {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
@@ -23,19 +20,6 @@ function LoginScreen({ navigation }) {
       setIsAuthenticating(false);
     }
   };
-
-  const alertHandler = () => {
-    setIsAuthenticating(false);
-    navigation.navigate("Login");
-  };
-
-  if (showAlert && alertType === "danger") {
-    Alert.alert(
-      "Authntication failed!",
-      "Could not log you in. Please check credentials or try again later",
-      [{ text: "Okay", onPress: alertHandler }]
-    );
-  }
 
   return (
     <View style={styles.form}>

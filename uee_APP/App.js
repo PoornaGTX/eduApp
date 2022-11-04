@@ -30,9 +30,9 @@ function AuthStack() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: Colors.primary500 },
+        headerStyle: { backgroundColor: Colors.primaryHeader },
         headerTintColor: "white",
-        contentStyle: { backgroundColor: Colors.primary100 },
+        contentStyle: { backgroundColor: Colors.primaryBackgroud },
       }}
     >
       <Stack.Screen name="Login" component={LoginScreen} />
@@ -130,7 +130,8 @@ function Navigation() {
   const { isLogedIn } = useAppContext();
   return (
     <NavigationContainer>
-      {!isLogedIn ? <AuthStack /> : <AuthenticatedStack />}
+      {isLogedIn && <AuthenticatedStack />}
+      {!isLogedIn && <AuthStack />}
     </NavigationContainer>
   );
 }
