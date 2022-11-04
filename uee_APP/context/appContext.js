@@ -31,6 +31,12 @@ import {
   UPDATE_GRADE_ERROR,
   DELETE_GRADE_BEGIN,
   LOGOUT_BEGIN,
+  UPDATE_USER_BEGIN,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_ERROR,
+  GET_USERS_BEGIN,
+  GET_USERS_SUCCESS,
+  GET_USERS_ERROR,
 } from "./action";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -44,6 +50,7 @@ const initialState = {
   isLogedIn: false,
   subjects: [],
   grades: [],
+  users: [],
 };
 
 const AppContext = React.createContext();
@@ -284,139 +291,50 @@ const AppProvider = ({ children }) => {
     }
   };
 
-  //   //login user
+  //update user
+  const updateUser = async (userMogoID, currentUser) => {
+    dispatch({ type: UPDATE_USER_BEGIN });
+    try {
+      const { data } = await axios.patch(
+        `http://10.0.2.2:5000/api/auth/updateUser/${userMogoID}`,
+        currentUser
+      );
 
-  //   //get cart
-  //   const getCart = async () => {
-  //     dispatch({ type: GET_CART_BEGIN });
+      const { user, token } = data;
 
-  //     try {
-  //       const response = await authFetch.get("/Customers/cart");
-  //       const { carts } = response.data;
+      dispatch({
+        type: UPDATE_USER_SUCCESS,
+        payload: { user, token },
+      });
+      // addUserToLocalStorage({ user, location, token });
+    } catch (error) {
+      if (error.response.status !== 401) {
+        dispatch({
+          type: UPDATE_USER_ERROR,
+          payload: { msg: error.response.data.msg },
+        });
+      }
+    }
+  };
 
-  //       dispatch({
-  //         type: GET_CART_SUCCESS,
-  //         payload: { carts },
-  //       });
-  //     } catch (error) {
-  //       dispatch({
-  //         type: GET_CART_ERROR,
-  //         // payload: { msg: error.response.data.msg },
-  //       });
-  //     }
-  //   };
+  //get all users
+  const getAllUsers = async () => {
+    dispatch({ type: GET_USERS_BEGIN });
 
-  //   //get all products
-  //   const getAllProducts = async () => {
-  //     dispatch({ type: GET_PRODUCTS_BEGIN });
-
-  //     try {
-  //       const response = await axios.get(
-  //         "http://10.0.2.2:5000/api/Customers/Products"
-  //       );
-  //       const { products } = response.data;
-
-  //       dispatch({
-  //         type: GET_PRODUCTS_SUCCESS,
-  //         payload: { products },
-  //       });
-  //     } catch (error) {
-  //       dispatch({
-  //         type: GET_CART_ERROR,
-  //         // payload: { msg: error.response.data.msg },
-  //       });
-  //     }
-  //   };
-
-  //   //deleteCartitem
-  //   const deleteCartitem = async (cartItemID) => {
-  //     dispatch({ type: DELETE_TOCART_BEGIN });
-  //     try {
-  //       const response = await authFetch.delete(`/Customers/cart/${cartItemID}`);
-
-  //       dispatch({
-  //         type: DELETE_TOCART_SUCCESS,
-  //       });
-  //       getCart();
-  //     } catch (error) {
-  //       dispatch({
-  //         type: DELETE_TOCART_ERROR,
-  //         // payload: { msg: error.response.data.msg },
-  //       });
-  //     }
-  //   };
-
-  //   //get all products
-  //   const getAllProjectDetails = async () => {
-  //     dispatch({ type: GET_PROJECT_BEGIN });
-
-  //     const email = state.user.email;
-
-  //     try {
-  //       const response = await axios.get(
-  //         `http://10.0.2.2:5000/api/Projects/${email}`
-  //       );
-  //       const { project } = response.data;
-
-  //       dispatch({
-  //         type: GET_PROJECT_SUCCESS,
-  //         payload: { project },
-  //       });
-  //     } catch (error) {
-  //       dispatch({
-  //         type: GET_PROJECT_ERROR,
-  //         // payload: { msg: error.response.data.msg },
-  //       });
-  //     }
-  //   };
-
-  //   const addToOrder = async (cart, totalCart) => {
-  //     dispatch({ type: CREATE_ORDER_BEGIN });
-
-  //     let status;
-  //     try {
-  //       if (totalCart >= 100000) {
-  //         status = "pending";
-  //       } else {
-  //         status = "approved";
-  //       }
-  //       const response = await authFetch.post("/order", {
-  //         createdBy: state.user._id,
-  //         cartproducts: cart,
-  //         total: totalCart,
-  //         status,
-  //       });
-  //       dispatch({
-  //         type: CREATE_ORDER_SUCCESS,
-  //       });
-  //     } catch (error) {
-  //       dispatch({
-  //         type: CREATE_ORDER_ERROR,
-  //         // payload: { msg: error.response.data.msg },
-  //       });
-  //     }
-  //     getCart();
-  //   };
-
-  //   //get all products
-  //   const getOrderSummery = async () => {
-  //     dispatch({ type: GET_ORDER_BEGIN });
-
-  //     try {
-  //       const response = await authFetch.get("/order");
-  //       const { Orders } = response.data;
-
-  //       dispatch({
-  //         type: GET_ORDER_SUCCESS,
-  //         payload: { Orders },
-  //       });
-  //     } catch (error) {
-  //       dispatch({
-  //         type: GET_ORDER_ERROR,
-  //         // payload: { msg: error.response.data.msg },
-  //       });
-  //     }
-  //   };
+    try {
+      const response = await axios.get("http://10.0.2.2:5000/api/auth/users");
+      const { users } = response.data;
+      dispatch({
+        type: GET_USERS_SUCCESS,
+        payload: { users },
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_USERS_ERROR,
+        // payload: { msg: error.response.data.msg },
+      });
+    }
+  };
 
   return (
     <AppContext.Provider
@@ -433,6 +351,8 @@ const AppProvider = ({ children }) => {
         updateGrade,
         deleteGrade,
         logOutUser,
+        updateUser,
+        getAllUsers,
       }}
     >
       {children}

@@ -5,6 +5,8 @@ import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "./constants/styles";
 
+import IconButton from "./components/icons/IconButton";
+
 //navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -18,6 +20,7 @@ import ManageGradesScreen from "./screens/ManageGradesScreen";
 import StatsScreenAdmin from "./screens/StatsScreenAdmin";
 import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 
 const Stack = createNativeStackNavigator();
 const Bottom = createBottomTabNavigator();
@@ -87,7 +90,7 @@ const AdminBottomTabHome = () => {
 
 function AuthenticatedStack() {
   // const user = "Admin"; //temp
-  const { user } = useAppContext();
+  const { user, logOutUser } = useAppContext();
 
   return (
     <Bottom.Navigator
@@ -122,6 +125,28 @@ function AuthenticatedStack() {
           }}
         />
       )}
+
+      <Bottom.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" size={size} color="black" />
+          ),
+          headerTitleAlign: "center",
+          headerRight: () => {
+            return (
+              <IconButton
+                icon="exit"
+                color="black"
+                size={24}
+                onPressProp={() => logOutUser()}
+              />
+            );
+          },
+        }}
+      />
     </Bottom.Navigator>
   );
 }
