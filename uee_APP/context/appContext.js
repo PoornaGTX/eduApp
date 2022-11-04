@@ -2,6 +2,12 @@ import React, { useReducer, useContext } from "react";
 import reducer from "./reducer";
 import axios from "axios";
 import {
+  REGISTER_USER_BEGIN,
+  REGISTER_USER_SUCCESS,
+  REGISTER_USER_ERROR,
+  LOGIN_USER_BEGIN,
+  LOGIN_USER_SUCCESS,
+  LOGIN_USER_ERROR,
   ADD_GRADE_BEGIN,
   ADD_GRADE_SUCCESS,
   ADD_GRADE_ERROR,
@@ -25,6 +31,7 @@ import {
   UPDATE_GRADE_ERROR,
   DELETE_GRADE_BEGIN,
 } from "./action";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const initialState = {
   isLoading: false,
@@ -63,6 +70,64 @@ const AppProvider = ({ children }) => {
       return Promise.reject(error);
     }
   );
+
+  //register user
+
+  const registerUser = async (currentUser) => {
+    dispatch({ type: REGISTER_USER_BEGIN });
+    try {
+      const response = await axios.post(
+        "http://10.0.2.2:5000/api/v1/auth/register",
+        currentUser
+      );
+      const { user, token, location } = response.data;
+      dispatch({
+        type: REGISTER_USER_SUCCESS,
+        payload: { user, token, location },
+      });
+    } catch (error) {
+      dispatch({
+        type: REGISTER_USER_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
+  };
+
+  //login
+
+  const loginUser = async (currentUser) => {
+    dispatch({ type: LOGIN_USER_BEGIN });
+    try {
+      const response = await axios.post(
+        "http://10.0.2.2:5000/api/auth/login",
+        currentUser
+      );
+
+      const { user, token } = response.data;
+      dispatch({
+        type: LOGIN_USER_SUCCESS,
+        payload: { user, token },
+      });
+      // AsyncStorage.setItem("user", JSON.stringify(user));
+      // AsyncStorage.setItem("token", token);
+    } catch (error) {
+      dispatch({
+        type: LOGIN_USER_ERROR,
+        // payload: { msg: error.response.data.msg },
+      });
+    }
+  };
+
+  //ADD USER TO LOCAL STORAGE
+  const addUserToLocalStorage = ({ user, token }) => {
+    AsyncStorage.setItem("user", JSON.stringify(user));
+    AsyncStorage.setItem("token", token);
+  };
+  //REMOVE USER FROM LOCAL STORAGE
+  const removeUserFromLocalStorage = () => {
+    AsyncStorage.removeItem("user");
+    AsyncStorage.removeItem("token");
+  };
 
   //add grade
   const addGrade = async (gradeData) => {
@@ -214,63 +279,6 @@ const AppProvider = ({ children }) => {
     }
   };
 
-  //register user
-
-  //   const registerUser = async (currentUser) => {
-  //     dispatch({ type: REGISTER_USER_BEGIN });
-  //     try {
-  //       const response = await axios.post(
-  //         "http://10.0.2.2:5000/api/v1/auth/register",
-  //         currentUser
-  //       );
-  //       const { user, token, location } = response.data;
-  //       dispatch({
-  //         type: REGISTER_USER_SUCCESS,
-  //         payload: { user, token, location },
-  //       });
-  //     } catch (error) {
-  //       dispatch({
-  //         type: REGISTER_USER_ERROR,
-  //         payload: { msg: error.response.data.msg },
-  //       });
-  //     }
-  //   };
-
-  //login
-
-  //   const loginUser = async (currentUser) => {
-  //     dispatch({ type: LOGIN_USER_BEGIN });
-  //     try {
-  //       const response = await axios.post(
-  //         "http://10.0.2.2:5000/api/auth/login",
-  //         currentUser
-  //       );
-
-  //       const { user, token } = response.data;
-  //       dispatch({
-  //         type: LOGIN_USER_SUCCESS,
-  //         payload: { user, token },
-  //       });
-  //       AsyncStorage.setItem("user", JSON.stringify(user));
-  //       AsyncStorage.setItem("token", token);
-  //     } catch (error) {
-  //       dispatch({
-  //         type: LOGIN_USER_ERROR,
-  //         payload: { msg: error.response.data.msg },
-  //       });
-  //     }
-  //   };
-
-  //   //ADD USER TO LOCAL STORAGE
-  //   const addUserToLocalStorage = ({ user, token }) => {
-  //     AsyncStorage.setItem("user", JSON.stringify(user));
-  //     AsyncStorage.setItem("token", token);
-  //   };
-  //   //REMOVE USER FROM LOCAL STORAGE
-  //   const removeUserFromLocalStorage = () => {
-  //     AsyncStorage.removeItem("user");
-  //     AsyncStorage.removeItem("token");
-  //   };
   //   //login user
 
   //   //get cart
@@ -409,6 +417,8 @@ const AppProvider = ({ children }) => {
     <AppContext.Provider
       value={{
         ...state,
+        loginUser,
+        registerUser,
         addGrade,
         getAllSubjects,
         getAllGrades,
