@@ -51,3 +51,13 @@ export const GET_GRADES_ERROR = "GET_GRADES_ERROR";
 
 //Logout user
 export const LOGOUT_BEGIN = "LOGOUT_BEGIN";
+
+//update user
+export const UPDATE_USER_BEGIN = "UPDATE_USER_BEGIN";
+export const UPDATE_USER_SUCCESS = "UPDATE_USER_SUCCESS";
+export const UPDATE_USER_ERROR = "UPDATE_USER_ERROR";
+
+//Get All users
+export const GET_USERS_BEGIN = "GET_USERS_BEGIN";
+export const GET_USERS_SUCCESS = "GET_USERS_SUCCESS";
+export const GET_USERS_ERROR = "GET_USERS_ERROR";

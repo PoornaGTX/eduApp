@@ -21,7 +21,7 @@ function AuthContent({ isLogin, onAuthenticate }) {
       navigation.navigate("Signup");
     } else {
       navigation.navigate("Login");
-      navigation.replace(); //not provide back button
+      // navigation.replace(); //not provide back button
     }
   }
 
