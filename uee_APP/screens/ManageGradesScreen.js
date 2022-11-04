@@ -1,9 +1,7 @@
 import { useLayoutEffect, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 
 import IconButton from "../components/icons/IconButton";
-import Button from "../components/icons/Button";
-import { KnowledgelabContext } from "../store/KLab-context";
 import AdminForm from "../components/Form/AdminForm";
 
 import { useAppContext } from "../context/appContext";
@@ -11,16 +9,28 @@ import { useIsFocused } from "@react-navigation/core";
 
 const ManageGradesScreen = ({ route, navigation }) => {
   const GradeID = route.params?.GradeNumberID;
+  const GradeIDMongo = route.params?.GradeID;
   const isEditing = !!GradeID;
   const isFocused = useIsFocused();
 
-  const { grades, getAllGrades, alertText, showAlert } = useAppContext();
+  const {
+    grades,
+    getAllGrades,
+    alertText,
+    showAlert,
+    updateGrade,
+    deleteGrade,
+    getAllSubjects,
+    subjects,
+    addGrade,
+  } = useAppContext();
 
-  const gardeDataForForm = grades.find((grade) => grade._id === GradeID);
+  const gardeDataForForm = grades.find((grade) => grade._id === GradeIDMongo);
 
   useEffect(() => {
     if (isFocused) {
       getAllGrades();
+      getAllSubjects();
     }
   }, [isFocused]);
 
@@ -30,18 +40,82 @@ const ManageGradesScreen = ({ route, navigation }) => {
     });
   }, [navigation]);
 
-  const deleteSubject = () => {
-    SubjectCtx.deleteSubject(subjectID);
-    navigation.goBack();
+  const deleteGradeHandler = () => {
+    //check if exisiting grade has subjects
+    const checkExsisitigGrade = subjects.some(
+      (subject) => subject.gID === gardeDataForForm.Grade
+    );
+
+    if (checkExsisitigGrade) {
+      return Alert.alert("Sorry", "Sorry you cant grade that has subjects", [
+        { text: "OK", onPress: () => navigation.goBack() },
+      ]);
+    }
+
+    deleteGrade(GradeIDMongo);
+
+    return Alert.alert("Success", "Delete subject success", [
+      { text: "OK", onPress: () => navigation.goBack() },
+    ]);
   };
 
   const cancleHandler = () => {
     navigation.goBack();
   };
 
-  const confirmHandler = () => {
-    SubjectCtx.addSubject();
-    navigation.goBack();
+  //form submit handler
+  const confirmHandler = (gradeValue, mongoGradeeID, colorGrade) => {
+    //GradeID,Grade, colorselect
+    const colorforEdit = !!colorGrade;
+
+    const checkValue = gradeValue.slice(0, 5);
+
+    //to check whether grade inpurt start with "Grade"
+    if (!(checkValue === "Grade")) {
+      return Alert.alert("Invalid Grade", "You Enterd invalid grade type", [
+        { text: "OK", onPress: () => navigation.goBack() },
+      ]);
+    }
+
+    //check if exisiting grade already in the DB
+    if (isEditing) {
+      const checkExsisitigGrade = grades.some(
+        (grade) => grade.Grade === gradeValue && grade.color === colorGrade
+      );
+      if (checkExsisitigGrade) {
+        return Alert.alert("DB ERROR", "Sorry Grade is already in DB", [
+          { text: "OK", onPress: () => navigation.goBack() },
+        ]);
+      }
+    } else {
+      const checkExsisitigGrade = grades.some(
+        (grade) => grade.Grade === gradeValue
+      );
+      if (checkExsisitigGrade) {
+        return Alert.alert("DB ERROR", "Sorry Grade is already in DB", [
+          { text: "OK", onPress: () => navigation.goBack() },
+        ]);
+      }
+    }
+
+    if (isEditing) {
+      updateGrade(mongoGradeeID, {
+        Grade: gradeValue,
+        color: colorforEdit && colorGrade,
+      });
+
+      return Alert.alert("Success", "Grade update success", [
+        { text: "OK", onPress: () => navigation.goBack() },
+      ]);
+    } else {
+      addGrade({
+        Grade: gradeValue,
+        color: colorGrade,
+      });
+      return Alert.alert("Success", "Grade Added success", [
+        { text: "OK", onPress: () => navigation.goBack() },
+      ]);
+    }
   };
 
   return (
@@ -64,7 +138,7 @@ const ManageGradesScreen = ({ route, navigation }) => {
             icon="trash"
             color="green"
             size={36}
-            // onPressProp={deleteSubjectHnadler}
+            onPressProp={deleteGradeHandler}
           />
         </View>
       )}

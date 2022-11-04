@@ -20,6 +20,7 @@ const GradesScreen = ({ navigation }) => {
       <GradeGirdTitle
         grade={itemData.item.Grade}
         color={itemData.item.color}
+        gradeID={itemData.item._id}
         onPressProp={pressHandler}
       />
     );

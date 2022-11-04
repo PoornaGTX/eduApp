@@ -14,8 +14,6 @@ const AdminForm = ({
   submitButtonLabel,
   defaultValuesForEdit,
   GradeValueForNewSubject,
-  showAlert,
-  alertText,
 }) => {
   const [subjectValue, setSubjectValue] = useState(
     defaultValuesForEdit ? defaultValuesForEdit.subjectName : ""
@@ -25,9 +23,23 @@ const AdminForm = ({
     defaultValuesForEdit ? defaultValuesForEdit.color : ""
   );
 
+  const [gradeValue, setGradeValue] = useState(
+    defaultValuesForEdit ? defaultValuesForEdit.Grade : ""
+  );
+
+  const [colorGrade, setColorGrade] = useState(
+    defaultValuesForEdit ? defaultValuesForEdit.color : ""
+  );
+
   //subject input handler
   const subjectChangeHandler = (enteredAmount) => {
     setSubjectValue(enteredAmount);
+  };
+
+  //grade input Handler
+
+  const gradeChangeHandler = (enteredAmount) => {
+    setGradeValue(enteredAmount);
   };
 
   //subject color handler
@@ -35,6 +47,12 @@ const AdminForm = ({
     setColorSub(colorselect);
   };
 
+  //grade color handler
+  const gradeColorHandler = (colorselect) => {
+    setColorGrade(colorselect);
+  };
+
+  //for subject
   const sumbitHandler = () => {
     //validate subject input
     //CHECK STRING CONTAINS NUMBER FUNCTION
@@ -66,17 +84,35 @@ const AdminForm = ({
     onSubmit(subjectValue, GradeValueForNewSubject, colorSub);
   };
 
+  //for Grade
+  const sumbitHandlerGrade = () => {
+    const checkSubjectNotEmpty = !!gradeValue;
+    const checkColorSelect = !!colorGrade;
+
+    if (!checkSubjectNotEmpty) {
+      Alert.alert("Invalid Input", "Please Provide Grade Value");
+      return;
+    }
+
+    if (!checkColorSelect) {
+      Alert.alert("Invalid Input", "Please Provide Color for Grade");
+      return;
+    }
+    const mongoGradeeID = defaultValuesForEdit?._id;
+    onSubmit(gradeValue, mongoGradeeID, colorGrade);
+  };
+
   return (
     <View style={styles.form}>
       <Text style={styles.formTitle}>
         {labelName2 === false ? "Grade Manager" : "Subject Manager"}
       </Text>
-      {showAlert === true && <Text>{alertText}</Text>}
       <AdminInput
         label={labelName1}
         textInputAllProps={{
-          value: Grade || GradeValueForNewSubject,
-          editable: false,
+          onChangeText: gradeChangeHandler,
+          value: gradeValue || Grade || GradeValueForNewSubject,
+          editable: !labelName2,
         }}
       />
       {labelName2 && (
@@ -92,31 +128,81 @@ const AdminForm = ({
         <Text style={styles.colorTilte}>
           {labelName2 ? "Select Color for Subject" : "Select Color for Grade"}
         </Text>
-        <View style={[styles.viewSelect, { backgroundColor: colorSub }]}></View>
+        <View
+          style={[
+            styles.viewSelect,
+            { backgroundColor: labelName2 ? colorSub : colorGrade },
+          ]}
+        ></View>
       </View>
 
       <View style={styles.colorViewContainer}>
-        <ColorPixer subjectColor="#f54242" onPressProp={subjectColorHandler} />
-        <ColorPixer subjectColor="#f5a442" onPressProp={subjectColorHandler} />
-        <ColorPixer subjectColor="#f5428d" onPressProp={subjectColorHandler} />
-        <ColorPixer subjectColor="#f5d142" onPressProp={subjectColorHandler} />
-        <ColorPixer subjectColor="#368dff" onPressProp={subjectColorHandler} />
-        <ColorPixer subjectColor="#41d95d" onPressProp={subjectColorHandler} />
-        <ColorPixer subjectColor="#f5428d" onPressProp={subjectColorHandler} />
-        <ColorPixer subjectColor="#9eecff" onPressProp={subjectColorHandler} />
-        <ColorPixer subjectColor="#ffc7ff" onPressProp={subjectColorHandler} />
-        <ColorPixer subjectColor="#47fced" onPressProp={subjectColorHandler} />
-        <ColorPixer subjectColor="#dbde3c" onPressProp={subjectColorHandler} />
-        <ColorPixer subjectColor="#e386fc" onPressProp={subjectColorHandler} />
-        <ColorPixer subjectColor="#ff5c95" onPressProp={subjectColorHandler} />
-        <ColorPixer subjectColor="red" onPressProp={subjectColorHandler} />
+        <ColorPixer
+          subjectColor="#f54242"
+          onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
+        />
+        <ColorPixer
+          subjectColor="#f5a442"
+          onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
+        />
+        <ColorPixer
+          subjectColor="#f5428d"
+          onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
+        />
+        <ColorPixer
+          subjectColor="#f5d142"
+          onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
+        />
+        <ColorPixer
+          subjectColor="#368dff"
+          onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
+        />
+        <ColorPixer
+          subjectColor="#41d95d"
+          onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
+        />
+        <ColorPixer
+          subjectColor="#f5428d"
+          onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
+        />
+        <ColorPixer
+          subjectColor="#9eecff"
+          onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
+        />
+        <ColorPixer
+          subjectColor="#ffc7ff"
+          onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
+        />
+        <ColorPixer
+          subjectColor="#47fced"
+          onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
+        />
+        <ColorPixer
+          subjectColor="#dbde3c"
+          onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
+        />
+        <ColorPixer
+          subjectColor="#e386fc"
+          onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
+        />
+        <ColorPixer
+          subjectColor="#ff5c95"
+          onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
+        />
+        <ColorPixer
+          subjectColor="red"
+          onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
+        />
       </View>
 
       <View style={styles.buttons}>
         <Button mode="flat" onPressProp={onCancel} style={styles.button}>
           Cancle
         </Button>
-        <Button onPressProp={sumbitHandler} style={styles.button}>
+        <Button
+          onPressProp={labelName2 ? sumbitHandler : sumbitHandlerGrade}
+          style={styles.button}
+        >
           {submitButtonLabel}
         </Button>
       </View>
