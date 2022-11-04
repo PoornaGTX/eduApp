@@ -5,24 +5,31 @@ import nodemailer from "nodemailer";
 import jwt from "jsonwebtoken";
 
 const register = async (req, res) => {
-  const { firstName, lastName, email, type, password } = req.body;
+  const { firstName, lastName, email, teacherSubject, Grade, type, password } =
+    req.body;
+
+  console.log("====================================");
+  console.log(Grade);
+  console.log("====================================");
 
   if (!firstName || !lastName || !email || !password || !type) {
-    throw new BadRequestError("please provide all values");
+    // throw new BadRequestError("please provide all values");
   }
 
   const userAlreadyExsisits = await User.findOne({ email });
 
   if (userAlreadyExsisits) {
-    throw new BadRequestError("Email already in use");
+    // throw new BadRequestError("Email already in use");
   }
 
   const user = await User.create({
     firstName,
-    email,
-    password,
     lastName,
+    email,
+    teacherSubject,
+    Grade,
     type,
+    password,
   });
 
   const token = user.createJWT();
@@ -42,19 +49,19 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    throw new BadRequestError("Please provide all values");
+    // throw new BadRequestError("Please provide all values");
   }
 
   const user = await User.findOne({ email }).select("+password");
 
   if (!user) {
-    throw new UnAuthenticatedError("invalid Credentials");
+    // throw new UnAuthenticatedError("invalid Credentials");
   }
 
   const isPasswordCorrect = await user.comparePassword(password);
 
   if (!isPasswordCorrect) {
-    throw new UnAuthenticatedError("invalid Credentials");
+    // throw new UnAuthenticatedError("invalid Credentials");
   }
 
   const token = user.createJWT();

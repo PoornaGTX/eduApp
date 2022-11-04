@@ -48,3 +48,6 @@ export const DELETE_GRADE_BEGIN = "DELETE_GRADE_BEGIN";
 export const GET_GRADES_BEGIN = "GET_GRADES_BEGIN";
 export const GET_GRADES_SUCCESS = "GET_GRADES_SUCCESS";
 export const GET_GRADES_ERROR = "GET_GRADES_ERROR";
+
+//Logout user
+export const LOGOUT_BEGIN = "LOGOUT_BEGIN";

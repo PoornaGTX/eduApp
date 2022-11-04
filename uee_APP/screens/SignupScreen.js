@@ -1,21 +1,33 @@
-import { useState, useContext } from "react";
-import { Alert } from "react-native";
+import { useState } from "react";
+import { Alert, ScrollView, StyleSheet, View } from "react-native";
 import AuthContent from "../components/Auth/AuthContent";
-// import { createUser } from "../util/auth";
-// import LoadingOverlay from "../components/ui/LoadingOverlay";
-// import { AuthContext } from "../store/auth-context";
+import { useAppContext } from "../context/appContext";
 
 function SignupScreen() {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
-  //   const authCtx = useContext(AuthContext);
+  const { registerUser } = useAppContext();
 
-  const signupHandler = async ({ email, password }) => {
+  const signupHandler = async ({
+    firstName,
+    lastName,
+    email,
+    teacherSubject,
+    Grade,
+    type,
+    password,
+  }) => {
     setIsAuthenticating(true);
-
     try {
-      // const token = await createUser(email, password);
-      // authCtx.authenticate(token);
+      registerUser({
+        firstName,
+        lastName,
+        email,
+        teacherSubject,
+        Grade,
+        type,
+        password,
+      });
     } catch (error) {
       Alert.alert(
         "Authntication failed!",
@@ -29,7 +41,20 @@ function SignupScreen() {
   //   return <LoadingOverlay message="Creating user..." />;
   // }
 
-  return <AuthContent onAuthenticate={signupHandler} />;
+  return (
+    <View>
+      <ScrollView style={styles.form}>
+        <AuthContent onAuthenticate={signupHandler} />
+      </ScrollView>
+    </View>
+  );
 }
 
 export default SignupScreen;
+
+const styles = StyleSheet.create({
+  form: {
+    marginTop: 20,
+    marginBottom: 20,
+  },
+});

@@ -12,7 +12,6 @@ function AuthContent({ isLogin, onAuthenticate }) {
   const [credentialsInvalid, setCredentialsInvalid] = useState({
     email: false,
     password: false,
-    confirmEmail: false,
     confirmPassword: false,
   });
 
@@ -22,30 +21,25 @@ function AuthContent({ isLogin, onAuthenticate }) {
       navigation.navigate("Signup");
     } else {
       navigation.navigate("Login");
-      // navigation.replace(); //not provide back button
+      navigation.replace(); //not provide back button
     }
   }
 
+  //for login
   function submitHandler(credentials) {
-    let { email, confirmEmail, password, confirmPassword } = credentials;
+    let { email, password, confirmPassword } = credentials;
 
     email = email.trim();
     password = password.trim();
 
     const emailIsValid = email.includes("@");
     const passwordIsValid = password.length > 6;
-    const emailsAreEqual = email === confirmEmail;
     const passwordsAreEqual = password === confirmPassword;
 
-    if (
-      !emailIsValid ||
-      !passwordIsValid ||
-      (!isLogin && (!emailsAreEqual || !passwordsAreEqual))
-    ) {
+    if (!emailIsValid || !passwordIsValid || (!isLogin && !passwordsAreEqual)) {
       Alert.alert("Invalid input", "Please check your entered credentials.");
       setCredentialsInvalid({
         email: !emailIsValid,
-        confirmEmail: !emailIsValid || !emailsAreEqual,
         password: !passwordIsValid,
         confirmPassword: !passwordIsValid || !passwordsAreEqual,
       });
@@ -54,11 +48,59 @@ function AuthContent({ isLogin, onAuthenticate }) {
     onAuthenticate({ email, password });
   }
 
+  //for signUp
+  function submitHandlerSignUp(credentials) {
+    let {
+      firstName,
+      lastName,
+      email,
+      teacherSubject,
+      Grade,
+      type,
+      password,
+      confirmPassword,
+    } = credentials;
+    email = email.trim();
+    password = password.trim();
+
+    const emailIsValid = email.includes("@");
+    const passwordIsValid = password.length > 6;
+    const passwordsAreEqual = password === confirmPassword;
+    const firstNameIsInvalid = !!firstName;
+    const lastNameIsInvalid = !!lastName;
+
+    if (
+      !emailIsValid ||
+      !passwordIsValid ||
+      (!isLogin && !passwordsAreEqual)
+      //   (!passwordsAreEqual || !lastNameIsInvalid || !!firstNameIsInvalid))
+    ) {
+      Alert.alert("Invalid input", "Please check your entered credentials.");
+      setCredentialsInvalid({
+        firstName: !firstNameIsInvalid,
+        lastName: !lastNameIsInvalid,
+        email: !emailIsValid,
+        password: !passwordIsValid,
+        confirmPassword: !passwordIsValid || !passwordsAreEqual,
+      });
+      return;
+    }
+    onAuthenticate({
+      firstName,
+      lastName,
+      email,
+      teacherSubject,
+      Grade,
+      type,
+      password,
+    });
+  }
+
   return (
     <View style={styles.authContent}>
       <AuthForm
         isLogin={isLogin}
-        onSubmit={submitHandler}
+        onSubmit={isLogin ? submitHandler : submitHandlerSignUp}
         credentialsInvalid={credentialsInvalid}
       />
       <View style={styles.buttons}>
@@ -75,10 +117,10 @@ export default AuthContent;
 const styles = StyleSheet.create({
   authContent: {
     marginTop: 64,
-    marginHorizontal: Platform.OS === "web" ? "30%" : 32,
+    marginHorizontal: 20,
     padding: 16,
     borderRadius: 8,
-    backgroundColor: Colors.primary800,
+    backgroundColor: Colors.primartBlack,
     elevation: 2,
     shadowColor: "black",
     shadowOffset: { width: 1, height: 1 },
