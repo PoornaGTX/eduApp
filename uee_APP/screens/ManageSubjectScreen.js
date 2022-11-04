@@ -1,9 +1,8 @@
-import { useLayoutEffect, useContext, useState, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import { useLayoutEffect, useEffect } from "react";
+import { View, StyleSheet, Alert } from "react-native";
 
 //components
 import IconButton from "../components/icons/IconButton";
-import { KnowledgelabContext } from "../store/KLab-context";
 import AdminForm from "../components/Form/AdminForm";
 
 //http request
@@ -17,15 +16,8 @@ const ManageSubjectScreen = ({ route, navigation }) => {
   const isEditing = !!subjectID;
   const isFocused = useIsFocused();
 
-  const {
-    updateSubject,
-    getAllSubjects,
-    subjects,
-    deleteSubject,
-    addSubject,
-    alertText,
-    showAlert,
-  } = useAppContext();
+  const { updateSubject, getAllSubjects, subjects, deleteSubject, addSubject } =
+    useAppContext();
 
   //grade id coming from adding new subject
   const addNewSubjectGradeValue = route.params?.gradeNameID; //this contain gradeID 'Grade 1'
@@ -59,19 +51,49 @@ const ManageSubjectScreen = ({ route, navigation }) => {
   const confirmHandler = async (SubName, GradeID, colorselect) => {
     const colorforEdit = !!colorselect;
 
+    //check if exisiting grade already in the DB
+    //for edit subject
+    if (isEditing) {
+      const checkExsisitigSubject = subjects.some(
+        (subject) =>
+          subject.subjectName === SubName && subject.color === colorselect
+      );
+      if (checkExsisitigSubject) {
+        return Alert.alert("DB ERROR", "Sorry Subject is already in DB", [
+          { text: "OK", onPress: () => navigation.goBack() },
+        ]);
+      }
+      //for adding new subject
+    } else {
+      const checkExsisitigSubject = subjects.some(
+        (subject) => subject.subjectName === SubName
+      );
+      if (checkExsisitigSubject) {
+        return Alert.alert("DB ERROR", "Sorry Subject is already in DB", [
+          { text: "OK", onPress: () => navigation.goBack() },
+        ]);
+      }
+    }
+
     if (isEditing) {
       updateSubject(subjectID, {
         subjectName: SubName,
         color: colorforEdit && colorselect,
       });
+      return Alert.alert("Success", "subject update success", [
+        { text: "OK", onPress: () => navigation.goBack() },
+      ]);
     } else {
       addSubject({
         subjectName: SubName,
         gID: GradeID,
         color: colorselect,
       });
+      return Alert.alert("Success", "subject added success", [
+        { text: "OK", onPress: () => navigation.goBack() },
+      ]);
     }
-    //navigation.goBack();
+    // navigation.goBack();
   };
 
   return (
@@ -85,8 +107,6 @@ const ManageSubjectScreen = ({ route, navigation }) => {
         onSubmit={confirmHandler}
         defaultValuesForEdit={subjectDataForForm}
         GradeValueForNewSubject={addNewSubjectGradeValue}
-        alertText={alertText}
-        showAlert={showAlert}
       />
 
       {isEditing && (

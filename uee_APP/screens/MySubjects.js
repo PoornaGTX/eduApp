@@ -7,6 +7,7 @@ import { useIsFocused } from "@react-navigation/core";
 import SubjectGirdTitle from "../components/SubjectGirdTitle";
 import IconButton from "../components/icons/IconButton";
 import { KnowledgelabContext } from "../store/KLab-context";
+import { useAppContext } from "../context/appContext";
 
 //LoadingOverlay
 import LoadingOverLay from "../components/LoadingOverLay/LoadingOverLay";

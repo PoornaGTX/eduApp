@@ -11,12 +11,17 @@ export const LOGIN_USER_BEGIN = "LOGIN_USER_BEGIN";
 export const LOGIN_USER_SUCCESS = "LOGIN_USER_SUCCESS";
 export const LOGIN_USER_ERROR = "LOGIN_USER_ERROR";
 
-//add to cart
+//add Grade
 export const ADD_GRADE_BEGIN = "ADD_GRADE_BEGIN";
 export const ADD_GRADE_SUCCESS = "ADD_GRADE_SUCCESS";
 export const ADD_GRADE_ERROR = "ADD_GRADE_ERROR";
 
-//add to cart
+//update Grade
+export const UPDATE_GRADE_BEGIN = "UPDATE_GRADE_BEGIN";
+export const UPDATE_GRADE_SUCCESS = "UPDATE_GRADE_SUCCESS";
+export const UPDATE_GRADE_ERROR = "UPDATE_GRADE_ERROR";
+
+//add Subject
 export const ADD_SUBJECT_BEGIN = "ADD_SUBJECT_BEGIN";
 export const ADD_SUBJECT_SUCCESS = "ADD_SUBJECT_SUCCESS";
 export const ADD_SUBJECT_ERROR = "ADD_SUBJECT_ERROR";
@@ -36,7 +41,13 @@ export const DELETE_SUBJECT_BEGIN = "DELETE_SUBJECT_BEGIN";
 export const DELETE_SUBJECT_SUCCESS = "DELETE_SUBJECT_SUCCESS";
 export const DELETE_SUBJECT_ERROR = "DELETE_SUBJECT_ERROR";
 
+//delete grade
+export const DELETE_GRADE_BEGIN = "DELETE_GRADE_BEGIN";
+
 //Get All Grades
 export const GET_GRADES_BEGIN = "GET_GRADES_BEGIN";
 export const GET_GRADES_SUCCESS = "GET_GRADES_SUCCESS";
 export const GET_GRADES_ERROR = "GET_GRADES_ERROR";
+
+//Logout user
+export const LOGOUT_BEGIN = "LOGOUT_BEGIN";

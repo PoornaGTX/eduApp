@@ -2,9 +2,9 @@ import { useLayoutEffect, useContext, useState, useEffect } from "react";
 import { View, StyleSheet, Text, Button } from "react-native";
 
 //components
-import IconButton from "../components/icons/IconButton";
-import { KnowledgelabContext } from "../store/KLab-context";
-import AdminForm from "../components/Form/AdminForm";
+// import IconButton from "../components/icons/IconButton";
+// import { KnowledgelabContext } from "../store/KLab-context";
+// import AdminForm from "../components/Form/AdminForm";
 
 //http request
 // import { createSubject, updateSubject, deleteSubjecthttp } from "../utill/http";
