@@ -37,6 +37,8 @@ import {
   GET_USERS_BEGIN,
   GET_USERS_SUCCESS,
   GET_USERS_ERROR,
+  SHOW_STATS_BEGIN,
+  SHOW_STATS_SUCCESS,
 } from "./action";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -51,6 +53,8 @@ const initialState = {
   subjects: [],
   grades: [],
   users: [],
+  adminStats: {},
+  monthelUserCreations: [],
 };
 
 const AppContext = React.createContext();
@@ -111,7 +115,8 @@ const AppProvider = ({ children }) => {
         currentUser
       );
 
-      const { user, token } = response.data;
+      const { user, token, msg } = response.data;
+      console.log(msg);
       dispatch({
         type: LOGIN_USER_SUCCESS,
         payload: { user, token },
@@ -124,6 +129,7 @@ const AppProvider = ({ children }) => {
         // payload: { msg: error.response.data.msg },
       });
     }
+    adminShowStats();
   };
 
   const logOutUser = async () => {
@@ -336,6 +342,22 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  const adminShowStats = async () => {
+    dispatch({ type: SHOW_STATS_BEGIN });
+
+    try {
+      const { data } = await axios.get("http://10.0.2.2:5000/api/auth/stats");
+
+      dispatch({
+        type: SHOW_STATS_SUCCESS,
+        payload: {
+          adStats: data.defaultStats,
+          admonthelUserCreations: data.monthelUserCreations,
+        },
+      });
+    } catch (error) {}
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -353,6 +375,7 @@ const AppProvider = ({ children }) => {
         logOutUser,
         updateUser,
         getAllUsers,
+        adminShowStats,
       }}
     >
       {children}

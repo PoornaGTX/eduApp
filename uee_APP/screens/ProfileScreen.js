@@ -11,11 +11,10 @@ const ProfileScreen = () => {
   const isFocused = useIsFocused();
   const { updateUser } = useAppContext();
 
-  //   useEffect(() => {
-  //     if (isFocused) {
-  //       getAllProjectDetails();
-  //     }
-  //   }, [isFocused]);
+  useEffect(() => {
+    if (isFocused) {
+    }
+  }, [isFocused, user]);
 
   if (user.length <= 0) {
     return (

@@ -32,6 +32,8 @@ import {
   GET_USERS_BEGIN,
   GET_USERS_SUCCESS,
   GET_USERS_ERROR,
+  SHOW_STATS_BEGIN,
+  SHOW_STATS_SUCCESS,
 } from "./action";
 
 const reducer = (state, action) => {
@@ -325,6 +327,24 @@ const reducer = (state, action) => {
       showAlert: true,
       alertType: "danger",
       alertText: "hello",
+    };
+  }
+
+  // admin stats
+  if (action.type === SHOW_STATS_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+      showAlert: false,
+    };
+  }
+
+  if (action.type === SHOW_STATS_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      adminStats: action.payload.adStats,
+      monthelUserCreations: action.payload.admonthelUserCreations,
     };
   }
 
