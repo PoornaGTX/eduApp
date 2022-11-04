@@ -14,27 +14,27 @@ const createGrade = async (req, res) => {
     .json({ Grade: GradeAdd.Grade, msg: "Grade added" });
 };
 
-const updateSubject = async (req, res) => {
-  const { id: subjectID } = req.params;
-  const { subjectName, color } = req.body;
+const updateGrade = async (req, res) => {
+  const { id: GradeID } = req.params;
+  const { Grade, color } = req.body;
 
-  if (!subjectName || !color) {
+  if (!Grade || !color) {
     // throw new BadRequestError("Please Provide all values.");
     return res
       .status(StatusCodes.BAD_REQUEST)
       .send({ msg: "please provide all values" });
   }
 
-  const subject = await Subject.findOne({ _id: subjectID });
-  if (!subject) {
+  const grade = await GradeModel.findOne({ _id: GradeID });
+  if (!grade) {
     //throw new NotFoundError(`No user with user ID ${uId}`);
     return res
       .status(StatusCodes.BAD_REQUEST)
       .send({ msg: "no subject found to update" });
   }
 
-  const updateSubject = await Subject.findOneAndUpdate(
-    { _id: subjectID },
+  const updateGrade = await GradeModel.findOneAndUpdate(
+    { _id: GradeID },
     req.body,
     {
       new: true,
@@ -42,14 +42,14 @@ const updateSubject = async (req, res) => {
     }
   );
 
-  res.status(StatusCodes.OK).json({ updateSubject });
+  res.status(StatusCodes.OK).json({ updateGrade });
 };
 
-const deleteSubject = async (req, res) => {
-  const { id: subjectID } = req.params;
-  const subject = await Subject.findOne({ _id: subjectID });
+const deleteGrade = async (req, res) => {
+  const { id: GradeID } = req.params;
+  const grade = await GradeModel.findOne({ _id: GradeID });
 
-  if (!subject) {
+  if (!grade) {
     // throw new NotFoundError(`No job with id :${subjectID}`);
     return res
       .status(StatusCodes.BAD_REQUEST)
@@ -58,7 +58,7 @@ const deleteSubject = async (req, res) => {
 
   // checkPermissions(req.user, job.createdBy)
 
-  await subject.remove();
+  await grade.remove();
 
   res.status(StatusCodes.OK).json({ msg: "Success! Job removed" });
 };
@@ -68,4 +68,4 @@ const getAllGrades = async (req, res) => {
   res.status(StatusCodes.OK).json({ AllGrades });
 };
 
-export { createGrade, updateSubject, deleteSubject, getAllGrades };
+export { createGrade, updateGrade, deleteGrade, getAllGrades };

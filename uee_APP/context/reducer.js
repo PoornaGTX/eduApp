@@ -1,4 +1,10 @@
 import {
+  REGISTER_USER_BEGIN,
+  REGISTER_USER_SUCCESS,
+  REGISTER_USER_ERROR,
+  LOGIN_USER_BEGIN,
+  LOGIN_USER_SUCCESS,
+  LOGIN_USER_ERROR,
   ADD_GRADE_BEGIN,
   ADD_GRADE_SUCCESS,
   ADD_GRADE_ERROR,
@@ -15,9 +21,69 @@ import {
   ADD_SUBJECT_BEGIN,
   ADD_SUBJECT_SUCCESS,
   ADD_SUBJECT_ERROR,
+  UPDATE_GRADE_BEGIN,
+  UPDATE_GRADE_SUCCESS,
+  UPDATE_GRADE_ERROR,
+  DELETE_GRADE_BEGIN,
 } from "./action";
 
 const reducer = (state, action) => {
+  //Register user
+  if (action.type === REGISTER_USER_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+
+  if (action.type === REGISTER_USER_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      token: action.payload.token,
+      user: action.payload.user,
+      showAlert: true,
+      alertType: "success",
+      alertText: "User Created! Redirecting",
+    };
+  }
+
+  if (action.type === REGISTER_USER_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
+    };
+  }
+
+  //Login User
+
+  if (action.type === LOGIN_USER_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+
+  if (action.type === LOGIN_USER_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      token: action.payload.token,
+      user: action.payload.user,
+      isLogedIn: true,
+      showAlert: true,
+      alertType: "success",
+      alertText: "Login Successful! Redirecting",
+    };
+  }
+
+  if (action.type === LOGIN_USER_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      // alertText: action.payload.msg,
+    };
+  }
+
   //ADD grade
   if (action.type === ADD_GRADE_BEGIN) {
     return { ...state, isLoading: true };
@@ -144,13 +210,46 @@ const reducer = (state, action) => {
       isLoading: false,
       showAlert: true,
       alertType: "danger",
-      alertText: action.payload.msg,
+      // alertText: action.payload.msg,
     };
   }
 
   //delete subject
   if (action.type === DELETE_SUBJECT_BEGIN) {
     return { ...state, isLoading: true };
+  }
+
+  //delete grade
+  if (action.type === DELETE_GRADE_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+
+  //updateGrade
+  if (action.type === UPDATE_GRADE_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }
+
+  if (action.type === UPDATE_GRADE_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: "Subject Updated",
+    };
+  }
+
+  if (action.type === UPDATE_GRADE_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
+    };
   }
 
   throw new Error(`no such action : ${action.type}`);
