@@ -43,32 +43,31 @@ const ProfileForm = ({
 
   //for subject
   const sumbitHandler = () => {
-    // //validate subject input
-    // //CHECK STRING CONTAINS NUMBER FUNCTION
-    // function containsNumbers(str) {
-    //   return /\d/.test(str);
-    // }
+    //validate input
+    //CHECK STRING CONTAINS NUMBER FUNCTION
+    function containsNumbers(str) {
+      return /\d/.test(str);
+    }
 
-    // const checkSubjectHasNumber = containsNumbers(subjectValue);
-    // const checkSubjectNotEmpty = !!subjectValue;
-    // const checkColorSelect = !!colorSub;
+    const checkfirstNameHasNumber = containsNumbers(fname);
+    const checklastNameHasNumber = containsNumbers(lname);
 
-    // if (checkSubjectHasNumber || !checkSubjectNotEmpty) {
-    //   {
-    //     checkSubjectHasNumber
-    //       ? Alert.alert(
-    //           "Invalid Input",
-    //           "Subject name cannot contain numeric values"
-    //         )
-    //       : Alert.alert("Invalid Input", "Please enter subject name");
-    //   }
-    //   return;
-    // }
+    const checkfirstName = !!fname;
+    const checklastName = !!lname;
 
-    // if (!checkColorSelect) {
-    //   Alert.alert("Invalid Input", "Please select color for subject");
-    //   return;
-    // }
+    if (checkfirstNameHasNumber || checklastNameHasNumber) {
+      Alert.alert(
+        "Invalid Input",
+        "Subject name cannot contain numeric values"
+      );
+      return;
+    }
+
+    if (!checkfirstName || !checklastName) {
+      Alert.alert("Invalid Input", "Please provide All values");
+      return;
+    }
+
     const userMogoID = user._id;
     updateProfileHandler(userMogoID, fname, lname, email, subject, grade, type);
   };
@@ -93,13 +92,15 @@ const ProfileForm = ({
           }}
         />
 
-        <AdminInput
-          label={labelName3}
-          textInputAllProps={{
-            onChangeText: gradeChangeHandler,
-            value: grade,
-          }}
-        />
+        {user.Grade !== "no" && (
+          <AdminInput
+            label={labelName3}
+            textInputAllProps={{
+              onChangeText: gradeChangeHandler,
+              value: grade,
+            }}
+          />
+        )}
 
         {user.teacherSubject !== "no" && (
           <AdminInput

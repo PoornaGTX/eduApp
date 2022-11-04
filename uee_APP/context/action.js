@@ -61,3 +61,7 @@ export const UPDATE_USER_ERROR = "UPDATE_USER_ERROR";
 export const GET_USERS_BEGIN = "GET_USERS_BEGIN";
 export const GET_USERS_SUCCESS = "GET_USERS_SUCCESS";
 export const GET_USERS_ERROR = "GET_USERS_ERROR";
+
+//admin stats
+export const SHOW_STATS_BEGIN = "SHOW_STATS_BEGIN";
+export const SHOW_STATS_SUCCESS = "SHOW_STATS_SUCCESS";
