@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 
 //icons
 import { Ionicons } from "@expo/vector-icons";
+import { Colors } from "./constants/styles";
 
 //navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -13,14 +14,32 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import GradesScreen from "./screens/GradesScreen";
 import GradeSubjects from "./screens/GradeSubjects";
 import ManageSubjectScreen from "./screens/ManageSubjectScreen";
-import KnowledgelabContextProvider from "./store/KLab-context";
 import ManageGradesScreen from "./screens/ManageGradesScreen";
 import StatsScreenAdmin from "./screens/StatsScreenAdmin";
+import LoginScreen from "./screens/LoginScreen";
+import SignupScreen from "./screens/SignupScreen";
 
 const Stack = createNativeStackNavigator();
 const Bottom = createBottomTabNavigator();
 
+import { useAppContext } from "./context/appContext";
 import { AppProvider } from "./context/appContext";
+
+//for unathunticated users
+function AuthStack() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: Colors.primary500 },
+        headerTintColor: "white",
+        contentStyle: { backgroundColor: Colors.primary100 },
+      }}
+    >
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Signup" component={SignupScreen} />
+    </Stack.Navigator>
+  );
+}
 
 //use by admin
 const AdminBottomTabHome = () => {
@@ -66,82 +85,67 @@ const AdminBottomTabHome = () => {
   );
 };
 
-{
-  /* <Stack.Navigator
-            screenOptions={{ headerStyle: { backgroundColor: "white" } }}
-          >
-            <Stack.Screen
-              name="All Grades"
-              component={GradesScreen}
-              options={{ contentStyle: { backgroundColor: "white" } }}
-            />
-            <Stack.Screen
-              name="Subjects"
-              component={GradeSubjects}
-              options={{ contentStyle: { backgroundColor: "white" } }}
-            />
-            <Stack.Screen
-              name="ManageSubjects"
-              component={ManageSubjectScreen}
-              options={{ presentation: "modal", title: "Manage Subject" }}
-            />
+function AuthenticatedStack() {
+  // const user = "Admin"; //temp
+  const { user } = useAppContext();
 
-            <Stack.Screen
-              name="ManageGrade"
-              component={ManageGradesScreen}
-              options={{ presentation: "modal", title: "Manage Grades" }}
-            />
+  return (
+    <Bottom.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: "#3db1ff" },
+        tabBarStyle: { backgroundColor: "#3db1ff" },
+        tabBarActiveTintColor: "red",
+      }}
+    >
+      <Bottom.Screen
+        name="AdminHome"
+        component={AdminBottomTabHome}
+        options={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" size={size} color="black" />
+          ),
+        }}
+      />
 
-            <Stack.Screen name="AdminStatslk" component={adminBottomTab} />
-          </Stack.Navigator> */
+      {user.type === "Admin" && (
+        <Bottom.Screen
+          name="Stats"
+          component={StatsScreenAdmin}
+          options={{
+            tabBarShowLabel: false,
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="stats-chart" size={size} color="black" />
+            ),
+            headerTitleAlign: "center",
+          }}
+        />
+      )}
+    </Bottom.Navigator>
+  );
+}
+
+function Navigation() {
+  const { isLogedIn } = useAppContext();
+  return (
+    <NavigationContainer>
+      {!isLogedIn ? <AuthStack /> : <AuthenticatedStack />}
+    </NavigationContainer>
+  );
 }
 
 export default function App() {
-  const user = "Admin"; //temp
-
   return (
     <>
       <StatusBar style="light" />
       <AppProvider>
-        <NavigationContainer>
-          <Bottom.Navigator
-            screenOptions={{
-              headerStyle: { backgroundColor: "#3db1ff" },
-              tabBarStyle: { backgroundColor: "#3db1ff" },
-              tabBarActiveTintColor: "red",
-            }}
-          >
-            <Bottom.Screen
-              name="AdminHome"
-              component={AdminBottomTabHome}
-              options={{
-                headerShown: false,
-                tabBarShowLabel: false,
-                tabBarIcon: ({ color, size }) => (
-                  <Ionicons name="home" size={size} color="black" />
-                ),
-              }}
-            />
-
-            {user === "Admin" && (
-              <Bottom.Screen
-                name="Stats"
-                component={StatsScreenAdmin}
-                options={{
-                  tabBarShowLabel: false,
-                  tabBarIcon: ({ color, size }) => (
-                    <Ionicons name="stats-chart" size={size} color="black" />
-                  ),
-                  headerTitleAlign: "center",
-                }}
-              />
-            )}
-          </Bottom.Navigator>
-        </NavigationContainer>
+        <Navigation />
       </AppProvider>
     </>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

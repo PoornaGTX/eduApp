@@ -19,7 +19,7 @@ const GradeSubjects = ({ route }) => {
   const navigation = useNavigation();
   const gradeID = route.params.singlegardeID; ////this contain gradeID 'Grade 1'
 
-  const { getAllSubjects, subjects } = useAppContext();
+  const { getAllSubjects, subjects, user } = useAppContext();
 
   const isFocused = useIsFocused();
 
