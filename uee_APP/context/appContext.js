@@ -20,6 +20,10 @@ import {
   ADD_SUBJECT_BEGIN,
   ADD_SUBJECT_SUCCESS,
   ADD_SUBJECT_ERROR,
+  UPDATE_GRADE_BEGIN,
+  UPDATE_GRADE_SUCCESS,
+  UPDATE_GRADE_ERROR,
+  DELETE_GRADE_BEGIN,
 } from "./action";
 
 const initialState = {
@@ -61,12 +65,13 @@ const AppProvider = ({ children }) => {
   );
 
   //add grade
-  const addGrade = async ({}) => {
+  const addGrade = async (gradeData) => {
     dispatch({ type: ADD_GRADE_BEGIN });
 
     try {
       const response = await axios.post(
-        "http://10.0.2.2:5000/api/v1/admin/grades"
+        "http://10.0.2.2:5000/api/v1/admin/grades",
+        gradeData
       );
       dispatch({
         type: ADD_GRADE_SUCCESS,
@@ -120,6 +125,28 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  //update subject
+  const updateGrade = async (smongoGradeeID, gradeData) => {
+    dispatch({ type: UPDATE_GRADE_BEGIN });
+
+    try {
+      const response = await axios.patch(
+        `http://10.0.2.2:5000/api/v1/admin/grades/${smongoGradeeID}`,
+        gradeData
+      );
+      dispatch({
+        type: UPDATE_GRADE_SUCCESS,
+        // payload: { AllSubjects },
+      });
+    } catch (error) {
+      dispatch({
+        type: UPDATE_GRADE_ERROR,
+        // payload: { msg: error.response.data.msg },
+      });
+    }
+    getAllGrades();
+  };
+
   //get all subjects
   const getAllSubjects = async () => {
     dispatch({ type: GET_SUBJECTS_BEGIN });
@@ -168,6 +195,19 @@ const AppProvider = ({ children }) => {
     try {
       const response = await axios.delete(
         `http://10.0.2.2:5000/api/v1/admin/${subjectID}`
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //delete subject
+  const deleteGrade = async (GradeIDMongo) => {
+    dispatch({ type: DELETE_GRADE_BEGIN });
+
+    try {
+      const response = await axios.delete(
+        `http://10.0.2.2:5000/api/v1/admin/grades/${GradeIDMongo}`
       );
     } catch (error) {
       console.log(error);
@@ -375,6 +415,8 @@ const AppProvider = ({ children }) => {
         updateSubject,
         deleteSubject,
         addSubject,
+        updateGrade,
+        deleteGrade,
       }}
     >
       {children}

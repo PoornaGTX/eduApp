@@ -3,13 +3,16 @@ import { useNavigation } from "@react-navigation/native";
 
 import ManageButton from "./icons/ManageButton";
 
-const GradeGirdTitle = ({ grade, color, onPressProp }) => {
+const GradeGirdTitle = ({ grade, color, gradeID, onPressProp }) => {
   const user = "Admin"; //tempory
   const navigation = useNavigation();
 
   //for manage button
   const MangeButtonHanlder = () => {
-    navigation.navigate("ManageGrade", { GradeNumberID: grade });
+    navigation.navigate("ManageGrade", {
+      GradeNumberID: grade,
+      GradeID: gradeID,
+    });
   };
 
   return (

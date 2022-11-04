@@ -15,6 +15,10 @@ import {
   ADD_SUBJECT_BEGIN,
   ADD_SUBJECT_SUCCESS,
   ADD_SUBJECT_ERROR,
+  UPDATE_GRADE_BEGIN,
+  UPDATE_GRADE_SUCCESS,
+  UPDATE_GRADE_ERROR,
+  DELETE_GRADE_BEGIN,
 } from "./action";
 
 const reducer = (state, action) => {
@@ -144,13 +148,46 @@ const reducer = (state, action) => {
       isLoading: false,
       showAlert: true,
       alertType: "danger",
-      alertText: action.payload.msg,
+      // alertText: action.payload.msg,
     };
   }
 
   //delete subject
   if (action.type === DELETE_SUBJECT_BEGIN) {
     return { ...state, isLoading: true };
+  }
+
+  //delete grade
+  if (action.type === DELETE_GRADE_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+
+  //updateGrade
+  if (action.type === UPDATE_GRADE_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }
+
+  if (action.type === UPDATE_GRADE_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: "Subject Updated",
+    };
+  }
+
+  if (action.type === UPDATE_GRADE_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
+    };
   }
 
   throw new Error(`no such action : ${action.type}`);
