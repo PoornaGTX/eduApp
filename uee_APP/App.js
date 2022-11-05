@@ -40,7 +40,6 @@ import StudentNoticesScreen from "./screens/StudentNoticesScreen";
 import TeacherAllNotices from "./screens/TeacherAllNotices";
 import TeacherAddNotice from "./screens/TeacherAddNotice";
 
-
 //for unathunticated users
 function AuthStack() {
   return (
@@ -128,11 +127,9 @@ const TeacherBottomTabHome = () => {
           headerTitleAlign: "center",
         }}
       />
-
     </Stack.Navigator>
   );
 };
-
 
 //use by student
 const StudentBottomTabHome = () => {
@@ -185,18 +182,19 @@ function AuthenticatedStack() {
         tabBarActiveTintColor: "red",
       }}
     >
-
-      {user.type === "Admin"&&(<Bottom.Screen
-        name="AdminHome"
-        component={AdminBottomTabHome}
-        options={{
-          headerShown: false,
-          tabBarShowLabel: false,
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" size={size} color="black" />
-          ),
-        }}
-      />)}
+      {user.type === "Admin" && (
+        <Bottom.Screen
+          name="AdminHome"
+          component={AdminBottomTabHome}
+          options={{
+            headerShown: false,
+            tabBarShowLabel: false,
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="home" size={size} color="black" />
+            ),
+          }}
+        />
+      )}
 
       {user.type === "Admin" && (
         <Bottom.Screen
@@ -211,7 +209,6 @@ function AuthenticatedStack() {
           }}
         />
       )}
-
 
       {user.type === "student" && (
         <>
@@ -252,20 +249,20 @@ function AuthenticatedStack() {
           />
         </>
       )}
-
+      {user.type === "teacher" && (
+        <Bottom.Screen
+          name="TeacherAllNotice"
+          component={TeacherBottomTabHome}
+          options={{
+            headerShown: false,
+            tabBarShowLabel: false,
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="home" size={size} color="white" />
+            ),
+          }}
+        />
+      )}
       <Bottom.Screen
-        name="TeacherAllNotice"
-        component={TeacherBottomTabHome}
-        options={{
-          headerShown: false,
-          tabBarShowLabel: false,
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" size={size} color="white" />
-          ),
-        }}
-       />
-       
-     <Bottom.Screen
         name="Profile"
         component={ProfileScreen}
         options={{
@@ -286,7 +283,6 @@ function AuthenticatedStack() {
           },
         }}
       />
-
     </Bottom.Navigator>
   );
 }

@@ -47,6 +47,15 @@ import {
   LOGIN_NEWPASSWORD,
   LOGIN_NEWPASSWORD_COMPLETE,
   LOGIN_NEWPASSWORD_ERROR,
+  STUDENT_GET_ALL_NOTICES_BEGIN,
+  STUDENT_GET_ALL_NOTICES_SUCCESS,
+  STUDENT_GET_ALL_NOTICES_ERROR,
+  GET_ALL_USERS_BEGIN,
+  GET_ALL_USERS_ERROR,
+  GET_ALL_USERS_SUCCESS,
+  SUBSCRIBE_TEACHER_BEGIN,
+  SUBSCRIBE_TEACHER_SUCCESS,
+  SUBSCRIBE_TEACHER_END,
 } from "./action";
 
 const reducer = (state, action) => {
@@ -308,9 +317,16 @@ const reducer = (state, action) => {
 
   // teacher get all notices error
   if (action.type === TEACHER_GET_ALL_NOTICES_ERROR) {
-  
-  //update user
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: "hello",
+    };
 
+    //update user
+  }
   if (action.type === UPDATE_USER_BEGIN) {
     return { ...state, isLoading: true };
   }
@@ -343,8 +359,14 @@ const reducer = (state, action) => {
   }
 
   //teacher add notice success
+
   if (action.type === TEACHER_ADD_NOTICE_SUCCESS) {
-      alertText: action.payload.msg,
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: "Notice added! Redirecting",
     };
   }
 
@@ -364,10 +386,14 @@ const reducer = (state, action) => {
   }
 
   //teacher add notice error
+
   if (action.type === TEACHER_ADD_NOTICE_ERROR) {
-      users: action.payload.users,
-      alertType: "success",
-      alertText: "User Created! Redirecting",
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: "hello",
     };
   }
 
@@ -386,32 +412,32 @@ const reducer = (state, action) => {
   }
 
   //teacher update notice begin
- if (action.type === TEACHER_UPDATE_NOTICE_BEGIN) {
-  return {
-    ...state,
-    isLoading: true,
-  };
-}
-//teacher update notice
-if (action.type === TEACHER_UPDATE_NOTICE_SUCCESS) {
-  return {
-    ...state,
-    isLoading: false,
-    showAlert: true,
-    alertType: "success",
-    alertText: "Notice Updated",
-  };
-}
+  if (action.type === TEACHER_UPDATE_NOTICE_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }
+  //teacher update notice
+  if (action.type === TEACHER_UPDATE_NOTICE_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: "Notice Updated",
+    };
+  }
 
-if (action.type === TEACHER_UPDATE_NOTICE_ERROR) {
-  return {
-    ...state,
-    isLoading: false,
-    showAlert: true,
-    alertType: "danger",
-    alertText: action.payload.msg,
-  };
-}
+  if (action.type === TEACHER_UPDATE_NOTICE_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
+    };
+  }
 
   // admin stats
   if (action.type === SHOW_STATS_BEGIN) {
@@ -456,9 +482,8 @@ if (action.type === TEACHER_UPDATE_NOTICE_ERROR) {
       alertText: "Error",
     };
   }
-  
-  
-  //get all users
+
+  //get all users for students
   if (action.type === GET_ALL_USERS_BEGIN) {
     return { ...state, isLoading: true, showAlert: false };
   }
@@ -516,7 +541,34 @@ if (action.type === TEACHER_UPDATE_NOTICE_ERROR) {
     };
   }
 
-  
+  if (action.type === STUDENT_GET_ALL_NOTICES_BEGIN) {
+    return { ...state, isLoading: true, showAlert: false };
+  }
+
+  if (action.type === STUDENT_GET_ALL_NOTICES_SUCCESS) {
+    // console.log(updatedUser, state.users);
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      studentNotices: action.payload.notices,
+      alertType: "success",
+      alertText: "Success",
+      // mySubscribeList: action.payload.users.find(
+      //   (user) => user._id === action.payload.userId
+      // ).subscribeIds,
+    };
+  }
+
+  if (action.type === STUDENT_GET_ALL_NOTICES_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: "hello",
+    };
+  }
   throw new Error(`no such action : ${action.type}`);
 };
 

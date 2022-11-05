@@ -18,22 +18,26 @@ import SingleSubject from "../components/SingleSubject";
 
 //route will resive to any registred screens
 const MySubjects = ({ route }) => {
-  const { user } = useAppContext();
+  const { user, getAllSubjects, subjects } = useAppContext();
+  const [stdSubjects, setStdSubjects] = useState(subjects);
   // console.log(user);
+  // let subjects = [];
   const navigation = useNavigation();
   //   const gradeID = route.params.singlegardeID; ////this contain gradeID 'Grade 1'
-
-  const { getAllSubjects, subjects } = useAppContext();
 
   const isFocused = useIsFocused();
 
   useEffect(() => {
     if (isFocused) {
       getAllSubjects();
+      setStdSubjects(subjects);
+      console.log("######################");
+      console.log(subjects);
+      console.log("######################");
     }
   }, [isFocused]);
 
-  const displaySubjects = subjects.filter((singleSubject) => {
+  const displaySubjects = stdSubjects.filter((singleSubject) => {
     return singleSubject.gID === user.Grade;
   });
 
@@ -71,10 +75,6 @@ const MySubjects = ({ route }) => {
   // }, []);
 
   //get all subjects
-
-  if (subjects.length === 0) {
-    return <Text style={styles.infoText}>No subjects availble</Text>;
-  }
 
   return (
     <View>
