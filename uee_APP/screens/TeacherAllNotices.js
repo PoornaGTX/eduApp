@@ -12,7 +12,9 @@ const TeacherAllNotices = ({ navigation }) => {
   
     const renderNoticeItem = (itemData) => {
       const pressHandler = () => {
-        navigation.navigate("Subjects", { singleNoticeID: itemData.item.title });
+        navigation.navigate("AddNotice", {
+          NoticeID: itemData.item._id,
+        });
       };
   
       return (

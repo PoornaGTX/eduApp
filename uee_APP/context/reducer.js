@@ -36,6 +36,12 @@ import {
   TEACHER_UPDATE_NOTICE_BEGIN,
   TEACHER_UPDATE_NOTICE_SUCCESS,
   TEACHER_UPDATE_NOTICE_ERROR,
+  GET_MESSAGES_BEGIN,
+  GET_MESSAGES_SUCCESS,
+  GET_MESSAGES_ERROR,
+  SEND_MESSAGES_BEGIN,
+  SEND_MESSAGES_SUCCESS,
+  SEND_MESSAGES_ERROR,
 
 } from "./action";
 
@@ -366,7 +372,60 @@ if (action.type === TEACHER_UPDATE_NOTICE_ERROR) {
   };
 }
 
- 
+// teacher get all messages begin
+if (action.type === GET_MESSAGES_BEGIN) {
+  return { ...state, isLoading: true, showAlert: false };
+}
+
+// teacher get all messages success
+if (action.type === GET_MESSAGES_SUCCESS) {
+  return {
+    ...state,
+    isLoading: false,
+    showAlert: true,
+    messages: action.payload.allMessages,
+    alertType: "success",
+    alertText: "All messages!",
+  };
+}
+
+// teacher get all messages error
+if (action.type === GET_GRADES_ERROR) {
+  return {
+    ...state,
+    isLoading: false,
+    showAlert: true,
+    alertType: "danger",
+    alertText: "Error getting messages",
+  };
+}
+
+//send message begin
+if (action.type === SEND_MESSAGES_BEGIN) {
+  return { ...state, isLoading: true };
+}
+
+//add message success
+if (action.type === SEND_MESSAGES_SUCCESS) {
+  return {
+    ...state,
+    isLoading: false,
+    showAlert: true,
+    alertType: "success",
+    alertText: "Notice added! Redirecting",
+  };
+}
+
+//send message error
+if (action.type === SEND_MESSAGES_ERROR) {
+  return {
+    ...state,
+    isLoading: false,
+    showAlert: true,
+    alertType: "danger",
+    alertText: "hello",
+  };
+}
   throw new Error(`no such action : ${action.type}`);
 };
 

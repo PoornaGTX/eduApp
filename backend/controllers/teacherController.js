@@ -64,7 +64,6 @@ const deleteNotice = async (req, res) => {
 };
 
 
-
 const sendMessage = async (req, res) => {
   const { messageSender, chatRoomOwner, message } = req.body;
   //   req.body.createdBy = req.user.userId;

@@ -26,6 +26,7 @@ import { useAppContext } from "./context/appContext";
 import { AppProvider } from "./context/appContext";
 import TeacherAllNotices from "./screens/TeacherAllNotices";
 import TeacherAddNotice from "./screens/TeacherAddNotice";
+import ChatRoom from "./screens/ChatRoom";
 
 //for unathunticated users
 function AuthStack() {
@@ -87,7 +88,6 @@ const AdminBottomTabHome = () => {
   );
 };
 
-
 //use by Teacher
 const TeacherBottomTabHome = () => {
   return (
@@ -115,7 +115,6 @@ const TeacherBottomTabHome = () => {
           headerTitleAlign: "center",
         }}
       />
-
     </Stack.Navigator>
   );
 };
@@ -131,17 +130,19 @@ function AuthenticatedStack() {
         tabBarActiveTintColor: "red",
       }}
     >
-      {user.type === "Admin"&&(<Bottom.Screen
-        name="AdminHome"
-        component={AdminBottomTabHome}
-        options={{
-          headerShown: false,
-          tabBarShowLabel: false,
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" size={size} color="black" />
-          ),
-        }}
-      />)}
+      {user.type === "Admin" && (
+        <Bottom.Screen
+          name="AdminHome"
+          component={AdminBottomTabHome}
+          options={{
+            headerShown: false,
+            tabBarShowLabel: false,
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="home" size={size} color="black" />
+            ),
+          }}
+        />
+      )}
 
       {user.type === "Admin" && (
         <Bottom.Screen
@@ -157,17 +158,32 @@ function AuthenticatedStack() {
         />
       )}
 
-      <Bottom.Screen
-        name="TeacherAllNotice"
-        component={TeacherBottomTabHome}
-        options={{
-          headerShown: false,
-          tabBarShowLabel: false,
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" size={size} color="white" />
-          ),
-        }}
-      />
+      {user.type === "teacher" && (
+        <>
+          <Bottom.Screen
+            name="TeacherAllNotice"
+            component={TeacherBottomTabHome}
+            options={{
+              headerShown: false,
+              tabBarShowLabel: false,
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="home" size={size} color="white" />
+              ),
+            }}
+          />
+          <Bottom.Screen
+            name="ChatRoom"
+            component={ChatRoom}
+            options={{
+              headerShown: false,
+              tabBarShowLabel: false,
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="chatbox" size={size} color="white" />
+              ),
+            }}
+          />
+        </>
+      )}
     </Bottom.Navigator>
   );
 }
