@@ -1,10 +1,18 @@
 import User from "../models/User.js";
+import Notice from "../models/Notice.js";
+
 import { StatusCodes } from "http-status-codes";
 // import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
 
 const getAllUsers = async (req, res) => {
   const users = await User.find({});
   res.status(200).json({ users });
+};
+
+const getMyNotices = async (req, res) => {
+  const teacherIds = req.body.subscribeIds.map((id) => new Object(id));
+  const notices = await Notice.find({ createdBy: { $all: teacherIds } });
+  res.status(200).json({ notices });
 };
 
 const subscribeTeacher = async (req, res) => {
@@ -133,4 +141,4 @@ const subscribeTeacher = async (req, res) => {
 //   res.status(StatusCodes.OK).json({ user, token, location: user.location });
 // };
 
-export { getAllUsers, subscribeTeacher };
+export { getAllUsers, subscribeTeacher, getMyNotices };
