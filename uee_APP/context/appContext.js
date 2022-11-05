@@ -37,6 +37,28 @@ import {
   SUBSCRIBE_TEACHER_BEGIN,
   SUBSCRIBE_TEACHER_END,
   SUBSCRIBE_TEACHER_SUCCESS,
+  TEACHER_GET_ALL_NOTICES_BEGIN,
+  TEACHER_GET_ALL_NOTICES_SUCCESS,
+  TEACHER_GET_ALL_NOTICES_ERROR,
+  TEACHER_ADD_NOTICE_BEGIN,
+  TEACHER_ADD_NOTICE_SUCCESS,
+  TEACHER_ADD_NOTICE_ERROR,
+  TEACHER_DELETE_NOTICE_BEGIN,
+  TEACHER_DELETE_NOTICE_SUCCESS,
+  TEACHER_UPDATE_NOTICE_BEGIN,
+  TEACHER_UPDATE_NOTICE_SUCCESS,
+  TEACHER_UPDATE_NOTICE_ERROR,
+  UPDATE_USER_BEGIN,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_ERROR,
+  GET_USERS_BEGIN,
+  GET_USERS_SUCCESS,
+  GET_USERS_ERROR,
+  SHOW_STATS_BEGIN,
+  SHOW_STATS_SUCCESS,
+  LOGIN_NEWPASSWORD,
+  LOGIN_NEWPASSWORD_COMPLETE,
+  LOGIN_NEWPASSWORD_ERROR,
 } from "./action";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -52,6 +74,11 @@ const initialState = {
   grades: [],
   usersStd: [],
   mySubscribeList: [],
+  teacherAllNotices: [],
+  users: [],
+  adminStats: {},
+  monthelUserCreations: [],
+
 };
 
 const AppContext = React.createContext();
@@ -113,6 +140,7 @@ const AppProvider = ({ children }) => {
       );
 
       const { user, token } = response.data;
+
       dispatch({
         type: LOGIN_USER_SUCCESS,
         payload: { user, token },
@@ -122,9 +150,10 @@ const AppProvider = ({ children }) => {
     } catch (error) {
       dispatch({
         type: LOGIN_USER_ERROR,
-        // payload: { msg: error.response.data.msg },
+        payload: { msg: error.response.data.msg },
       });
     }
+    adminShowStats();
   };
 
   const logOutUser = async () => {
@@ -307,9 +336,92 @@ const AppProvider = ({ children }) => {
     } catch (error) {
       dispatch({
         type: GET_ALL_USERS_ERROR,
+})
+}
+}
+ 
+ // Teacher get all notices
+  const teacherGetAllNotices = async () => {
+    dispatch({ type: TEACHER_GET_ALL_NOTICES_BEGIN });
+    try {
+      const response = await axios.get(
+        `http://10.0.2.2:5000/api/v1/teacher/${state.user._id}`
+      );
+      const { allNotices } = response.data;
+      dispatch({
+        type: TEACHER_GET_ALL_NOTICES_SUCCESS,
+        payload: { allNotices },
+      });
+    } catch (error) {
+      dispatch({
+        type: TEACHER_GET_ALL_NOTICES_ERROR,
+        // payload: { msg: error.response.data.msg },
       });
     }
   };
+
+
+  //Teacher add notice
+  const teacherAddNotice = async (notice) => {
+    dispatch({ type: TEACHER_ADD_NOTICE_BEGIN });
+    try {
+      const response = await axios.post(
+        `http://10.0.2.2:5000/api/v1/teacher/${state.user._id}`, notice );
+      dispatch({
+        type: TEACHER_ADD_NOTICE_SUCCESS,
+      });
+    } catch (error) {
+      dispatch({
+        type:TEACHER_ADD_NOTICE_ERROR,
+      });
+    }
+  };
+  
+  //update user
+  const updateUser = async (userMogoID, currentUser) => {
+    dispatch({ type: UPDATE_USER_BEGIN });
+    try {
+      const { data } = await axios.patch(
+        `http://10.0.2.2:5000/api/auth/updateUser/${userMogoID}`,
+        currentUser
+      );
+
+      const { user, token } = data;
+
+      dispatch({
+        type: UPDATE_USER_SUCCESS,
+        payload: { user, token },
+      });
+      // addUserToLocalStorage({ user, location, token });
+    } catch (error) {
+      if (error.response.status !== 401) {
+        dispatch({
+          type: UPDATE_USER_ERROR,
+          payload: { msg: error.response.data.msg },
+        });
+      }
+    }
+  };
+
+  //get all users
+  const getAllUsers = async () => {
+    dispatch({ type: GET_USERS_BEGIN });
+
+    try {
+      const response = await axios.get("http://10.0.2.2:5000/api/auth/users");
+      const { users } = response.data;
+      dispatch({
+        type: GET_USERS_SUCCESS,
+        payload: { users },
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_USERS_ERROR,
+        // payload: { msg: error.response.data.msg },
+      });
+    }
+  };
+
 
   //subscribe handler
   //update subject
@@ -336,6 +448,41 @@ const AppProvider = ({ children }) => {
       });
     }
     // getAllSubjects();
+  };
+
+
+  //Teacher delete notice
+  const teacherDeleteNotice = async (noticeMongoId) => {
+    dispatch({ type: TEACHER_DELETE_NOTICE_BEGIN });
+    try {
+      const response = await axios.delete(
+        `http://10.0.2.2:5000/api/v1/teacher/${noticeMongoId}`
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //Teacher delete notice
+  const teacherUpdateNotice = async (subjectID, subData) => {
+    dispatch({ type: TEACHER_UPDATE_NOTICE_BEGIN });
+
+    try {
+      const response = await axios.patch(
+        `http://10.0.2.2:5000/api/v1/teacher/${subjectID}`,
+        subData
+      );
+      dispatch({
+        type: TEACHER_UPDATE_NOTICE_SUCCESS,
+        // payload: { AllSubjects },
+      });
+    } catch (error) {
+      dispatch({
+        type: TEACHER_UPDATE_NOTICE_ERROR,
+        // payload: { msg: error.response.data.msg },
+      });
+    }
+    getAllSubjects();
   };
 
   //   //login user
@@ -471,7 +618,39 @@ const AppProvider = ({ children }) => {
   //       });
   //     }
   //   };
+  const adminShowStats = async () => {
+    dispatch({ type: SHOW_STATS_BEGIN });
 
+    try {
+      const { data } = await axios.get("http://10.0.2.2:5000/api/auth/stats");
+
+      dispatch({
+        type: SHOW_STATS_SUCCESS,
+        payload: {
+          adStats: data.defaultStats,
+          admonthelUserCreations: data.monthelUserCreations,
+        },
+      });
+    } catch (error) {}
+  };
+
+  const passwordReset = async (newCredentials) => {
+    dispatch({ type: LOGIN_NEWPASSWORD });
+    try {
+      const response = await axios.post(
+        "http://10.0.2.2:5000/api/auth/resetpassword",
+        newCredentials
+      );
+      dispatch({
+        type: LOGIN_NEWPASSWORD_COMPLETE,
+        payload: { msg: response.data.msg },
+      });
+    } catch (error) {
+      dispatch({
+        type: LOGIN_NEWPASSWORD_ERROR,
+      });
+    }
+  };
   return (
     <AppContext.Provider
       value={{
@@ -489,6 +668,15 @@ const AppProvider = ({ children }) => {
         logOutUser,
         getAllUsersStd,
         subscribeHandler,
+        teacherGetAllNotices,
+        teacherAddNotice,
+        teacherDeleteNotice,
+        teacherUpdateNotice,
+        updateUser,
+        getAllUsers,
+        adminShowStats,
+        passwordReset,
+
       }}
     >
       {children}

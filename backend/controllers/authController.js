@@ -1,16 +1,13 @@
 import User from "../models/User.js";
 import { StatusCodes } from "http-status-codes";
 // import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
+import moment from "moment";
 import nodemailer from "nodemailer";
 import jwt from "jsonwebtoken";
 
 const register = async (req, res) => {
   const { firstName, lastName, email, teacherSubject, Grade, type, password } =
     req.body;
-
-  console.log("====================================");
-  console.log(Grade);
-  console.log("====================================");
 
   if (!firstName || !lastName || !email || !password || !type) {
     // throw new BadRequestError("please provide all values");
@@ -39,8 +36,9 @@ const register = async (req, res) => {
       email: user.email,
       type: user.type,
       lastName: user.lastName,
-      location: user.location,
       firstName: user.firstName,
+      teacherSubject: user.teacherSubject,
+      Grade: user.Grade,
     },
     token,
   });
@@ -55,13 +53,13 @@ const login = async (req, res) => {
   const user = await User.findOne({ email }).select("+password");
 
   if (!user) {
-    // throw new UnAuthenticatedError("invalid Credentials");
+    throw new UnAuthenticatedError("invalid Credentials");
   }
 
   const isPasswordCorrect = await user.comparePassword(password);
 
   if (!isPasswordCorrect) {
-    // throw new UnAuthenticatedError("invalid Credentials");
+    throw new UnauthenticatedError("Invalid credentials");
   }
 
   const token = user.createJWT();
@@ -70,110 +68,99 @@ const login = async (req, res) => {
   res.status(StatusCodes.OK).json({ user, token, location: user.location });
 };
 
-// //froget pasword from login
+const updateUser = async (req, res) => {
+  const { firstName, lastName, email, teacherSubject, Grade } = req.body;
+  const { id: id } = req.params;
+  if (!email || !firstName || !lastName || !teacherSubject || Grade) {
+    // throw new BadRequestError("Please provide all values");
+  }
 
-// const frogetPassword = async (req, res) => {
-//   const { email } = req.body;
+  const user = await User.findOne({ _id: id });
 
-//   //get the user data
-//   const user = await User.findOne({ email });
+  user.email = email;
+  user.firstName = firstName;
+  user.lastName = lastName;
+  user.Grade = Grade;
+  user.teacherSubject = teacherSubject;
 
-//   if (!user) {
-//     throw new UnAuthenticatedError("invalid Credentials");
-//   }
+  await user.save();
 
-//   //create one time link unique
-//   const secret = process.env.JWT_SECRET + user.password;
+  const token = user.createJWT();
+  res.status(StatusCodes.OK).json({ user, token });
+};
 
-//   const payload = {
-//     email: user.email,
-//     id: user.id,
-//   };
+const getAllUsers = async (req, res) => {
+  const users = await User.find({});
+  res.status(StatusCodes.OK).json({ users });
+};
 
-//   //token
-//   const token = jwt.sign(payload, secret, { expiresIn: "15m" });
+const showStats = async (req, res) => {
+  let stats = await User.aggregate([
+    { $match: {} },
+    { $group: { _id: "$type", count: { $sum: 1 } } },
+  ]);
 
-//   //email link
-//   const link = `http://localhost:3000/reset-password/${user.id}/${token}`;
+  stats = stats.reduce((acc, curr) => {
+    //cuur => current item
+    const { _id: title, count } = curr;
+    acc[title] = count;
+    return acc;
+  }, {});
 
-//   //email
+  const defaultStats = {
+    Admin: stats.Admin || 0,
+    student: stats.student || 0,
+    teacher: stats.teacher || 0,
+  };
 
-//   var transporter = nodemailer.createTransport({
-//     service: "gmail",
-//     auth: {
-//       user: process.env.EMAIL,
-//       pass: process.env.PASSWORD,
-//     },
-//   });
+  let monthelUserCreations = await User.aggregate([
+    { $match: {} },
+    {
+      $group: {
+        _id: { year: { $year: "$createdAt" }, month: { $month: "$createdAt" } },
+        count: { $sum: 1 },
+      },
+    },
+    { $sort: { "_id.year": -1, "_id.month": -1 } },
+    { $limit: 8 }, //limit is use to get latest 6 month data
+  ]);
 
-//   var mailOptions = {
-//     from: process.env.EMAIL,
-//     to: user.email,
-//     subject: "Dream Career Password Reset",
-//     text: link,
-//   };
+  monthelUserCreations = monthelUserCreations
+    .map((item) => {
+      const {
+        _id: { year, month },
+        count,
+      } = item;
 
-//   transporter.sendMail(mailOptions, function (error, info) {
-//     if (error) {
-//       console.log(error);
-//     } else {
-//       console.log("Email sent: " + info.response);
-//     }
-//   });
-// };
+      const date = moment()
+        .month(month - 1)
+        .year(year)
+        .format("MMM Y");
+      return { date, count };
+    })
+    .reverse();
 
-// //create new password
+  res.status(StatusCodes.OK).json({ defaultStats, monthelUserCreations });
+};
 
-// const newPassword = async (req, res) => {
-//   const { id, token } = req.params;
-//   const { newPassword } = req.body;
+const newPassword = async (req, res) => {
+  const { email, newPassword } = req.body;
+  console.log(email, newPassword);
 
-//   //get user data
-//   const user = await User.findOne({ _id: id });
+  //get user data
+  const user = await User.findOne({ email: email });
 
-//   //check the user is exsisit
-//   if (!user) {
-//     throw new UnAuthenticatedError("invalid Credentials");
-//   }
+  //check the user is exsisit
+  if (!user) {
+    res.status(StatusCodes.BAD_REQUEST).json({ msg: "invalid user" });
+  }
 
-//   try {
-//     //verify token
-//     const secret = process.env.JWT_SECRET + user.password;
-//     const payload = jwt.verify(token, secret);
+  user.password = newPassword;
+  await user.save();
 
-//     //check the user email with payload email
-//     if (user.email !== payload.email) {
-//       throw new UnAuthenticatedError("invalid token");
-//     }
-//   } catch (error) {
-//     throw new UnAuthenticatedError("Authentication Invalid");
-//   }
+  res
+    .status(StatusCodes.CREATED)
+    .json({ msg: "password has been reset please re-login" });
+};
 
-//   user.password = newPassword;
-//   await user.save();
-
-//   res
-//     .status(StatusCodes.CREATED)
-//     .json({ msg: "password has been reset please re-login" });
-// };
-
-// const updateUser = async (req, res) => {
-//   const { email, firstName, lastName, location } = req.body;
-//   if (!email || !firstName || !lastName || !location) {
-//     throw new BadRequestError("Please provide all values");
-//   }
-
-//   const user = await User.findOne({ _id: req.user.userId });
-
-//   user.email = email;
-//   user.firstName = firstName;
-//   user.lastName = lastName;
-//   user.location = location;
-
-//   await user.save();
-
-//   const token = user.createJWT();
-//   res.status(StatusCodes.OK).json({ user, token, location: user.location });
-// };
-
-export { register, login };
+export { register, login, updateUser, getAllUsers, showStats, newPassword };

@@ -44,7 +44,7 @@ const userScheme = new mongoose.Schema(
       type: String,
       required: [true, "Please provide ac type."],
       trim: true,
-      enum: ["teacher", "student"],
+      enum: ["teacher", "student", "Admin"],
       default: "student",
     },
     password: {
