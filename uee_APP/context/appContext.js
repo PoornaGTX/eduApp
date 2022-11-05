@@ -31,6 +31,17 @@ import {
   UPDATE_GRADE_ERROR,
   DELETE_GRADE_BEGIN,
   LOGOUT_BEGIN,
+  TEACHER_GET_ALL_NOTICES_BEGIN,
+  TEACHER_GET_ALL_NOTICES_SUCCESS,
+  TEACHER_GET_ALL_NOTICES_ERROR,
+  TEACHER_ADD_NOTICE_BEGIN,
+  TEACHER_ADD_NOTICE_SUCCESS,
+  TEACHER_ADD_NOTICE_ERROR,
+  TEACHER_DELETE_NOTICE_BEGIN,
+  TEACHER_DELETE_NOTICE_SUCCESS,
+  TEACHER_UPDATE_NOTICE_BEGIN,
+  TEACHER_UPDATE_NOTICE_SUCCESS,
+  TEACHER_UPDATE_NOTICE_ERROR,
   UPDATE_USER_BEGIN,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_ERROR,
@@ -55,9 +66,11 @@ const initialState = {
   isLogedIn: false,
   subjects: [],
   grades: [],
+  teacherAllNotices: [],
   users: [],
   adminStats: {},
   monthelUserCreations: [],
+
 };
 
 const AppContext = React.createContext();
@@ -300,6 +313,39 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  // Teacher get all notices
+  const teacherGetAllNotices = async () => {
+    dispatch({ type: TEACHER_GET_ALL_NOTICES_BEGIN });
+    try {
+      const response = await axios.get(
+        `http://10.0.2.2:5000/api/v1/teacher/${state.user._id}`
+      );
+      const { allNotices } = response.data;
+      dispatch({
+        type: TEACHER_GET_ALL_NOTICES_SUCCESS,
+        payload: { allNotices },
+      });
+    } catch (error) {
+      dispatch({
+        type: TEACHER_GET_ALL_NOTICES_ERROR,
+        // payload: { msg: error.response.data.msg },
+      });
+    }
+  };
+
+
+  //Teacher add notice
+  const teacherAddNotice = async (notice) => {
+    dispatch({ type: TEACHER_ADD_NOTICE_BEGIN });
+    try {
+      const response = await axios.post(
+        `http://10.0.2.2:5000/api/v1/teacher/${state.user._id}`, notice );
+      dispatch({
+        type: TEACHER_ADD_NOTICE_SUCCESS,
+      });
+    } catch (error) {
+      dispatch({
+        type:TEACHER_ADD_NOTICE_ERROR,
   //update user
   const updateUser = async (userMogoID, currentUser) => {
     dispatch({ type: UPDATE_USER_BEGIN });
@@ -345,6 +391,172 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  //Teacher delete notice
+  const teacherDeleteNotice = async (noticeMongoId) => {
+    dispatch({ type: TEACHER_DELETE_NOTICE_BEGIN });
+    try {
+      const response = await axios.delete(
+        `http://10.0.2.2:5000/api/v1/teacher/${noticeMongoId}`
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //Teacher delete notice
+  const teacherUpdateNotice = async (subjectID, subData) => {
+    dispatch({ type: TEACHER_UPDATE_NOTICE_BEGIN });
+
+    try {
+      const response = await axios.patch(
+        `http://10.0.2.2:5000/api/v1/teacher/${subjectID}`,
+        subData
+      );
+      dispatch({
+        type: TEACHER_UPDATE_NOTICE_SUCCESS,
+        // payload: { AllSubjects },
+      });
+    } catch (error) {
+      dispatch({
+        type: TEACHER_UPDATE_NOTICE_ERROR,
+        // payload: { msg: error.response.data.msg },
+      });
+    }
+    getAllSubjects();
+  };
+  //   //login user
+
+  //   //get cart
+  //   const getCart = async () => {
+  //     dispatch({ type: GET_CART_BEGIN });
+
+  //     try {
+  //       const response = await authFetch.get("/Customers/cart");
+  //       const { carts } = response.data;
+
+  //       dispatch({
+  //         type: GET_CART_SUCCESS,
+  //         payload: { carts },
+  //       });
+  //     } catch (error) {
+  //       dispatch({
+  //         type: GET_CART_ERROR,
+  //         // payload: { msg: error.response.data.msg },
+  //       });
+  //     }
+  //   };
+
+  //   //get all products
+  //   const getAllProducts = async () => {
+  //     dispatch({ type: GET_PRODUCTS_BEGIN });
+
+  //     try {
+  //       const response = await axios.get(
+  //         "http://10.0.2.2:5000/api/Customers/Products"
+  //       );
+  //       const { products } = response.data;
+
+  //       dispatch({
+  //         type: GET_PRODUCTS_SUCCESS,
+  //         payload: { products },
+  //       });
+  //     } catch (error) {
+  //       dispatch({
+  //         type: GET_CART_ERROR,
+  //         // payload: { msg: error.response.data.msg },
+  //       });
+  //     }
+  //   };
+
+  //   //deleteCartitem
+  //   const deleteCartitem = async (cartItemID) => {
+  //     dispatch({ type: DELETE_TOCART_BEGIN });
+  //     try {
+  //       const response = await authFetch.delete(`/Customers/cart/${cartItemID}`);
+
+  //       dispatch({
+  //         type: DELETE_TOCART_SUCCESS,
+  //       });
+  //       getCart();
+  //     } catch (error) {
+  //       dispatch({
+  //         type: DELETE_TOCART_ERROR,
+  //         // payload: { msg: error.response.data.msg },
+  //       });
+  //     }
+  //   };
+
+  //   //get all products
+  //   const getAllProjectDetails = async () => {
+  //     dispatch({ type: GET_PROJECT_BEGIN });
+
+  //     const email = state.user.email;
+
+  //     try {
+  //       const response = await axios.get(
+  //         `http://10.0.2.2:5000/api/Projects/${email}`
+  //       );
+  //       const { project } = response.data;
+
+  //       dispatch({
+  //         type: GET_PROJECT_SUCCESS,
+  //         payload: { project },
+  //       });
+  //     } catch (error) {
+  //       dispatch({
+  //         type: GET_PROJECT_ERROR,
+  //         // payload: { msg: error.response.data.msg },
+  //       });
+  //     }
+  //   };
+
+  //   const addToOrder = async (cart, totalCart) => {
+  //     dispatch({ type: CREATE_ORDER_BEGIN });
+
+  //     let status;
+  //     try {
+  //       if (totalCart >= 100000) {
+  //         status = "pending";
+  //       } else {
+  //         status = "approved";
+  //       }
+  //       const response = await authFetch.post("/order", {
+  //         createdBy: state.user._id,
+  //         cartproducts: cart,
+  //         total: totalCart,
+  //         status,
+  //       });
+  //       dispatch({
+  //         type: CREATE_ORDER_SUCCESS,
+  //       });
+  //     } catch (error) {
+  //       dispatch({
+  //         type: CREATE_ORDER_ERROR,
+  //         // payload: { msg: error.response.data.msg },
+  //       });
+  //     }
+  //     getCart();
+  //   };
+
+  //   //get all products
+  //   const getOrderSummery = async () => {
+  //     dispatch({ type: GET_ORDER_BEGIN });
+
+  //     try {
+  //       const response = await authFetch.get("/order");
+  //       const { Orders } = response.data;
+
+  //       dispatch({
+  //         type: GET_ORDER_SUCCESS,
+  //         payload: { Orders },
+  //       });
+  //     } catch (error) {
+  //       dispatch({
+  //         type: GET_ORDER_ERROR,
+  //         // payload: { msg: error.response.data.msg },
+  //       });
+  //     }
+  //   };
   const adminShowStats = async () => {
     dispatch({ type: SHOW_STATS_BEGIN });
 
@@ -378,7 +590,6 @@ const AppProvider = ({ children }) => {
       });
     }
   };
-
   return (
     <AppContext.Provider
       value={{
@@ -394,6 +605,10 @@ const AppProvider = ({ children }) => {
         updateGrade,
         deleteGrade,
         logOutUser,
+        teacherGetAllNotices,
+        teacherAddNotice,
+        teacherDeleteNotice,
+        teacherUpdateNotice,
         updateUser,
         getAllUsers,
         adminShowStats,

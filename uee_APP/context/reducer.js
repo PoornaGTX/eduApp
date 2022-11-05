@@ -26,6 +26,16 @@ import {
   UPDATE_GRADE_ERROR,
   DELETE_GRADE_BEGIN,
   LOGOUT_BEGIN,
+  TEACHER_GET_ALL_NOTICES_BEGIN,
+  TEACHER_GET_ALL_NOTICES_SUCCESS,
+  TEACHER_GET_ALL_NOTICES_ERROR,
+  TEACHER_ADD_NOTICE_BEGIN,
+  TEACHER_ADD_NOTICE_SUCCESS,
+  TEACHER_ADD_NOTICE_ERROR,
+  TEACHER_DELETE_NOTICE_BEGIN,
+  TEACHER_UPDATE_NOTICE_BEGIN,
+  TEACHER_UPDATE_NOTICE_SUCCESS,
+  TEACHER_UPDATE_NOTICE_ERROR,
   UPDATE_USER_BEGIN,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_ERROR,
@@ -279,6 +289,26 @@ const reducer = (state, action) => {
     };
   }
 
+  // teacher get all notices begin
+  if (action.type === TEACHER_GET_ALL_NOTICES_BEGIN) {
+    return { ...state, isLoading: true, showAlert: false };
+  }
+
+  // teacher get all notices success
+  if (action.type === TEACHER_GET_ALL_NOTICES_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      teacherAllNotices: action.payload.allNotices,
+      alertType: "success",
+      alertText: "All notices!",
+    };
+  }
+
+  // teacher get all notices error
+  if (action.type === TEACHER_GET_ALL_NOTICES_ERROR) {
+  
   //update user
 
   if (action.type === UPDATE_USER_BEGIN) {
@@ -303,6 +333,17 @@ const reducer = (state, action) => {
       isLoading: false,
       showAlert: true,
       alertType: "danger",
+      alertText: "Error getting notices",
+    };
+  }
+
+  //teacher add notice begin
+  if (action.type === TEACHER_ADD_NOTICE_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+
+  //teacher add notice success
+  if (action.type === TEACHER_ADD_NOTICE_SUCCESS) {
       alertText: action.payload.msg,
     };
   }
@@ -317,6 +358,13 @@ const reducer = (state, action) => {
       ...state,
       isLoading: false,
       showAlert: true,
+      alertType: "success",
+      alertText: "Notice added! Redirecting",
+    };
+  }
+
+  //teacher add notice error
+  if (action.type === TEACHER_ADD_NOTICE_ERROR) {
       users: action.payload.users,
       alertType: "success",
       alertText: "User Created! Redirecting",
@@ -332,6 +380,38 @@ const reducer = (state, action) => {
       alertText: "hello",
     };
   }
+  //teacher delete notice
+  if (action.type === TEACHER_DELETE_NOTICE_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+
+  //teacher update notice begin
+ if (action.type === TEACHER_UPDATE_NOTICE_BEGIN) {
+  return {
+    ...state,
+    isLoading: true,
+  };
+}
+//teacher update notice
+if (action.type === TEACHER_UPDATE_NOTICE_SUCCESS) {
+  return {
+    ...state,
+    isLoading: false,
+    showAlert: true,
+    alertType: "success",
+    alertText: "Notice Updated",
+  };
+}
+
+if (action.type === TEACHER_UPDATE_NOTICE_ERROR) {
+  return {
+    ...state,
+    isLoading: false,
+    showAlert: true,
+    alertType: "danger",
+    alertText: action.payload.msg,
+  };
+}
 
   // admin stats
   if (action.type === SHOW_STATS_BEGIN) {
@@ -376,7 +456,6 @@ const reducer = (state, action) => {
       alertText: "Error",
     };
   }
-
   throw new Error(`no such action : ${action.type}`);
 };
 
