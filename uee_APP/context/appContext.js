@@ -378,11 +378,11 @@ const AppProvider = ({ children }) => {
   };
 
   // Teacher get all notices
-  const getAllMessages = async (id) => {
+  const getAllMessages = async (teacherName) => {
     dispatch({ type: GET_MESSAGES_BEGIN });
     try {
       const response = await axios.get(
-        `http://10.0.2.2:5000/api/v1/teacher/message/${id}`
+        `http://10.0.2.2:5000/api/v1/teacher/message/${teacherName}`
       );
       const { allMessages } = response.data;
       dispatch({

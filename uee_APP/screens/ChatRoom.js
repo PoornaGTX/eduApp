@@ -1,11 +1,12 @@
-import { useLayoutEffect, useEffect, useState,Button } from "react";
-import { Text, View, StyleSheet, TextInput } from "react-native";
+import { useLayoutEffect, useEffect, useState } from "react";
+import { Text, View, StyleSheet, TextInput, FlatList } from "react-native";
 import IconButton from "../components/icons/IconButton";
+import TeacherNoticeGirdTitle from "../components/TeacherNoticeGridTile";
 import { useAppContext } from "../context/appContext";
 
 const ChatRoom = ({ route, navigation }) => {
   const [message, setMessage] = useState("");
-  const { user, getAllMessages,
+  const { user, getAllMessages, messages, 
     sendMessage} = useAppContext()
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -20,7 +21,20 @@ const ChatRoom = ({ route, navigation }) => {
         message:message
     })
   }
-  useEffect(() => {}, []);
+
+  const renderNoticeItem = (itemData) => {
+    return (
+      <TeacherNoticeGirdTitle
+        grade={itemData.item.message}
+        color="#c6affc"
+        _id={itemData.item._id}
+      />
+    );
+  };
+
+  useEffect(() => {
+    getAllMessages(user.firstName)
+  }, [messages]);
 
   return (
     <View style={styles.container}>
@@ -39,9 +53,13 @@ const ChatRoom = ({ route, navigation }) => {
                 onPressProp={handleSendMessage}
             />
       </View>
-        <View style={styles.inputConainer}>
-            <Text style={styles.label}>Chat room</Text>
-        </View>
+      <FlatList
+        data={messages}
+        keyExtractor={(item) => item._id}
+        renderItem={renderNoticeItem}
+        numColumns={2}
+        style={{backgroundColor:"#FEFEFE"}}
+      />
     </View>
   );
 };

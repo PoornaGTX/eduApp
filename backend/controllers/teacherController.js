@@ -75,7 +75,7 @@ const sendMessage = async (req, res) => {
 
 const getAllMessages = async (req, res) => {
   const { id: chatRoomOwner } = req.params;
-  const allMessages = await Notice.find({ chatRoomOwner: "dilupa" });
+  const allMessages = await Message.find({ chatRoomOwner });
   res.status(StatusCodes.OK).json({ allMessages });
 };
 

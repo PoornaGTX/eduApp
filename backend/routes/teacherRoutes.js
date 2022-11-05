@@ -13,12 +13,14 @@ import {
   getAllMessages,
 } from "../controllers/teacherController.js";
 
+router.route("/message").post(sendMessage);
+
 router.route("/:id").post(createNotice);
 router.route("/:id").get(getAllNotices);
 router.route("/:id").patch(updateNotice);
 router.route("/:id").delete(deleteNotice);
 
-router.route("/message").post(sendMessage);
+
 router.route("/message/:id").get(getAllMessages);
 
 export default router;
