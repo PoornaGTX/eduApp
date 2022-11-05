@@ -50,7 +50,7 @@ const initialState = {
   isLogedIn: false,
   subjects: [],
   grades: [],
-  users: [],
+  usersStd: [],
   mySubscribeList: [],
 };
 
@@ -293,7 +293,7 @@ const AppProvider = ({ children }) => {
   };
 
   //get all Grades
-  const getAllUsers = async () => {
+  const getAllUsersStd = async () => {
     dispatch({ type: GET_ALL_USERS_BEGIN });
 
     try {
@@ -322,7 +322,7 @@ const AppProvider = ({ children }) => {
         subData
       );
       console.log(response.data);
-      getAllUsers();
+      getAllUsersStd();
       dispatch({
         type: SUBSCRIBE_TEACHER_SUCCESS,
         // payload: { AllSubjects },
@@ -487,7 +487,7 @@ const AppProvider = ({ children }) => {
         updateGrade,
         deleteGrade,
         logOutUser,
-        getAllUsers,
+        getAllUsersStd,
         subscribeHandler,
       }}
     >

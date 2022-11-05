@@ -285,10 +285,10 @@ const reducer = (state, action) => {
       ...state,
       isLoading: false,
       showAlert: true,
-      users: action.payload.users,
+      usersStd: action.payload.users,
       alertType: "success",
       alertText: "Success",
-      mySubscribeList: action.payload.users.find(
+      mySubscribeList: action.payload.usersStd.find(
         (user) => user._id === action.payload.userId
       ).subscribeIds,
     };

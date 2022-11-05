@@ -22,18 +22,18 @@ const AllTeachersScreen = ({ route }) => {
   const navigation = useNavigation();
   //   const gradeID = route.params.singlegardeID; ////this contain gradeID 'Grade 1'
   const { Grade, subID, subjectcolor } = route.params;
-  const { getAllUsers, users } = useAppContext();
+  const { getAllUsersStd, usersStd } = useAppContext();
 
   const isFocused = useIsFocused();
 
   useEffect(() => {
     if (isFocused) {
-      getAllUsers();
-      console.log(users);
+      getAllUsersStd();
+      console.log(usersStd);
     }
   }, [isFocused]);
 
-  const displayTeachers = users.filter((user) => {
+  const displayTeachers = usersStd.filter((user) => {
     console.log(subjectcolor);
     if (user.teacherSubject === subID) {
       return { ...user, subjectcolor };
