@@ -39,6 +39,9 @@ import {
   GET_USERS_ERROR,
   SHOW_STATS_BEGIN,
   SHOW_STATS_SUCCESS,
+  LOGIN_NEWPASSWORD,
+  LOGIN_NEWPASSWORD_COMPLETE,
+  LOGIN_NEWPASSWORD_ERROR,
 } from "./action";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -115,8 +118,8 @@ const AppProvider = ({ children }) => {
         currentUser
       );
 
-      const { user, token, msg } = response.data;
-      console.log(msg);
+      const { user, token } = response.data;
+
       dispatch({
         type: LOGIN_USER_SUCCESS,
         payload: { user, token },
@@ -126,7 +129,7 @@ const AppProvider = ({ children }) => {
     } catch (error) {
       dispatch({
         type: LOGIN_USER_ERROR,
-        // payload: { msg: error.response.data.msg },
+        payload: { msg: error.response.data.msg },
       });
     }
     adminShowStats();
@@ -358,6 +361,24 @@ const AppProvider = ({ children }) => {
     } catch (error) {}
   };
 
+  const passwordReset = async (newCredentials) => {
+    dispatch({ type: LOGIN_NEWPASSWORD });
+    try {
+      const response = await axios.post(
+        "http://10.0.2.2:5000/api/auth/resetpassword",
+        newCredentials
+      );
+      dispatch({
+        type: LOGIN_NEWPASSWORD_COMPLETE,
+        payload: { msg: response.data.msg },
+      });
+    } catch (error) {
+      dispatch({
+        type: LOGIN_NEWPASSWORD_ERROR,
+      });
+    }
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -376,6 +397,7 @@ const AppProvider = ({ children }) => {
         updateUser,
         getAllUsers,
         adminShowStats,
+        passwordReset,
       }}
     >
       {children}
