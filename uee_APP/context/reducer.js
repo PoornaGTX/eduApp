@@ -288,7 +288,7 @@ const reducer = (state, action) => {
       usersStd: action.payload.users,
       alertType: "success",
       alertText: "Success",
-      mySubscribeList: action.payload.usersStd.find(
+      mySubscribeList: action.payload.users.find(
         (user) => user._id === action.payload.userId
       ).subscribeIds,
     };
