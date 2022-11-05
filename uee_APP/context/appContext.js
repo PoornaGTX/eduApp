@@ -156,7 +156,7 @@ const AppProvider = ({ children }) => {
         payload: { msg: error.response.data.msg },
       });
     }
-    // adminShowStats();
+    adminShowStats();
   };
 
   const logOutUser = async () => {
@@ -659,14 +659,14 @@ const AppProvider = ({ children }) => {
     }
   };
 
-  //get all Grades
+  //get all notices
   const getAllNoticesStd = async () => {
     dispatch({ type: STUDENT_GET_ALL_NOTICES_BEGIN });
 
     try {
       const response = await axios.get(
         "http://10.0.2.2:5000/api/v1/students/notices",
-        { subscribeIds: state.mySubscribeList }
+        { subscribeIds: state.user.subscribeIds }
       );
       const { notices } = response.data;
       dispatch({

@@ -19,13 +19,21 @@ const StudentNoticesScreen = ({ route }) => {
   const navigation = useNavigation();
   //   const gradeID = route.params.singlegardeID; ////this contain gradeID 'Grade 1'
 
-  const { getAllSubjects, subjects } = useAppContext();
+  const { getAllSubjects, subjects, getAllNoticesStd, studentNotices } =
+    useAppContext();
 
   const isFocused = useIsFocused();
 
   useEffect(() => {
     if (isFocused) {
-      getAllSubjects();
+      getAllNoticesStd();
+      console.log(
+        "##########################################################################################################"
+      );
+      console.log(studentNotices);
+      console.log(
+        "##########################################################################################################"
+      );
     }
   }, [isFocused]);
 

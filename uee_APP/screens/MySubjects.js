@@ -19,7 +19,6 @@ import SingleSubject from "../components/SingleSubject";
 //route will resive to any registred screens
 const MySubjects = ({ route }) => {
   const { user, getAllSubjects, subjects } = useAppContext();
-  const [stdSubjects, setStdSubjects] = useState(subjects);
   // console.log(user);
   // let subjects = [];
   const navigation = useNavigation();
@@ -30,14 +29,10 @@ const MySubjects = ({ route }) => {
   useEffect(() => {
     if (isFocused) {
       getAllSubjects();
-      setStdSubjects(subjects);
-      console.log("######################");
-      console.log(subjects);
-      console.log("######################");
     }
   }, [isFocused]);
 
-  const displaySubjects = stdSubjects.filter((singleSubject) => {
+  const displaySubjects = subjects.filter((singleSubject) => {
     return singleSubject.gID === user.Grade;
   });
 
