@@ -26,12 +26,27 @@ import {
   UPDATE_GRADE_ERROR,
   DELETE_GRADE_BEGIN,
   LOGOUT_BEGIN,
-  GET_ALL_USERS_BEGIN,
-  GET_ALL_USERS_ERROR,
-  GET_ALL_USERS_SUCCESS,
-  SUBSCRIBE_TEACHER_BEGIN,
-  SUBSCRIBE_TEACHER_END,
-  SUBSCRIBE_TEACHER_SUCCESS,
+  TEACHER_GET_ALL_NOTICES_BEGIN,
+  TEACHER_GET_ALL_NOTICES_SUCCESS,
+  TEACHER_GET_ALL_NOTICES_ERROR,
+  TEACHER_ADD_NOTICE_BEGIN,
+  TEACHER_ADD_NOTICE_SUCCESS,
+  TEACHER_ADD_NOTICE_ERROR,
+  TEACHER_DELETE_NOTICE_BEGIN,
+  TEACHER_UPDATE_NOTICE_BEGIN,
+  TEACHER_UPDATE_NOTICE_SUCCESS,
+  TEACHER_UPDATE_NOTICE_ERROR,
+  UPDATE_USER_BEGIN,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_ERROR,
+  GET_USERS_BEGIN,
+  GET_USERS_SUCCESS,
+  GET_USERS_ERROR,
+  SHOW_STATS_BEGIN,
+  SHOW_STATS_SUCCESS,
+  LOGIN_NEWPASSWORD,
+  LOGIN_NEWPASSWORD_COMPLETE,
+  LOGIN_NEWPASSWORD_ERROR,
 } from "./action";
 
 const reducer = (state, action) => {
@@ -88,7 +103,7 @@ const reducer = (state, action) => {
       isLoading: false,
       showAlert: true,
       alertType: "danger",
-      // alertText: action.payload.msg,
+      alertText: action.payload.msg,
     };
   }
 
@@ -274,6 +289,175 @@ const reducer = (state, action) => {
     };
   }
 
+  // teacher get all notices begin
+  if (action.type === TEACHER_GET_ALL_NOTICES_BEGIN) {
+    return { ...state, isLoading: true, showAlert: false };
+  }
+
+  // teacher get all notices success
+  if (action.type === TEACHER_GET_ALL_NOTICES_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      teacherAllNotices: action.payload.allNotices,
+      alertType: "success",
+      alertText: "All notices!",
+    };
+  }
+
+  // teacher get all notices error
+  if (action.type === TEACHER_GET_ALL_NOTICES_ERROR) {
+  
+  //update user
+
+  if (action.type === UPDATE_USER_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+
+  if (action.type === UPDATE_USER_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      token: action.payload.token,
+      user: action.payload.user,
+      showAlert: true,
+      alertType: "success",
+      alertText: "User Profile Updated",
+    };
+  }
+
+  if (action.type === UPDATE_USER_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: "Error getting notices",
+    };
+  }
+
+  //teacher add notice begin
+  if (action.type === TEACHER_ADD_NOTICE_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+
+  //teacher add notice success
+  if (action.type === TEACHER_ADD_NOTICE_SUCCESS) {
+      alertText: action.payload.msg,
+    };
+  }
+
+  //get subjects
+  if (action.type === GET_USERS_BEGIN) {
+    return { ...state, isLoading: true, showAlert: false };
+  }
+
+  if (action.type === GET_USERS_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: "Notice added! Redirecting",
+    };
+  }
+
+  //teacher add notice error
+  if (action.type === TEACHER_ADD_NOTICE_ERROR) {
+      users: action.payload.users,
+      alertType: "success",
+      alertText: "User Created! Redirecting",
+    };
+  }
+
+  if (action.type === GET_USERS_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: "hello",
+    };
+  }
+  //teacher delete notice
+  if (action.type === TEACHER_DELETE_NOTICE_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+
+  //teacher update notice begin
+ if (action.type === TEACHER_UPDATE_NOTICE_BEGIN) {
+  return {
+    ...state,
+    isLoading: true,
+  };
+}
+//teacher update notice
+if (action.type === TEACHER_UPDATE_NOTICE_SUCCESS) {
+  return {
+    ...state,
+    isLoading: false,
+    showAlert: true,
+    alertType: "success",
+    alertText: "Notice Updated",
+  };
+}
+
+if (action.type === TEACHER_UPDATE_NOTICE_ERROR) {
+  return {
+    ...state,
+    isLoading: false,
+    showAlert: true,
+    alertType: "danger",
+    alertText: action.payload.msg,
+  };
+}
+
+  // admin stats
+  if (action.type === SHOW_STATS_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+      showAlert: false,
+    };
+  }
+
+  if (action.type === SHOW_STATS_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      adminStats: action.payload.adStats,
+      monthelUserCreations: action.payload.admonthelUserCreations,
+    };
+  }
+
+  //new password after reset
+
+  if (action.type === LOGIN_NEWPASSWORD) {
+    return { ...state, isLoading: true };
+  }
+
+  if (action.type === LOGIN_NEWPASSWORD_COMPLETE) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: action.payload.msg,
+    };
+  }
+
+  if (action.type === LOGIN_NEWPASSWORD_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: "Error",
+    };
+  }
+  
+  
   //get all users
   if (action.type === GET_ALL_USERS_BEGIN) {
     return { ...state, isLoading: true, showAlert: false };
@@ -332,6 +516,7 @@ const reducer = (state, action) => {
     };
   }
 
+  
   throw new Error(`no such action : ${action.type}`);
 };
 

@@ -21,6 +21,19 @@ function LoginScreen({ navigation }) {
     }
   };
 
+  const alertHandler = () => {
+    setIsAuthenticating(false);
+    navigation.navigate("Login");
+  };
+
+  if (showAlert && alertType === "danger") {
+    Alert.alert(
+      "Authntication failed!",
+      "Could not log you in. Please check credentials or try again later",
+      [{ text: "Okay", onPress: alertHandler }]
+    );
+  }
+
   return (
     <View style={styles.form}>
       <AuthContent isLogin onAuthenticate={loginHandler} />

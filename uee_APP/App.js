@@ -5,6 +5,8 @@ import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "./constants/styles";
 
+import IconButton from "./components/icons/IconButton";
+
 //navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -19,18 +21,25 @@ import ManageGradesScreen from "./screens/ManageGradesScreen";
 import StatsScreenAdmin from "./screens/StatsScreenAdmin";
 import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
+import ProfileScreen from "./screens/ProfileScreen";
+import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
 
 const Stack = createNativeStackNavigator();
 const Bottom = createBottomTabNavigator();
 
 import { useAppContext } from "./context/appContext";
 import { AppProvider } from "./context/appContext";
+
 import StudentTimeTableScreen from "./screens/StudentTimeTableScreen";
 import AllTeachersScreen from "./screens/AllTeachersScreen";
 import SelectedTeacherScreen from "./screens/SelectedTeacherScreen";
 import StudentNoticesScreen from "./screens/StudentNoticesScreen";
 
 // export const user = { type: "Student", grade: "Grade 5", subscribeIds: ["2"] };
+
+import TeacherAllNotices from "./screens/TeacherAllNotices";
+import TeacherAddNotice from "./screens/TeacherAddNotice";
+
 
 //for unathunticated users
 function AuthStack() {
@@ -44,6 +53,7 @@ function AuthStack() {
     >
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Signup" component={SignupScreen} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
     </Stack.Navigator>
   );
 }
@@ -91,7 +101,40 @@ const AdminBottomTabHome = () => {
   );
 };
 
-//use by admin
+//use by Teacher
+const TeacherBottomTabHome = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: "#3db1ff" },
+        headerTitleAlign: "center",
+      }}
+    >
+      <Stack.Screen
+        name="All Notices"
+        component={TeacherAllNotices}
+        options={{
+          contentStyle: { backgroundColor: "white" },
+          headerTitleAlign: "center",
+        }}
+      />
+
+      <Stack.Screen
+        name="AddNotice"
+        component={TeacherAddNotice}
+        options={{
+          presentation: "modal",
+          title: "Add Notice",
+          headerTitleAlign: "center",
+        }}
+      />
+
+    </Stack.Navigator>
+  );
+};
+
+
+//use by student
 const StudentBottomTabHome = () => {
   return (
     <Stack.Navigator
@@ -132,7 +175,7 @@ const StudentBottomTabHome = () => {
 
 function AuthenticatedStack() {
   // const user = "Admin"; //temp
-  const { user } = useAppContext();
+  const { user, logOutUser } = useAppContext();
 
   return (
     <Bottom.Navigator
@@ -142,19 +185,18 @@ function AuthenticatedStack() {
         tabBarActiveTintColor: "red",
       }}
     >
-      {user.type === "Admin" && (
-        <Bottom.Screen
-          name="AdminHome"
-          component={AdminBottomTabHome}
-          options={{
-            headerShown: false,
-            tabBarShowLabel: false,
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="home" size={size} color="black" />
-            ),
-          }}
-        />
-      )}
+
+      {user.type === "Admin"&&(<Bottom.Screen
+        name="AdminHome"
+        component={AdminBottomTabHome}
+        options={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" size={size} color="black" />
+          ),
+        }}
+      />)}
 
       {user.type === "Admin" && (
         <Bottom.Screen
@@ -169,6 +211,7 @@ function AuthenticatedStack() {
           }}
         />
       )}
+
 
       {user.type === "student" && (
         <>
@@ -209,6 +252,41 @@ function AuthenticatedStack() {
           />
         </>
       )}
+
+      <Bottom.Screen
+        name="TeacherAllNotice"
+        component={TeacherBottomTabHome}
+        options={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" size={size} color="white" />
+          ),
+        }}
+       />
+       
+     <Bottom.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" size={size} color="black" />
+          ),
+          headerTitleAlign: "center",
+          headerRight: () => {
+            return (
+              <IconButton
+                icon="exit"
+                color="black"
+                size={24}
+                onPressProp={() => logOutUser()}
+              />
+            );
+          },
+        }}
+      />
+
     </Bottom.Navigator>
   );
 }
