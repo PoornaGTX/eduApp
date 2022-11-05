@@ -53,13 +53,13 @@ const login = async (req, res) => {
   const user = await User.findOne({ email }).select("+password");
 
   if (!user) {
-    // throw new UnAuthenticatedError("invalid Credentials");
+    throw new UnAuthenticatedError("invalid Credentials");
   }
 
   const isPasswordCorrect = await user.comparePassword(password);
 
   if (!isPasswordCorrect) {
-    // res.status(StatusCodes.BAD_REQUEST).json({ msg: "Password" });
+    throw new UnauthenticatedError("Invalid credentials");
   }
 
   const token = user.createJWT();
@@ -143,4 +143,24 @@ const showStats = async (req, res) => {
   res.status(StatusCodes.OK).json({ defaultStats, monthelUserCreations });
 };
 
-export { register, login, updateUser, getAllUsers, showStats };
+const newPassword = async (req, res) => {
+  const { email, newPassword } = req.body;
+  console.log(email, newPassword);
+
+  //get user data
+  const user = await User.findOne({ email: email });
+
+  //check the user is exsisit
+  if (!user) {
+    res.status(StatusCodes.BAD_REQUEST).json({ msg: "invalid user" });
+  }
+
+  user.password = newPassword;
+  await user.save();
+
+  res
+    .status(StatusCodes.CREATED)
+    .json({ msg: "password has been reset please re-login" });
+};
+
+export { register, login, updateUser, getAllUsers, showStats, newPassword };

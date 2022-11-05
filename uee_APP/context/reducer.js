@@ -34,6 +34,9 @@ import {
   GET_USERS_ERROR,
   SHOW_STATS_BEGIN,
   SHOW_STATS_SUCCESS,
+  LOGIN_NEWPASSWORD,
+  LOGIN_NEWPASSWORD_COMPLETE,
+  LOGIN_NEWPASSWORD_ERROR,
 } from "./action";
 
 const reducer = (state, action) => {
@@ -90,7 +93,7 @@ const reducer = (state, action) => {
       isLoading: false,
       showAlert: true,
       alertType: "danger",
-      // alertText: action.payload.msg,
+      alertText: action.payload.msg,
     };
   }
 
@@ -345,6 +348,32 @@ const reducer = (state, action) => {
       isLoading: false,
       adminStats: action.payload.adStats,
       monthelUserCreations: action.payload.admonthelUserCreations,
+    };
+  }
+
+  //new password after reset
+
+  if (action.type === LOGIN_NEWPASSWORD) {
+    return { ...state, isLoading: true };
+  }
+
+  if (action.type === LOGIN_NEWPASSWORD_COMPLETE) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: action.payload.msg,
+    };
+  }
+
+  if (action.type === LOGIN_NEWPASSWORD_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: "Error",
     };
   }
 

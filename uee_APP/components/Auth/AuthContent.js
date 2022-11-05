@@ -25,6 +25,12 @@ function AuthContent({ isLogin, onAuthenticate }) {
     }
   }
 
+  //navigation method to Forgot Password
+  function ForgotPasswordHandler() {
+    navigation.navigate("ForgotPassword");
+    // navigation.replace(); //not provide back button
+  }
+
   //for login
   function submitHandler(credentials) {
     let { email, password, confirmPassword } = credentials;
@@ -107,6 +113,11 @@ function AuthContent({ isLogin, onAuthenticate }) {
         <FlatButton onPressProp={switchAuthModeHandler}>
           {isLogin ? "Create a new user" : "Log in instead"}
         </FlatButton>
+        {!!isLogin && (
+          <FlatButton onPressProp={ForgotPasswordHandler}>
+            Forgot Password ?
+          </FlatButton>
+        )}
       </View>
     </View>
   );
