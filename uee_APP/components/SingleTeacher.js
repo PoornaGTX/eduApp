@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import ManageButton from "./icons/ManageButton";
 
-const SingleTeacher = ({ id, name, grade, subId }) => {
+const SingleTeacher = ({ id, name, grade, subId, color }) => {
   const navigation = useNavigation();
 
   const headerButtonHandlerSubject = () => {
@@ -15,7 +15,7 @@ const SingleTeacher = ({ id, name, grade, subId }) => {
       subId,
     });
   };
-
+  console.log(color);
   return (
     <View style={[styles.gridItem, styles.gridItemupdate]}>
       <Pressable
@@ -25,11 +25,12 @@ const SingleTeacher = ({ id, name, grade, subId }) => {
         ]}
         android_ripple={{ color: "#ccc" }}
         // onPress={} this onPress is for view teachers
+        onPress={headerButtonHandlerSubject}
       >
         <View
           style={[
             styles.innerContainer,
-            { backgroundColor: "" },
+            { backgroundColor: color },
             styles.innerContainerUpdateAdmin,
           ]}
         >
@@ -37,9 +38,9 @@ const SingleTeacher = ({ id, name, grade, subId }) => {
         </View>
       </Pressable>
 
-      <ManageButton onPressProp={headerButtonHandlerSubject}>
+      {/* <ManageButton onPressProp={headerButtonHandlerSubject}>
         Managee
-      </ManageButton>
+      </ManageButton> */}
     </View>
   );
 };

@@ -1,5 +1,5 @@
 import { useLayoutEffect, useContext, useState, useEffect } from "react";
-import { View, StyleSheet, Text, Button } from "react-native";
+import { View, StyleSheet, Text, Button, Alert } from "react-native";
 
 //components
 // import IconButton from "../components/icons/IconButton";
@@ -10,7 +10,8 @@ import { View, StyleSheet, Text, Button } from "react-native";
 // import { createSubject, updateSubject, deleteSubjecthttp } from "../utill/http";
 import { useAppContext } from "../context/appContext";
 import { useIsFocused } from "@react-navigation/core";
-import { user } from "../App";
+import LoadingOverLay from "../components/LoadingOverLay/LoadingOverLay";
+// import { user } from "../App";
 
 const SelectedTeacherScreen = ({ route, navigation }) => {
   //   const subjectID = route.params?.subID; //this contain mongoose _id
@@ -18,15 +19,8 @@ const SelectedTeacherScreen = ({ route, navigation }) => {
   //   const isEditing = !!subjectID;
   const isFocused = useIsFocused();
   const { teacherID, name, grade, subId } = route.params;
-  const {
-    updateSubject,
-    getAllSubjects,
-    subjects,
-    deleteSubject,
-    addSubject,
-    alertText,
-    showAlert,
-  } = useAppContext();
+  const { user, subscribeHandler, mySubscribeList, isLoading, alertText } =
+    useAppContext();
 
   //grade id coming from adding new subject
   //   const addNewSubjectGradeValue = route.params?.gradeNameID; //this contain gradeID 'Grade 1'
@@ -39,10 +33,11 @@ const SelectedTeacherScreen = ({ route, navigation }) => {
   useEffect(() => {
     if (isFocused) {
       //   getAllSubjects();
+      console.log(user.subscribeIds, subId);
     }
   }, [isFocused]);
 
-  const isSubscribe = user.subscribeIds.includes("1");
+  const isSubscribe = mySubscribeList.includes(teacherID);
 
   //   useLayoutEffect(() => {
   //     navigation.setOptions({
@@ -78,14 +73,18 @@ const SelectedTeacherScreen = ({ route, navigation }) => {
   //     //navigation.goBack();
   //   };
 
-  const subscribeHandler = () => {
-    if (isSubscribe) {
-      console.log("");
-    } else {
-      console.log("");
-    }
+  const subUnsubHandler = async () => {
+    const subData = { subId: teacherID, isSubscribe: isSubscribe };
+    console.log(subData);
+    subscribeHandler(subData);
+    return Alert.alert(
+      alertText,
+      isSubscribe ? "Unsubscribe the teacher." : "Subscribe the teacher."
+    );
   };
-
+  if (isLoading) {
+    return <LoadingOverLay />;
+  }
   return (
     <View style={styles.container}>
       <Text>{name}</Text>
@@ -96,7 +95,7 @@ const SelectedTeacherScreen = ({ route, navigation }) => {
       <View style={styles.buttons}>
         <Button
           title={isSubscribe ? "unSub" : "Sub"}
-          onPressProp={subscribeHandler}
+          onPress={subUnsubHandler}
           style={styles.button}
         ></Button>
       </View>
@@ -110,7 +109,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    backgroundColor: "#200364",
+    // backgroundColor: "#200364",
   },
   deleteContainer: {
     marginTop: 16,

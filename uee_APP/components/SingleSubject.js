@@ -11,6 +11,7 @@ const SingleSubject = ({ subjectName, subjectID, subjectcolor, Grade }) => {
     navigation.navigate("AllTeachersScreen", {
       subID: subjectID,
       Grade: Grade,
+      subjectcolor: subjectcolor,
     });
   };
 
@@ -22,7 +23,7 @@ const SingleSubject = ({ subjectName, subjectID, subjectcolor, Grade }) => {
           pressed ? styles.buttonPressed : null, //this for ios
         ]}
         android_ripple={{ color: "#ccc" }}
-        // onPress={} this onPress is for view teachers
+        onPress={headerButtonHandlerSubject}
       >
         <View
           style={[
@@ -35,9 +36,9 @@ const SingleSubject = ({ subjectName, subjectID, subjectcolor, Grade }) => {
         </View>
       </Pressable>
 
-      <ManageButton onPressProp={headerButtonHandlerSubject}>
+      {/* <ManageButton onPressProp={headerButtonHandlerSubject}>
         Managee
-      </ManageButton>
+      </ManageButton> */}
     </View>
   );
 };

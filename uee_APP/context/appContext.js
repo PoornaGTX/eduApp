@@ -31,6 +31,12 @@ import {
   UPDATE_GRADE_ERROR,
   DELETE_GRADE_BEGIN,
   LOGOUT_BEGIN,
+  GET_ALL_USERS_BEGIN,
+  GET_ALL_USERS_ERROR,
+  GET_ALL_USERS_SUCCESS,
+  SUBSCRIBE_TEACHER_BEGIN,
+  SUBSCRIBE_TEACHER_END,
+  SUBSCRIBE_TEACHER_SUCCESS,
 } from "./action";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -44,6 +50,8 @@ const initialState = {
   isLogedIn: false,
   subjects: [],
   grades: [],
+  users: [],
+  mySubscribeList: [],
 };
 
 const AppContext = React.createContext();
@@ -284,6 +292,52 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  //get all Grades
+  const getAllUsers = async () => {
+    dispatch({ type: GET_ALL_USERS_BEGIN });
+
+    try {
+      const response = await axios.get("http://10.0.2.2:5000/api/v1/students");
+      const { users } = response.data;
+      const userId = state.user._id;
+      dispatch({
+        type: GET_ALL_USERS_SUCCESS,
+        payload: { users, userId },
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_ALL_USERS_ERROR,
+      });
+    }
+  };
+
+  //subscribe handler
+  //update subject
+  const subscribeHandler = async (subData) => {
+    console.log("here");
+    dispatch({ type: SUBSCRIBE_TEACHER_BEGIN });
+    try {
+      const response = await axios.patch(
+        `http://10.0.2.2:5000/api/v1/students/subscribe/${state.user._id}`,
+        subData
+      );
+      console.log(response.data);
+      getAllUsers();
+      dispatch({
+        type: SUBSCRIBE_TEACHER_SUCCESS,
+        // payload: { AllSubjects },
+        payload: { userID: state.user._id },
+      });
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: SUBSCRIBE_TEACHER_END,
+        // payload: { msg: error.response.data.msg },
+      });
+    }
+    // getAllSubjects();
+  };
+
   //   //login user
 
   //   //get cart
@@ -433,6 +487,8 @@ const AppProvider = ({ children }) => {
         updateGrade,
         deleteGrade,
         logOutUser,
+        getAllUsers,
+        subscribeHandler,
       }}
     >
       {children}

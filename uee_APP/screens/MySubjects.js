@@ -7,18 +7,19 @@ import { useIsFocused } from "@react-navigation/core";
 import SubjectGirdTitle from "../components/SubjectGirdTitle";
 import IconButton from "../components/icons/IconButton";
 import { KnowledgelabContext } from "../store/KLab-context";
-import { useAppContext } from "../context/appContext";
 
 //LoadingOverlay
 import LoadingOverLay from "../components/LoadingOverLay/LoadingOverLay";
 
 //context
 import { useAppContext } from "../context/appContext";
-import { user } from "../App";
+
 import SingleSubject from "../components/SingleSubject";
 
 //route will resive to any registred screens
 const MySubjects = ({ route }) => {
+  const { user } = useAppContext();
+  // console.log(user);
   const navigation = useNavigation();
   //   const gradeID = route.params.singlegardeID; ////this contain gradeID 'Grade 1'
 
@@ -33,7 +34,7 @@ const MySubjects = ({ route }) => {
   }, [isFocused]);
 
   const displaySubjects = subjects.filter((singleSubject) => {
-    return singleSubject.gID === user.grade;
+    return singleSubject.gID === user.Grade;
   });
 
   //for header button for adding new subject
@@ -46,28 +47,28 @@ const MySubjects = ({ route }) => {
       <SingleSubject
         subjectName={itemData.item.subjectName}
         subjectcolor={itemData.item.color}
-        subjectID={itemData.item._id}
-        Grade={user.grade}
+        subjectID={itemData.item.subjectName}
+        Grade={user.Grade}
       />
     );
   };
 
   //header Button
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => {
-        return (
-          <IconButton
-            icon="add-circle"
-            color="black"
-            size={24}
-            onPressProp={headerButtonHandler}
-          />
-        );
-      },
-    });
-  }, []);
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerRight: () => {
+  //       return (
+  //         <IconButton
+  //           icon="add-circle"
+  //           color="black"
+  //           size={24}
+  //           onPressProp={headerButtonHandler}
+  //         />
+  //       );
+  //     },
+  //   });
+  // }, []);
 
   //get all subjects
 
@@ -77,7 +78,6 @@ const MySubjects = ({ route }) => {
 
   return (
     <View>
-      <Text>Time table</Text>
       <FlatList
         data={displaySubjects}
         keyExtractor={(item) => item._id}

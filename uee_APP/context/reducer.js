@@ -26,6 +26,12 @@ import {
   UPDATE_GRADE_ERROR,
   DELETE_GRADE_BEGIN,
   LOGOUT_BEGIN,
+  GET_ALL_USERS_BEGIN,
+  GET_ALL_USERS_ERROR,
+  GET_ALL_USERS_SUCCESS,
+  SUBSCRIBE_TEACHER_BEGIN,
+  SUBSCRIBE_TEACHER_END,
+  SUBSCRIBE_TEACHER_SUCCESS,
 } from "./action";
 
 const reducer = (state, action) => {
@@ -259,6 +265,64 @@ const reducer = (state, action) => {
   }
 
   if (action.type === UPDATE_GRADE_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
+    };
+  }
+
+  //get all users
+  if (action.type === GET_ALL_USERS_BEGIN) {
+    return { ...state, isLoading: true, showAlert: false };
+  }
+
+  if (action.type === GET_ALL_USERS_SUCCESS) {
+    // console.log(updatedUser, state.users);
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      users: action.payload.users,
+      alertType: "success",
+      alertText: "Success",
+      mySubscribeList: action.payload.users.find(
+        (user) => user._id === action.payload.userId
+      ).subscribeIds,
+    };
+  }
+
+  if (action.type === GET_ALL_USERS_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: "hello",
+    };
+  }
+
+  //subscribe handler
+  if (action.type === SUBSCRIBE_TEACHER_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }
+
+  if (action.type === SUBSCRIBE_TEACHER_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: "Success",
+    };
+  }
+
+  if (action.type === SUBSCRIBE_TEACHER_END) {
     return {
       ...state,
       isLoading: false,

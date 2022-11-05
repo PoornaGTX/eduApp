@@ -36,6 +36,10 @@ const userScheme = new mongoose.Schema(
       type: String,
       default: "no",
     },
+    subscribeIds: {
+      type: Array,
+      default: [],
+    },
     type: {
       type: String,
       required: [true, "Please provide ac type."],

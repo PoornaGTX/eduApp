@@ -13,28 +13,31 @@ import LoadingOverLay from "../components/LoadingOverLay/LoadingOverLay";
 
 //context
 import { useAppContext } from "../context/appContext";
-import { user } from "../App";
 import SingleSubject from "../components/SingleSubject";
-import { users } from "../dummyData/data";
+// import { users } from "../dummyData/data";
 import SingleTeacher from "../components/SingleTeacher";
 
 //route will resive to any registred screens
 const AllTeachersScreen = ({ route }) => {
   const navigation = useNavigation();
   //   const gradeID = route.params.singlegardeID; ////this contain gradeID 'Grade 1'
-  const { Grade, subID } = route.params;
-  const { getAllSubjects, subjects } = useAppContext();
+  const { Grade, subID, subjectcolor } = route.params;
+  const { getAllUsers, users } = useAppContext();
 
   const isFocused = useIsFocused();
 
   useEffect(() => {
     if (isFocused) {
-      getAllSubjects();
+      getAllUsers();
+      console.log(users);
     }
   }, [isFocused]);
 
-  const displayTeachers = users.filter((singlePerson) => {
-    return singlePerson.subId === subID;
+  const displayTeachers = users.filter((user) => {
+    console.log(subjectcolor);
+    if (user.teacherSubject === subID) {
+      return { ...user, subjectcolor };
+    }
   });
 
   //for header button for adding new subject
@@ -43,12 +46,14 @@ const AllTeachersScreen = ({ route }) => {
   // };
 
   const renderSubjectItem = (itemData) => {
+    console.log(itemData.item);
     return (
       <SingleTeacher
-        name={itemData.item.name}
-        grade={itemData.item.grade}
-        subId={itemData.item.subId}
-        id={itemData.item.id}
+        name={itemData.item.firstName}
+        grade={itemData.item.Grade}
+        subId={itemData.item.teacherSubject}
+        id={itemData.item._id}
+        color={subjectcolor}
       />
     );
   };
@@ -72,9 +77,9 @@ const AllTeachersScreen = ({ route }) => {
 
   //get all subjects
 
-  if (subjects.length === 0) {
-    return <Text style={styles.infoText}>No subjects availble</Text>;
-  }
+  // if (subjects.length === 0) {
+  //   return <Text style={styles.infoText}>No subjects availble</Text>;
+  // }
 
   return (
     <View>

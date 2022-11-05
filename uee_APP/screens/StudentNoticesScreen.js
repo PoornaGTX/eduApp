@@ -15,7 +15,7 @@ import LoadingOverLay from "../components/LoadingOverLay/LoadingOverLay";
 import { useAppContext } from "../context/appContext";
 
 //route will resive to any registred screens
-const StudentTimeTableScreen = ({ route }) => {
+const StudentNoticesScreen = ({ route }) => {
   const navigation = useNavigation();
   //   const gradeID = route.params.singlegardeID; ////this contain gradeID 'Grade 1'
 
@@ -51,20 +51,20 @@ const StudentTimeTableScreen = ({ route }) => {
 
   //header Button
 
-  // useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     headerRight: () => {
-  //       return (
-  //         <IconButton
-  //           icon="add-circle"
-  //           color="black"
-  //           size={24}
-  //           onPressProp={headerButtonHandler}
-  //         />
-  //       );
-  //     },
-  //   });
-  // }, []);
+  //   useLayoutEffect(() => {
+  //     navigation.setOptions({
+  //       headerRight: () => {
+  //         return (
+  //           <IconButton
+  //             icon="add-circle"
+  //             color="black"
+  //             size={24}
+  //             onPressProp={headerButtonHandler}
+  //           />
+  //         );
+  //       },
+  //     });
+  //   }, []);
 
   //get all subjects
 
@@ -74,12 +74,12 @@ const StudentTimeTableScreen = ({ route }) => {
 
   return (
     <View>
-      <Text>Time table</Text>
+      <Text>My Notices</Text>
     </View>
   );
 };
 
-export default StudentTimeTableScreen;
+export default StudentNoticesScreen;
 
 const styles = StyleSheet.create({
   infoText: {
