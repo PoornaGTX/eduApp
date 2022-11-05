@@ -13,8 +13,8 @@ import {
   getAllMessages,
 } from "../controllers/teacherController.js";
 
-router.route("/").post(createNotice);
-router.route("/").get(getAllNotices);
+router.route("/:id").post(createNotice);
+router.route("/:id").get(getAllNotices);
 router.route("/:id").patch(updateNotice);
 router.route("/:id").delete(deleteNotice);
 

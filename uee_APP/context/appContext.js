@@ -31,6 +31,18 @@ import {
   UPDATE_GRADE_ERROR,
   DELETE_GRADE_BEGIN,
   LOGOUT_BEGIN,
+  TEACHER_GET_ALL_NOTICES_BEGIN,
+  TEACHER_GET_ALL_NOTICES_SUCCESS,
+  TEACHER_GET_ALL_NOTICES_ERROR,
+  TEACHER_ADD_NOTICE_BEGIN,
+  TEACHER_ADD_NOTICE_SUCCESS,
+  TEACHER_ADD_NOTICE_ERROR,
+  TEACHER_DELETE_NOTICE_BEGIN,
+  TEACHER_DELETE_NOTICE_SUCCESS,
+  TEACHER_UPDATE_NOTICE_BEGIN,
+  TEACHER_UPDATE_NOTICE_SUCCESS,
+  TEACHER_UPDATE_NOTICE_ERROR,
+
 } from "./action";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -44,6 +56,8 @@ const initialState = {
   isLogedIn: false,
   subjects: [],
   grades: [],
+  teacherAllNotices: [],
+
 };
 
 const AppContext = React.createContext();
@@ -284,6 +298,77 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  // Teacher get all notices
+  const teacherGetAllNotices = async () => {
+    dispatch({ type: TEACHER_GET_ALL_NOTICES_BEGIN });
+    try {
+      const response = await axios.get(
+        `http://10.0.2.2:5000/api/v1/teacher/${state.user._id}`
+      );
+      const { allNotices } = response.data;
+      dispatch({
+        type: TEACHER_GET_ALL_NOTICES_SUCCESS,
+        payload: { allNotices },
+      });
+    } catch (error) {
+      dispatch({
+        type: TEACHER_GET_ALL_NOTICES_ERROR,
+        // payload: { msg: error.response.data.msg },
+      });
+    }
+  };
+
+
+  //Teacher add notice
+  const teacherAddNotice = async (notice) => {
+    dispatch({ type: TEACHER_ADD_NOTICE_BEGIN });
+    try {
+      const response = await axios.post(
+        `http://10.0.2.2:5000/api/v1/teacher/${state.user._id}`, notice );
+      dispatch({
+        type: TEACHER_ADD_NOTICE_SUCCESS,
+      });
+    } catch (error) {
+      dispatch({
+        type:TEACHER_ADD_NOTICE_ERROR,
+        // payload: { msg: error.response.data.msg },
+      });
+    }
+  };
+
+  //Teacher delete notice
+  const teacherDeleteNotice = async (noticeMongoId) => {
+    dispatch({ type: TEACHER_DELETE_NOTICE_BEGIN });
+    try {
+      const response = await axios.delete(
+        `http://10.0.2.2:5000/api/v1/teacher/${noticeMongoId}`
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //Teacher delete notice
+  const teacherUpdateNotice = async (subjectID, subData) => {
+    dispatch({ type: TEACHER_UPDATE_NOTICE_BEGIN });
+
+    try {
+      const response = await axios.patch(
+        `http://10.0.2.2:5000/api/v1/teacher/${subjectID}`,
+        subData
+      );
+      dispatch({
+        type: TEACHER_UPDATE_NOTICE_SUCCESS,
+        // payload: { AllSubjects },
+      });
+    } catch (error) {
+      dispatch({
+        type: TEACHER_UPDATE_NOTICE_ERROR,
+        // payload: { msg: error.response.data.msg },
+      });
+    }
+    getAllSubjects();
+  };
   //   //login user
 
   //   //get cart
@@ -433,6 +518,10 @@ const AppProvider = ({ children }) => {
         updateGrade,
         deleteGrade,
         logOutUser,
+        teacherGetAllNotices,
+        teacherAddNotice,
+        teacherDeleteNotice,
+        teacherUpdateNotice
       }}
     >
       {children}

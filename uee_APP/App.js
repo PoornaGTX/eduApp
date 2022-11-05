@@ -24,6 +24,8 @@ const Bottom = createBottomTabNavigator();
 
 import { useAppContext } from "./context/appContext";
 import { AppProvider } from "./context/appContext";
+import TeacherAllNotices from "./screens/TeacherAllNotices";
+import TeacherAddNotice from "./screens/TeacherAddNotice";
 
 //for unathunticated users
 function AuthStack() {
@@ -85,6 +87,38 @@ const AdminBottomTabHome = () => {
   );
 };
 
+
+//use by Teacher
+const TeacherBottomTabHome = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: "#3db1ff" },
+        headerTitleAlign: "center",
+      }}
+    >
+      <Stack.Screen
+        name="All Notices"
+        component={TeacherAllNotices}
+        options={{
+          contentStyle: { backgroundColor: "white" },
+          headerTitleAlign: "center",
+        }}
+      />
+
+      <Stack.Screen
+        name="AddNotice"
+        component={TeacherAddNotice}
+        options={{
+          presentation: "modal",
+          title: "Add Notice",
+          headerTitleAlign: "center",
+        }}
+      />
+
+    </Stack.Navigator>
+  );
+};
 function AuthenticatedStack() {
   // const user = "Admin"; //temp
   const { user } = useAppContext();
@@ -97,7 +131,7 @@ function AuthenticatedStack() {
         tabBarActiveTintColor: "red",
       }}
     >
-      <Bottom.Screen
+      {user.type === "Admin"&&(<Bottom.Screen
         name="AdminHome"
         component={AdminBottomTabHome}
         options={{
@@ -107,7 +141,7 @@ function AuthenticatedStack() {
             <Ionicons name="home" size={size} color="black" />
           ),
         }}
-      />
+      />)}
 
       {user.type === "Admin" && (
         <Bottom.Screen
@@ -122,6 +156,18 @@ function AuthenticatedStack() {
           }}
         />
       )}
+
+      <Bottom.Screen
+        name="TeacherAllNotice"
+        component={TeacherBottomTabHome}
+        options={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" size={size} color="white" />
+          ),
+        }}
+      />
     </Bottom.Navigator>
   );
 }

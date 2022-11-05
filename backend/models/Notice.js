@@ -27,7 +27,7 @@ const NoticeSchema = new mongoose.Schema(
         required: [true, "Please provide notice background color"],
       },
     createdBy: {
-        type: String,
+        type: mongoose.Types.ObjectId,
         ref: "User",
         required: [true, "Please provide user"],
     },

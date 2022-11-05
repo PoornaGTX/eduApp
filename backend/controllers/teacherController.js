@@ -4,8 +4,7 @@ import { StatusCodes } from "http-status-codes";
 
 const createNotice = async (req, res) => {
   const { title, description, link, date, color } = req.body;
-  //   req.body.createdBy = req.user.userId;
-  req.body.createdBy = "dilupa";
+    req.body.createdBy = req.params.id;
   const notice = await Notice.create(req.body);
   res
     .status(StatusCodes.CREATED)
@@ -13,7 +12,8 @@ const createNotice = async (req, res) => {
 };
 
 const getAllNotices = async (req, res) => {
-  const allNotices = await Notice.find({ createdBy: "dilupa" });
+  console.log(req.params.id);
+  const allNotices = await Notice.find({ createdBy: req.params.id });
   res.status(StatusCodes.OK).json({ allNotices });
 };
 
