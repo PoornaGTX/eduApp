@@ -456,6 +456,67 @@ if (action.type === TEACHER_UPDATE_NOTICE_ERROR) {
       alertText: "Error",
     };
   }
+  
+  
+  //get all users
+  if (action.type === GET_ALL_USERS_BEGIN) {
+    return { ...state, isLoading: true, showAlert: false };
+  }
+
+  if (action.type === GET_ALL_USERS_SUCCESS) {
+    // console.log(updatedUser, state.users);
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      usersStd: action.payload.users,
+      alertType: "success",
+      alertText: "Success",
+      mySubscribeList: action.payload.usersStd.find(
+        (user) => user._id === action.payload.userId
+      ).subscribeIds,
+    };
+  }
+
+  if (action.type === GET_ALL_USERS_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: "hello",
+    };
+  }
+
+  //subscribe handler
+  if (action.type === SUBSCRIBE_TEACHER_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }
+
+  if (action.type === SUBSCRIBE_TEACHER_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: "Success",
+    };
+  }
+
+  if (action.type === SUBSCRIBE_TEACHER_END) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
+    };
+  }
+
+  
   throw new Error(`no such action : ${action.type}`);
 };
 
