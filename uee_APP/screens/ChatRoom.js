@@ -1,6 +1,7 @@
 import { useLayoutEffect, useEffect, useState } from "react";
-import { Text, View, StyleSheet, TextInput, FlatList } from "react-native";
+import { Text, View, StyleSheet, TextInput, FlatList, ScrollView } from "react-native";
 import IconButton from "../components/icons/IconButton";
+import MessageText from "../components/MessageText";
 import TeacherNoticeGirdTitle from "../components/TeacherNoticeGridTile";
 import { useAppContext } from "../context/appContext";
 
@@ -20,15 +21,17 @@ const ChatRoom = ({ route, navigation }) => {
         chatRoomOwner:user.firstName, 
         message:message
     })
+      setMessage('')
   }
 
-  const renderNoticeItem = (itemData) => {
+  const renderNoticeItem = () => {
     return (
-      <TeacherNoticeGirdTitle
-        grade={itemData.item.message}
-        color="#c6affc"
-        _id={itemData.item._id}
-      />
+      messages.map((message)=>{
+        return <MessageText key={message._id} message={message.message} sender={message.messageSender} styleProp={message.messageSender==user.firstName&&{
+          alignSelf:'flex-end'
+        }}/>   
+      })
+           
     );
   };
 
@@ -53,13 +56,9 @@ const ChatRoom = ({ route, navigation }) => {
                 onPressProp={handleSendMessage}
             />
       </View>
-      <FlatList
-        data={messages}
-        keyExtractor={(item) => item._id}
-        renderItem={renderNoticeItem}
-        numColumns={2}
-        style={{backgroundColor:"#FEFEFE"}}
-      />
+      <ScrollView style={styles.listContainer}>
+        {renderNoticeItem()}
+      </ScrollView>
     </View>
   );
 };
@@ -99,6 +98,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: "center",
     marginRight: 20,
-  }
+  },
 
+  listContainer:{
+    marginTop:20,
+  }
 });
