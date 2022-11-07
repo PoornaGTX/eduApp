@@ -1,11 +1,12 @@
 import { useLayoutEffect, useContext, useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/core";
 
 //components
 import SubjectGirdTitle from "../components/SubjectGirdTitle";
 import IconButton from "../components/icons/IconButton";
+import { KnowledgelabContext } from "../store/KLab-context";
 
 //LoadingOverlay
 import LoadingOverLay from "../components/LoadingOverLay/LoadingOverLay";
@@ -14,11 +15,11 @@ import LoadingOverLay from "../components/LoadingOverLay/LoadingOverLay";
 import { useAppContext } from "../context/appContext";
 
 //route will resive to any registred screens
-const GradeSubjects = ({ route }) => {
+const StudentTimeTableScreen = ({ route }) => {
   const navigation = useNavigation();
-  const gradeID = route.params.singlegardeID; ////this contain gradeID 'Grade 1'
+  //   const gradeID = route.params.singlegardeID; ////this contain gradeID 'Grade 1'
 
-  const { getAllSubjects, subjects, user } = useAppContext();
+  const { getAllSubjects, subjects } = useAppContext();
 
   const isFocused = useIsFocused();
 
@@ -28,13 +29,13 @@ const GradeSubjects = ({ route }) => {
     }
   }, [isFocused]);
 
-  const displaySubjects = subjects.filter((singleSubject) => {
-    return singleSubject.gID === gradeID;
-  });
+  //   const displaySubjects = subjects.filter((singleSubject) => {
+  //     return singleSubject.gID === gradeID;
+  //   });
 
   //for header button for adding new subject
   const headerButtonHandler = () => {
-    navigation.navigate("ManageSubjects", { gradeNameID: gradeID });
+    // navigation.navigate("ManageSubjects", { gradeNameID: gradeID });
   };
 
   const renderSubjectItem = (itemData) => {
@@ -43,45 +44,42 @@ const GradeSubjects = ({ route }) => {
         subjectName={itemData.item.subjectName}
         subjectcolor={itemData.item.color}
         subjectID={itemData.item._id}
-        Grade={gradeID}
+        // Grade={gradeID}
       />
     );
   };
 
   //header Button
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => {
-        return (
-          <IconButton
-            icon="add-circle"
-            color="black"
-            size={24}
-            onPressProp={headerButtonHandler}
-          />
-        );
-      },
-    });
-  }, []);
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerRight: () => {
+  //       return (
+  //         <IconButton
+  //           icon="add-circle"
+  //           color="black"
+  //           size={24}
+  //           onPressProp={headerButtonHandler}
+  //         />
+  //       );
+  //     },
+  //   });
+  // }, []);
 
   //get all subjects
 
-  if (displaySubjects.length === 0) {
+  if (subjects.length === 0) {
     return <Text style={styles.infoText}>No subjects availble</Text>;
   }
 
   return (
-    <FlatList
-      data={displaySubjects}
-      keyExtractor={(item) => item._id}
-      renderItem={renderSubjectItem}
-      numColumns={2}
-    />
+    <View>
+      <Text>Time table</Text>
+    </View>
   );
 };
 
-export default GradeSubjects;
+export default StudentTimeTableScreen;
 
 const styles = StyleSheet.create({
   infoText: {

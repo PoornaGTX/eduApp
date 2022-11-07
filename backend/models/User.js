@@ -36,11 +36,15 @@ const userScheme = new mongoose.Schema(
       type: String,
       default: "no",
     },
+    subscribeIds: {
+      type: Array,
+      default: [],
+    },
     type: {
       type: String,
       required: [true, "Please provide ac type."],
       trim: true,
-      enum: ["teacher", "student"],
+      enum: ["teacher", "student", "Admin"],
       default: "student",
     },
     password: {

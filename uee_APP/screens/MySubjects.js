@@ -1,11 +1,12 @@
 import { useLayoutEffect, useContext, useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/core";
 
 //components
 import SubjectGirdTitle from "../components/SubjectGirdTitle";
 import IconButton from "../components/icons/IconButton";
+import { KnowledgelabContext } from "../store/KLab-context";
 
 //LoadingOverlay
 import LoadingOverLay from "../components/LoadingOverLay/LoadingOverLay";
@@ -13,12 +14,15 @@ import LoadingOverLay from "../components/LoadingOverLay/LoadingOverLay";
 //context
 import { useAppContext } from "../context/appContext";
 
-//route will resive to any registred screens
-const GradeSubjects = ({ route }) => {
-  const navigation = useNavigation();
-  const gradeID = route.params.singlegardeID; ////this contain gradeID 'Grade 1'
+import SingleSubject from "../components/SingleSubject";
 
-  const { getAllSubjects, subjects, user } = useAppContext();
+//route will resive to any registred screens
+const MySubjects = ({ route }) => {
+  const { user, getAllSubjects, subjects } = useAppContext();
+  // console.log(user);
+  // let subjects = [];
+  const navigation = useNavigation();
+  //   const gradeID = route.params.singlegardeID; ////this contain gradeID 'Grade 1'
 
   const isFocused = useIsFocused();
 
@@ -29,7 +33,7 @@ const GradeSubjects = ({ route }) => {
   }, [isFocused]);
 
   const displaySubjects = subjects.filter((singleSubject) => {
-    return singleSubject.gID === gradeID;
+    return singleSubject.gID === user.Grade;
   });
 
   //for header button for adding new subject
@@ -39,49 +43,47 @@ const GradeSubjects = ({ route }) => {
 
   const renderSubjectItem = (itemData) => {
     return (
-      <SubjectGirdTitle
+      <SingleSubject
         subjectName={itemData.item.subjectName}
         subjectcolor={itemData.item.color}
-        subjectID={itemData.item._id}
-        Grade={gradeID}
+        subjectID={itemData.item.subjectName}
+        Grade={user.Grade}
       />
     );
   };
 
   //header Button
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => {
-        return (
-          <IconButton
-            icon="add-circle"
-            color="black"
-            size={24}
-            onPressProp={headerButtonHandler}
-          />
-        );
-      },
-    });
-  }, []);
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerRight: () => {
+  //       return (
+  //         <IconButton
+  //           icon="add-circle"
+  //           color="black"
+  //           size={24}
+  //           onPressProp={headerButtonHandler}
+  //         />
+  //       );
+  //     },
+  //   });
+  // }, []);
 
   //get all subjects
 
-  if (displaySubjects.length === 0) {
-    return <Text style={styles.infoText}>No subjects availble</Text>;
-  }
-
   return (
-    <FlatList
-      data={displaySubjects}
-      keyExtractor={(item) => item._id}
-      renderItem={renderSubjectItem}
-      numColumns={2}
-    />
+    <View>
+      <FlatList
+        data={displaySubjects}
+        keyExtractor={(item) => item._id}
+        renderItem={renderSubjectItem}
+        numColumns={2}
+      />
+    </View>
   );
 };
 
-export default GradeSubjects;
+export default MySubjects;
 
 const styles = StyleSheet.create({
   infoText: {

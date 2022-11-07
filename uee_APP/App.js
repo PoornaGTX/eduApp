@@ -5,12 +5,15 @@ import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "./constants/styles";
 
+import IconButton from "./components/icons/IconButton";
+
 //navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 //screens
+import MySubjects from "./screens/MySubjects";
 import GradesScreen from "./screens/GradesScreen";
 import GradeSubjects from "./screens/GradeSubjects";
 import ManageSubjectScreen from "./screens/ManageSubjectScreen";
@@ -18,12 +21,22 @@ import ManageGradesScreen from "./screens/ManageGradesScreen";
 import StatsScreenAdmin from "./screens/StatsScreenAdmin";
 import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
+import ProfileScreen from "./screens/ProfileScreen";
+import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
 
 const Stack = createNativeStackNavigator();
 const Bottom = createBottomTabNavigator();
 
 import { useAppContext } from "./context/appContext";
 import { AppProvider } from "./context/appContext";
+
+import StudentTimeTableScreen from "./screens/StudentTimeTableScreen";
+import AllTeachersScreen from "./screens/AllTeachersScreen";
+import SelectedTeacherScreen from "./screens/SelectedTeacherScreen";
+import StudentNoticesScreen from "./screens/StudentNoticesScreen";
+
+// export const user = { type: "Student", grade: "Grade 5", subscribeIds: ["2"] };
+
 import TeacherAllNotices from "./screens/TeacherAllNotices";
 import TeacherAddNotice from "./screens/TeacherAddNotice";
 import ChatRoom from "./screens/ChatRoom";
@@ -40,6 +53,7 @@ function AuthStack() {
     >
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Signup" component={SignupScreen} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
     </Stack.Navigator>
   );
 }
@@ -78,7 +92,6 @@ const AdminBottomTabHome = () => {
           headerTitleAlign: "center",
         }}
       />
-
       <Stack.Screen
         name="ManageGrade"
         component={ManageGradesScreen}
@@ -115,12 +128,55 @@ const TeacherBottomTabHome = () => {
           headerTitleAlign: "center",
         }}
       />
+<<<<<<< HEAD
+=======
     </Stack.Navigator>
   );
 };
+
+//use by student
+const StudentBottomTabHome = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: "#3db1ff" },
+        headerTitleAlign: "center",
+      }}
+    >
+      <Stack.Screen
+        name="My Subjects"
+        component={MySubjects}
+        options={{
+          contentStyle: { backgroundColor: "white" },
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="AllTeachersScreen"
+        component={AllTeachersScreen}
+        options={{
+          presentation: "modal",
+          title: "All Teachers",
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="SelectedTeacher"
+        component={SelectedTeacherScreen}
+        options={{
+          presentation: "modal",
+          title: "Teacher",
+          headerTitleAlign: "center",
+        }}
+      />
+>>>>>>> master
+    </Stack.Navigator>
+  );
+};
+
 function AuthenticatedStack() {
   // const user = "Admin"; //temp
-  const { user } = useAppContext();
+  const { user, logOutUser } = useAppContext();
 
   return (
     <Bottom.Navigator
@@ -158,20 +214,33 @@ function AuthenticatedStack() {
         />
       )}
 
+<<<<<<< HEAD
       {user.type === "teacher" && (
         <>
           <Bottom.Screen
             name="TeacherAllNotice"
             component={TeacherBottomTabHome}
+=======
+      {user.type === "student" && (
+        <>
+          <Bottom.Screen
+            name="StudentHome"
+            component={StudentBottomTabHome}
+>>>>>>> master
             options={{
               headerShown: false,
               tabBarShowLabel: false,
               tabBarIcon: ({ color, size }) => (
+<<<<<<< HEAD
                 <Ionicons name="home" size={size} color="white" />
+=======
+                <Ionicons name="home" size={size} color="black" />
+>>>>>>> master
               ),
             }}
           />
           <Bottom.Screen
+<<<<<<< HEAD
             name="ChatRoom"
             component={ChatRoom}
             options={{
@@ -179,11 +248,70 @@ function AuthenticatedStack() {
               tabBarShowLabel: false,
               tabBarIcon: ({ color, size }) => (
                 <Ionicons name="chatbox" size={size} color="white" />
+=======
+            name="Timetable"
+            component={StudentTimeTableScreen}
+            options={{
+              headerShown: true,
+              tabBarShowLabel: false,
+              headerTitleAlign: "center",
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="calendar" size={size} color="black" />
+              ),
+            }}
+          />
+          <Bottom.Screen
+            name="My Notices"
+            component={StudentNoticesScreen}
+            options={{
+              headerShown: true,
+              tabBarShowLabel: false,
+              headerTitleAlign: "center",
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="notifications" size={size} color="black" />
+>>>>>>> master
               ),
             }}
           />
         </>
       )}
+<<<<<<< HEAD
+=======
+      {user.type === "teacher" && (
+        <Bottom.Screen
+          name="TeacherAllNotice"
+          component={TeacherBottomTabHome}
+          options={{
+            headerShown: false,
+            tabBarShowLabel: false,
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="home" size={size} color="white" />
+            ),
+          }}
+        />
+      )}
+      <Bottom.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" size={size} color="black" />
+          ),
+          headerTitleAlign: "center",
+          headerRight: () => {
+            return (
+              <IconButton
+                icon="exit"
+                color="black"
+                size={24}
+                onPressProp={() => logOutUser()}
+              />
+            );
+          },
+        }}
+      />
+>>>>>>> master
     </Bottom.Navigator>
   );
 }
