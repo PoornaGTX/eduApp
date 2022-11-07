@@ -128,8 +128,6 @@ const TeacherBottomTabHome = () => {
           headerTitleAlign: "center",
         }}
       />
-<<<<<<< HEAD
-=======
     </Stack.Navigator>
   );
 };
@@ -169,7 +167,6 @@ const StudentBottomTabHome = () => {
           headerTitleAlign: "center",
         }}
       />
->>>>>>> master
     </Stack.Navigator>
   );
 };
@@ -213,82 +210,36 @@ function AuthenticatedStack() {
           }}
         />
       )}
-
-<<<<<<< HEAD
       {user.type === "teacher" && (
         <>
           <Bottom.Screen
             name="TeacherAllNotice"
             component={TeacherBottomTabHome}
-=======
-      {user.type === "student" && (
-        <>
-          <Bottom.Screen
-            name="StudentHome"
-            component={StudentBottomTabHome}
->>>>>>> master
             options={{
               headerShown: false,
+
               tabBarShowLabel: false,
+
               tabBarIcon: ({ color, size }) => (
-<<<<<<< HEAD
                 <Ionicons name="home" size={size} color="white" />
-=======
-                <Ionicons name="home" size={size} color="black" />
->>>>>>> master
               ),
             }}
           />
+
           <Bottom.Screen
-<<<<<<< HEAD
             name="ChatRoom"
             component={ChatRoom}
             options={{
               headerShown: false,
+
               tabBarShowLabel: false,
+
               tabBarIcon: ({ color, size }) => (
                 <Ionicons name="chatbox" size={size} color="white" />
-=======
-            name="Timetable"
-            component={StudentTimeTableScreen}
-            options={{
-              headerShown: true,
-              tabBarShowLabel: false,
-              headerTitleAlign: "center",
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="calendar" size={size} color="black" />
-              ),
-            }}
-          />
-          <Bottom.Screen
-            name="My Notices"
-            component={StudentNoticesScreen}
-            options={{
-              headerShown: true,
-              tabBarShowLabel: false,
-              headerTitleAlign: "center",
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="notifications" size={size} color="black" />
->>>>>>> master
               ),
             }}
           />
         </>
-      )}
-<<<<<<< HEAD
-=======
-      {user.type === "teacher" && (
-        <Bottom.Screen
-          name="TeacherAllNotice"
-          component={TeacherBottomTabHome}
-          options={{
-            headerShown: false,
-            tabBarShowLabel: false,
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="home" size={size} color="white" />
-            ),
-          }}
-        />
       )}
       <Bottom.Screen
         name="Profile"
@@ -311,7 +262,6 @@ function AuthenticatedStack() {
           },
         }}
       />
->>>>>>> master
     </Bottom.Navigator>
   );
 }
