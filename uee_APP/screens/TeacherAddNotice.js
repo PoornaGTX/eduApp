@@ -1,5 +1,5 @@
 import { useLayoutEffect, useEffect } from "react";
-import { View, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet, Alert, ScrollView } from "react-native";
 
 import IconButton from "../components/icons/IconButton";
 
@@ -44,9 +44,9 @@ const TeacherAddNotice = ({ route, navigation }) => {
       });
     }, [navigation]);
   
-    const deleteGradeHandler = () => {
-      deleteGrade(GradeIDMongo);
-      return Alert.alert("Success", "Delete subject success", [
+    const deleteNoticeHandler = () => {
+      teacherDeleteNotice(NoticeIDMongo);
+      return Alert.alert("Success", "Delete Notice success", [
         { text: "OK", onPress: () => navigation.goBack() },
       ]);
     };
@@ -61,7 +61,7 @@ const TeacherAddNotice = ({ route, navigation }) => {
         teacherUpdateNotice(NoticeIDMongo, {
           title, description, link, date, color
         });
-        return Alert.alert("Success", "Grade update success", [
+        return Alert.alert("Success", "Notice update success", [
           { text: "OK", onPress: () => navigation.goBack() },
         ]);
       } else {
@@ -75,14 +75,14 @@ const TeacherAddNotice = ({ route, navigation }) => {
     };
   
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <TeacherAddNoticeForm
           labelName1="Grade"
-          labelName2={false}
+          labelName2={isEditing?true:false}
           onCancel={cancleHandler}
           submitButtonLabel={isEditing ? "Update" : "Add"}
           onSubmit={confirmHandler}
-          defaultValuesForEdit={noticeDataForForm}
+          defaultValuesForEdit={noticeDataForForm?noticeDataForForm:null}
           alertText={alertText}
           showAlert={showAlert}
         />
@@ -93,11 +93,11 @@ const TeacherAddNotice = ({ route, navigation }) => {
               icon="trash"
               color="green"
               size={36}
-              onPressProp={deleteGradeHandler}
+              onPressProp={deleteNoticeHandler}
             />
           </View>
         )}
-      </View>
+      </ScrollView>
     );
   };
 
@@ -119,8 +119,8 @@ const styles = StyleSheet.create({
       marginHorizontal: 8,
     },
     deleteContainer: {
-      marginTop: 16,
-      paddingTop: 8,
+      marginBottom: 30,
+      paddingBottom: 8,
       borderTopWidth: 2,
       borderTopColor: "#a281f0",
       alignItems: "center",

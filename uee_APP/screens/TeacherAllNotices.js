@@ -6,13 +6,28 @@ import { useIsFocused } from "@react-navigation/core";
 import TeacherNoticeGirdTitle from "../components/TeacherNoticeGridTile";
 
 const TeacherAllNotices = ({ navigation }) => {
-  const { teacherGetAllNotices, teacherAllNotices, logOutUser, user } =
-    useAppContext();
-  const isFocused = useIsFocused();
-
-  const renderNoticeItem = (itemData) => {
-    const pressHandler = () => {
-      navigation.navigate("Subjects", { singleNoticeID: itemData.item.title });
+    const { teacherGetAllNotices , teacherAllNotices, logOutUser, user } = useAppContext();
+    const isFocused = useIsFocused();
+  
+    const renderNoticeItem = (itemData) => {
+      const pressHandler = () => {
+        navigation.navigate("AddNotice", {
+          NoticeID: itemData.item._id,
+        });
+      };
+  
+      return (
+        <TeacherNoticeGirdTitle
+          grade={itemData.item.title}
+          color={itemData.item.color}
+          _id={itemData.item._id}
+          onPressProp={pressHandler}
+        />
+      );
+    };
+  
+    const headerButtonHandler = () => {
+      navigation.navigate("AddNotice");
     };
 
     return (

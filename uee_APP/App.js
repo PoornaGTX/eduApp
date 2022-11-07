@@ -39,6 +39,7 @@ import StudentNoticesScreen from "./screens/StudentNoticesScreen";
 
 import TeacherAllNotices from "./screens/TeacherAllNotices";
 import TeacherAddNotice from "./screens/TeacherAddNotice";
+import ChatRoom from "./screens/ChatRoom";
 
 //for unathunticated users
 function AuthStack() {
@@ -127,6 +128,8 @@ const TeacherBottomTabHome = () => {
           headerTitleAlign: "center",
         }}
       />
+<<<<<<< HEAD
+=======
     </Stack.Navigator>
   );
 };
@@ -166,6 +169,7 @@ const StudentBottomTabHome = () => {
           headerTitleAlign: "center",
         }}
       />
+>>>>>>> master
     </Stack.Navigator>
   );
 };
@@ -210,20 +214,41 @@ function AuthenticatedStack() {
         />
       )}
 
+<<<<<<< HEAD
+      {user.type === "teacher" && (
+        <>
+          <Bottom.Screen
+            name="TeacherAllNotice"
+            component={TeacherBottomTabHome}
+=======
       {user.type === "student" && (
         <>
           <Bottom.Screen
             name="StudentHome"
             component={StudentBottomTabHome}
+>>>>>>> master
             options={{
               headerShown: false,
               tabBarShowLabel: false,
               tabBarIcon: ({ color, size }) => (
+<<<<<<< HEAD
+                <Ionicons name="home" size={size} color="white" />
+=======
                 <Ionicons name="home" size={size} color="black" />
+>>>>>>> master
               ),
             }}
           />
           <Bottom.Screen
+<<<<<<< HEAD
+            name="ChatRoom"
+            component={ChatRoom}
+            options={{
+              headerShown: false,
+              tabBarShowLabel: false,
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="chatbox" size={size} color="white" />
+=======
             name="Timetable"
             component={StudentTimeTableScreen}
             options={{
@@ -244,11 +269,14 @@ function AuthenticatedStack() {
               headerTitleAlign: "center",
               tabBarIcon: ({ color, size }) => (
                 <Ionicons name="notifications" size={size} color="black" />
+>>>>>>> master
               ),
             }}
           />
         </>
       )}
+<<<<<<< HEAD
+=======
       {user.type === "teacher" && (
         <Bottom.Screen
           name="TeacherAllNotice"
@@ -283,6 +311,7 @@ function AuthenticatedStack() {
           },
         }}
       />
+>>>>>>> master
     </Bottom.Navigator>
   );
 }

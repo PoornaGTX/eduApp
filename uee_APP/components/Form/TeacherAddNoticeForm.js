@@ -15,14 +15,13 @@ const TeacherAddNoticeForm = ({
   descriptionProp,
   linkProp,
   dateProp,
-
 }) => {
  
-  const [title, setTitle] = useState(defaultValuesForEdit.title || "");
-  const [description, setDescription] = useState(defaultValuesForEdit.description || "");
-  const [link, setLink] = useState(defaultValuesForEdit.link || "");
-  const [color, setColor] = useState(defaultValuesForEdit.color || "");
-  const [date, setDate] = useState(defaultValuesForEdit.date || "");
+  const [title, setTitle] = useState(defaultValuesForEdit?.title || "");
+  const [description, setDescription] = useState(defaultValuesForEdit?.description || "");
+  const [link, setLink] = useState(defaultValuesForEdit?.link || "");
+  const [color, setColor] = useState(defaultValuesForEdit?.color || "");
+  const [date, setDate] = useState(defaultValuesForEdit?.date || "");
 
 
   //background color color handler
@@ -57,7 +56,7 @@ const TeacherAddNoticeForm = ({
   return (
     <View style={styles.form}>
       <Text style={styles.formTitle}>
-        {labelName2 === false ? "Add Notice" : "Subject Manager"}
+        {labelName2 === false ? "Add Notice" : "Notice Details"}
       </Text>
       <TeacherInput
         label='Title'

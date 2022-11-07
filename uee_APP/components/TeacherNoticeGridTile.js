@@ -30,8 +30,7 @@ const TeacherNoticeGirdTitle = ({ _id, title, color, gradeID, onPressProp, descr
       </Pressable>
         
         <View style={styles.buttonContainer}>
-            <TeacherEditButton onPressProp={MangeButtonHanlder}>Edit</TeacherEditButton>
-            <TeacherEditButton onPressProp={MangeButtonHanlder}>Delete</TeacherEditButton>
+            <TeacherEditButton onPressProp={MangeButtonHanlder}>View</TeacherEditButton>
         </View>
         
      

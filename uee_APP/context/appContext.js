@@ -48,6 +48,13 @@ import {
   TEACHER_UPDATE_NOTICE_BEGIN,
   TEACHER_UPDATE_NOTICE_SUCCESS,
   TEACHER_UPDATE_NOTICE_ERROR,
+  GET_MESSAGES_BEGIN,
+  GET_MESSAGES_SUCCESS,
+  GET_MESSAGES_ERROR,
+  SEND_MESSAGES_BEGIN,
+  SEND_MESSAGES_SUCCESS,
+  SEND_MESSAGES_ERROR,
+
   UPDATE_USER_BEGIN,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_ERROR,
@@ -78,6 +85,8 @@ const initialState = {
   usersStd: [],
   mySubscribeList: [],
   teacherAllNotices: [],
+  messages: [],
+
   users: [],
   adminStats: {},
   monthelUserCreations: [],
@@ -492,6 +501,42 @@ const AppProvider = ({ children }) => {
     getAllSubjects();
   };
 
+  // Teacher get all notices
+  const getAllMessages = async (teacherName) => {
+    dispatch({ type: GET_MESSAGES_BEGIN });
+    try {
+      const response = await axios.get(
+        `http://10.0.2.2:5000/api/v1/teacher/message/${teacherName}`
+      );
+      const { allMessages } = response.data;
+      dispatch({
+        type: GET_MESSAGES_SUCCESS,
+        payload: { allMessages },
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_MESSAGES_ERROR,
+        // payload: { msg: error.response.data.msg },
+      });
+    }
+  };
+
+  //Send message
+  const sendMessage = async (message) => {
+    dispatch({ type: SEND_MESSAGES_BEGIN });
+    try {
+      const response = await axios.post(
+        `http://10.0.2.2:5000/api/v1/teacher/message`, message );
+      dispatch({
+        type: SEND_MESSAGES_SUCCESS,
+      });
+    } catch (error) {
+      dispatch({
+        type:SEND_MESSAGES_ERROR,
+        // payload: { msg: error.response.data.msg },
+      });
+    }
+  };
   //   //login user
 
   //   //get cart
@@ -703,6 +748,8 @@ const AppProvider = ({ children }) => {
         teacherAddNotice,
         teacherDeleteNotice,
         teacherUpdateNotice,
+        getAllMessages,
+        sendMessage,
         updateUser,
         getAllUsers,
         adminShowStats,
