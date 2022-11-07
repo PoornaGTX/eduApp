@@ -28,6 +28,7 @@ function SignupScreen() {
     Grade,
     type,
     password,
+    teacherDescription
   }) => {
     setIsAuthenticating(true);
     try {
@@ -39,6 +40,7 @@ function SignupScreen() {
         Grade,
         type,
         password,
+        teacherDescription
       });
     } catch (error) {
       Alert.alert(

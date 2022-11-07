@@ -13,15 +13,9 @@ const TeacherAddNotice = ({ route, navigation }) => {
     const isFocused = useIsFocused();
   
     const {
-      grades,
-      getAllGrades,
       alertText,
       showAlert,
-      updateGrade,
-      deleteGrade,
       getAllSubjects,
-      subjects,
-      addGrade,
       teacherAddNotice,
       teacherDeleteNotice,
       teacherAllNotices,
@@ -29,11 +23,9 @@ const TeacherAddNotice = ({ route, navigation }) => {
     } = useAppContext();
   
     const noticeDataForForm = teacherAllNotices.find((notice) => notice._id === NoticeIDMongo);
-    console.log(noticeDataForForm);
   
     useEffect(() => {
       if (isFocused) {
-        getAllGrades();
         getAllSubjects();
       }
     }, [isFocused]);

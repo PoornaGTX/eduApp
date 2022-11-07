@@ -64,6 +64,7 @@ function AuthContent({ isLogin, onAuthenticate }) {
       type,
       password,
       confirmPassword,
+      teacherDescription
     } = credentials;
     email = email.trim();
     password = password.trim();
@@ -98,6 +99,7 @@ function AuthContent({ isLogin, onAuthenticate }) {
       Grade,
       type,
       password,
+      teacherDescription
     });
   }
 

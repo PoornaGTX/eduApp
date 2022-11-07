@@ -63,7 +63,6 @@ const TeacherAddNoticeForm = ({
         textInputAllProps={{
           onChangeText: titleChangeHandler,
           value: title || titleProp,
-          editable: !labelName2,
         }}
       />
       <TeacherInput
@@ -71,7 +70,7 @@ const TeacherAddNoticeForm = ({
         textInputAllProps={{
           onChangeText: descriptionChangeHandler,
           value: description || descriptionProp ,
-          editable: !labelName2,
+          editable: true,
         }}
       />
       <TeacherInput
@@ -79,7 +78,7 @@ const TeacherAddNoticeForm = ({
         textInputAllProps={{
           onChangeText: linkChangeHandler,
           value: link || linkProp ,
-          editable: !labelName2,
+          editable: true,
         }}
       />
       <TeacherInput
@@ -87,7 +86,7 @@ const TeacherAddNoticeForm = ({
         textInputAllProps={{
           onChangeText: dateChangeHandler,
           value: date || dateProp ,
-          editable: !labelName2,
+          editable: true,
         }}
       />
       <View style={styles.selectColorView}>
