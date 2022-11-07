@@ -12,7 +12,6 @@ const createNotice = async (req, res) => {
 };
 
 const getAllNotices = async (req, res) => {
-  console.log(req.params.id);
   const allNotices = await Notice.find({ createdBy: req.params.id });
   res.status(StatusCodes.OK).json({ allNotices });
 };
