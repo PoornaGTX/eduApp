@@ -54,7 +54,6 @@ import {
   SEND_MESSAGES_BEGIN,
   SEND_MESSAGES_SUCCESS,
   SEND_MESSAGES_ERROR,
-
   UPDATE_USER_BEGIN,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_ERROR,
@@ -443,14 +442,12 @@ const AppProvider = ({ children }) => {
   //subscribe handler
   //update subject
   const subscribeHandler = async (subData) => {
-    console.log("here");
     dispatch({ type: SUBSCRIBE_TEACHER_BEGIN });
     try {
       const response = await axios.patch(
         `http://10.0.2.2:5000/api/v1/students/subscribe/${state.user._id}`,
         subData
       );
-      console.log(response.data);
       getAllUsersStd();
       dispatch({
         type: SUBSCRIBE_TEACHER_SUCCESS,
@@ -526,13 +523,15 @@ const AppProvider = ({ children }) => {
     dispatch({ type: SEND_MESSAGES_BEGIN });
     try {
       const response = await axios.post(
-        `http://10.0.2.2:5000/api/v1/teacher/message`, message );
+        `http://10.0.2.2:5000/api/v1/teacher/message`,
+        message
+      );
       dispatch({
         type: SEND_MESSAGES_SUCCESS,
       });
     } catch (error) {
       dispatch({
-        type:SEND_MESSAGES_ERROR,
+        type: SEND_MESSAGES_ERROR,
         // payload: { msg: error.response.data.msg },
       });
     }
@@ -715,7 +714,6 @@ const AppProvider = ({ children }) => {
         { params: { subscribeIds: state.mySubscribeList } }
       );
       const { notices } = response.data;
-      console.log("here" + notices);
       dispatch({
         type: STUDENT_GET_ALL_NOTICES_SUCCESS,
         payload: { notices },

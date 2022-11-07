@@ -29,7 +29,6 @@ const AllTeachersScreen = ({ route }) => {
   useEffect(() => {
     if (isFocused) {
       getAllUsersStd();
-      console.log(usersStd);
     }
   }, [isFocused]);
 

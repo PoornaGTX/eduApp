@@ -139,8 +139,9 @@ const StudentBottomTabHome = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: "#3db1ff" },
+        headerStyle: { backgroundColor: "#0D25A7" },
         headerTitleAlign: "center",
+        headerTintColor: "white",
       }}
     >
       <Stack.Screen
@@ -149,6 +150,7 @@ const StudentBottomTabHome = () => {
         options={{
           contentStyle: { backgroundColor: "white" },
           headerTitleAlign: "center",
+          headerTintColor: "white",
         }}
       />
       <Stack.Screen
@@ -158,6 +160,7 @@ const StudentBottomTabHome = () => {
           presentation: "modal",
           title: "All Teachers",
           headerTitleAlign: "center",
+          headerTintColor: "white",
         }}
       />
       <Stack.Screen
@@ -167,6 +170,7 @@ const StudentBottomTabHome = () => {
           presentation: "modal",
           title: "Teacher",
           headerTitleAlign: "center",
+          headerTintColor: "white",
         }}
       />
     </Stack.Navigator>
@@ -185,7 +189,6 @@ function AuthenticatedStack() {
         tabBarActiveTintColor: "red",
       }}
     >
-
       {user.type === "Admin" && (
         <Bottom.Screen
           name="AdminHome"
@@ -194,7 +197,7 @@ function AuthenticatedStack() {
             headerShown: false,
             tabBarShowLabel: false,
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name="home" size={size} color="black" />
+              <Ionicons name="home" size={size} color="white" />
             ),
           }}
         />
@@ -254,7 +257,7 @@ function AuthenticatedStack() {
               headerShown: false,
               tabBarShowLabel: false,
               tabBarIcon: ({ color, size }) => (
-                <Ionicons name="home" size={size} color="black" />
+                <Ionicons name="home" size={size} color="white" />
               ),
             }}
           />
@@ -265,8 +268,9 @@ function AuthenticatedStack() {
               headerShown: true,
               tabBarShowLabel: false,
               headerTitleAlign: "center",
+              headerTintColor: "white",
               tabBarIcon: ({ color, size }) => (
-                <Ionicons name="calendar" size={size} color="black" />
+                <Ionicons name="calendar" size={size} color="white" />
               ),
             }}
           />
@@ -277,8 +281,9 @@ function AuthenticatedStack() {
               headerShown: true,
               tabBarShowLabel: false,
               headerTitleAlign: "center",
+              headerTintColor: "white",
               tabBarIcon: ({ color, size }) => (
-                <Ionicons name="notifications" size={size} color="black" />
+                <Ionicons name="notifications" size={size} color="white" />
               ),
             }}
           />
