@@ -4,4 +4,6 @@ export const Colors = {
   primary800: "#610440",
   error100: "#fcdcbf",
   error500: "#f37c13",
+  formBackground: "#8208E2",
+  InputBackgroudColor: "#DBC6F5",
 };

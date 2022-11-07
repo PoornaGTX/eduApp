@@ -22,13 +22,15 @@ const styles = StyleSheet.create({
     borderBottomEndRadius: 4,
     borderBottomRightRadius: 4,
     padding: 8,
-    backgroundColor: "#368dff",
-    height: 45,
+    backgroundColor: "#09b88e",
+    height: 50,
     justifyContent: "center",
   },
   buttonText: {
     color: "white",
     textAlign: "center",
+    fontSize: 16,
+    fontWeight: "bold",
   },
   preased: {
     opacity: 0.75,

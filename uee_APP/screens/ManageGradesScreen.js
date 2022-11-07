@@ -3,6 +3,7 @@ import { View, StyleSheet, Alert } from "react-native";
 
 import IconButton from "../components/icons/IconButton";
 import AdminForm from "../components/Form/AdminForm";
+import { Colors } from "../constants/styles";
 
 import { useAppContext } from "../context/appContext";
 import { useIsFocused } from "@react-navigation/core";
@@ -78,7 +79,7 @@ const ManageGradesScreen = ({ route, navigation }) => {
     }
 
     //check if exisiting grade already in the DB
-    if (isEditing) {
+    {
       const checkExsisitigGrade = grades.some(
         (grade) => grade.Grade === gradeValue && grade.color === colorGrade
       );
@@ -87,12 +88,25 @@ const ManageGradesScreen = ({ route, navigation }) => {
           { text: "OK", onPress: () => navigation.goBack() },
         ]);
       }
-    } else {
+    }
+
+    if (isEditing) {
       const checkExsisitigGrade = grades.some(
         (grade) => grade.Grade === gradeValue
       );
       if (checkExsisitigGrade) {
-        return Alert.alert("DB ERROR", "Sorry Grade is already in DB", [
+        return Alert.alert("DB ERROR", "Sorry Grade is already in DB!!!!!!", [
+          { text: "OK", onPress: () => navigation.goBack() },
+        ]);
+      }
+    }
+
+    if (!isEditing) {
+      const checkExsisitigGrade = grades.some(
+        (grade) => grade.Grade === gradeValue
+      );
+      if (checkExsisitigGrade) {
+        return Alert.alert("DB ERROR", "Sorry Grade is already in DB!!!!!!", [
           { text: "OK", onPress: () => navigation.goBack() },
         ]);
       }
@@ -136,8 +150,8 @@ const ManageGradesScreen = ({ route, navigation }) => {
         <View style={styles.deleteContainer}>
           <IconButton
             icon="trash"
-            color="green"
-            size={36}
+            color="black"
+            size={40}
             onPressProp={deleteGradeHandler}
           />
         </View>
@@ -152,7 +166,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    backgroundColor: "#200364",
+    backgroundColor: Colors.primaryBackgroud,
   },
   buttons: {
     flexDirection: "row",

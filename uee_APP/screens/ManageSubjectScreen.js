@@ -9,6 +9,7 @@ import AdminForm from "../components/Form/AdminForm";
 // import { createSubject, updateSubject, deleteSubjecthttp } from "../utill/http";
 import { useAppContext } from "../context/appContext";
 import { useIsFocused } from "@react-navigation/core";
+import { Colors } from "../constants/styles";
 
 const ManageSubjectScreen = ({ route, navigation }) => {
   const subjectID = route.params?.subID; //this contain mongoose _id
@@ -59,9 +60,7 @@ const ManageSubjectScreen = ({ route, navigation }) => {
           subject.subjectName === SubName && subject.color === colorselect
       );
       if (checkExsisitigSubject) {
-        return Alert.alert("DB ERROR", "Sorry Subject is already in DB", [
-          { text: "OK", onPress: () => navigation.goBack() },
-        ]);
+        return Alert.alert("DB ERROR", "Sorry Subject is already in DB");
       }
       //for adding new subject
     } else {
@@ -69,9 +68,7 @@ const ManageSubjectScreen = ({ route, navigation }) => {
         (subject) => subject.subjectName === SubName
       );
       if (checkExsisitigSubject) {
-        return Alert.alert("DB ERROR", "Sorry Subject is already in DB", [
-          { text: "OK", onPress: () => navigation.goBack() },
-        ]);
+        return Alert.alert("DB ERROR", "Sorry Subject is already in DB");
       }
     }
 
@@ -113,7 +110,7 @@ const ManageSubjectScreen = ({ route, navigation }) => {
         <View style={styles.deleteContainer}>
           <IconButton
             icon="trash"
-            color="green"
+            color="black"
             size={36}
             onPressProp={deleteSubjectHnadler}
           />
@@ -129,7 +126,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    backgroundColor: "#200364",
+    backgroundColor: Colors.primaryBackgroud,
   },
   deleteContainer: {
     marginTop: 16,
