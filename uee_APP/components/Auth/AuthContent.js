@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Alert, StyleSheet, View, Platform } from "react-native";
+import { Alert, StyleSheet, View, Pressable, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import FlatButton from "../icons/Button";
 import AuthForm from "./AuthForm";
-import { Colors } from "../../constants/styles";
+import { Colors } from "../constants/styles";
 
 function AuthContent({ isLogin, onAuthenticate }) {
   const navigation = useNavigation();
@@ -103,20 +102,26 @@ function AuthContent({ isLogin, onAuthenticate }) {
   }
 
   return (
-    <View style={styles.authContent}>
+    <View style={[styles.authContent, isLogin && { marginTop: 60 }]}>
+      <Text style={styles.forgetText}>{isLogin ? "Login" : "Sign Up"}</Text>
       <AuthForm
         isLogin={isLogin}
         onSubmit={isLogin ? submitHandler : submitHandlerSignUp}
         credentialsInvalid={credentialsInvalid}
       />
       <View style={styles.buttons}>
-        <FlatButton onPressProp={switchAuthModeHandler}>
-          {isLogin ? "Create a new user" : "Log in instead"}
-        </FlatButton>
+        <Pressable onPress={switchAuthModeHandler}>
+          {isLogin ? (
+            <Text style={styles.forgetPasswordText}>CREATE NEW ACCOUNT</Text>
+          ) : (
+            <Text style={styles.forgetPasswordText}>Log in instead</Text>
+          )}
+        </Pressable>
+
         {!!isLogin && (
-          <FlatButton onPressProp={ForgotPasswordHandler}>
-            Forgot Password ?
-          </FlatButton>
+          <Pressable onPress={ForgotPasswordHandler}>
+            <Text style={styles.forgetPasswordText}>FORGOT PASSWORD ?</Text>
+          </Pressable>
         )}
       </View>
     </View>
@@ -127,18 +132,34 @@ export default AuthContent;
 
 const styles = StyleSheet.create({
   authContent: {
-    marginTop: 64,
+    marginTop: 10,
     marginHorizontal: 20,
     padding: 16,
     borderRadius: 8,
-    backgroundColor: Colors.primartBlack,
-    elevation: 2,
-    shadowColor: "black",
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.35,
-    shadowRadius: 4,
+    backgroundColor: Colors.formBackground,
+    // elevation: 2,
+    // shadowColor: "black",
+    // shadowOffset: { width: 1, height: 1 },
+    // shadowOpacity: 0.35,
+    // shadowRadius: 4,
   },
   buttons: {
     marginTop: 8,
+  },
+  forgetPasswordText: {
+    color: "white",
+    textAlign: "center",
+    marginTop: 5,
+    fontSize: 16,
+  },
+  forgetText: {
+    textAlign: "center",
+    color: "white",
+    fontSize: 25,
+    fontWeight: "bold",
+    marginVertical: 10,
+  },
+  buttonSpace: {
+    marginTop: 20,
   },
 });

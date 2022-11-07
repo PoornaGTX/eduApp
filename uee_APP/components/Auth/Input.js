@@ -1,6 +1,6 @@
 import { View, Text, TextInput, StyleSheet, Platform } from "react-native";
 
-import { Colors } from "../../constants/styles";
+import { Colors } from "../constants/styles";
 
 function Input({
   label,
@@ -36,14 +36,16 @@ const styles = StyleSheet.create({
   label: {
     color: "white",
     marginBottom: 3,
+    fontSize: 16,
   },
   labelInvalid: {
     color: Colors.error500,
+    fontWeight: "bold",
   },
   input: {
     paddingVertical: 8,
     paddingHorizontal: 6,
-    backgroundColor: Colors.primary100,
+    backgroundColor: Colors.InputBackgroudColor,
     borderRadius: 4,
     fontSize: 16,
     maxWidth: Platform.OS === "web" ? 500 : 400,

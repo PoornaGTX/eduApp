@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     margin: 16,
     height: 150,
     borderRadius: 8,
-    elevation: 4,
+    elevation: 8,
     shadowColor: "black",
     shadowOffset: { width: 0, height: 2 },
     backgroundColor: "white",
@@ -67,6 +67,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: "bold",
-    fontSize: 18,
+    fontSize: 22,
   },
 });

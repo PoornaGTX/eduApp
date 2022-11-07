@@ -1,5 +1,10 @@
 import { useLayoutEffect, useEffect } from "react";
-import { FlatList } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Dimensions,
+  ImageBackground,
+} from "react-native";
 
 import GradeGirdTitle from "../components/GradeGirdTitle";
 import IconButton from "../components/icons/IconButton";
@@ -7,8 +12,11 @@ import IconButton from "../components/icons/IconButton";
 import { useAppContext } from "../context/appContext";
 import { useIsFocused } from "@react-navigation/core";
 
+import { LinearGradient } from "expo-linear-gradient";
+import { images } from "../constants/Images/images";
+
 const GradesScreen = ({ navigation }) => {
-  const { getAllGrades, grades, logOutUser, user } = useAppContext();
+  const { getAllGrades, grades } = useAppContext();
   const isFocused = useIsFocused();
 
   const renderGradesItem = (itemData) => {
@@ -42,28 +50,43 @@ const GradesScreen = ({ navigation }) => {
         return (
           <IconButton
             icon="add"
-            color="black"
-            size={24}
+            color="white"
+            size={30}
             onPressProp={headerButtonHandler}
           />
-        );
-      },
-      headerLeft: () => {
-        return (
-          <IconButton icon="exit" size={24} onPressProp={() => logOutUser()} />
         );
       },
     });
   }, []);
 
   return (
-    <FlatList
-      data={grades}
-      keyExtractor={(item) => item._id}
-      renderItem={renderGradesItem}
-      numColumns={2}
-    />
+    <LinearGradient colors={["#DA22FF", "#9733EE"]} style={styles.container}>
+      <FlatList
+        data={grades}
+        keyExtractor={(item) => item._id}
+        renderItem={renderGradesItem}
+        numColumns={2}
+      />
+    </LinearGradient>
   );
 };
 
 export default GradesScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "red",
+    flex: 1,
+  },
+  backImage: {
+    opacity: 0.6,
+  },
+  imageStyle: {
+    flex: 1,
+    position: "absolute",
+    left: 0,
+    top: 0,
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
+  },
+});

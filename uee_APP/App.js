@@ -37,6 +37,7 @@ function AuthStack() {
         headerStyle: { backgroundColor: Colors.primaryHeader },
         headerTintColor: "white",
         contentStyle: { backgroundColor: Colors.primaryBackgroud },
+        headerShown: false,
       }}
     >
       <Stack.Screen name="Login" component={LoginScreen} />
@@ -51,15 +52,16 @@ const AdminBottomTabHome = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: "#3db1ff" },
+        headerStyle: { backgroundColor: "#0D25A7" },
         headerTitleAlign: "center",
+        headerTintColor: "white",
+        contentStyle: { backgroundColor: Colors.primaryBackgroud },
       }}
     >
       <Stack.Screen
         name="All Grades"
         component={GradesScreen}
         options={{
-          contentStyle: { backgroundColor: "white" },
           headerTitleAlign: "center",
         }}
       />
@@ -67,7 +69,7 @@ const AdminBottomTabHome = () => {
         name="Subjects"
         component={GradeSubjects}
         options={{
-          contentStyle: { backgroundColor: "white" },
+          contentStyle: { backgroundColor: "#8208E2" },
           headerTitleAlign: "center",
         }}
       />
@@ -97,8 +99,8 @@ function AuthenticatedStack() {
   return (
     <Bottom.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: "#3db1ff" },
-        tabBarStyle: { backgroundColor: "#3db1ff" },
+        headerStyle: { backgroundColor: "#0D25A7" },
+        tabBarStyle: { backgroundColor: "#0D25A7" },
         tabBarActiveTintColor: "red",
       }}
     >
@@ -109,7 +111,7 @@ function AuthenticatedStack() {
           headerShown: false,
           tabBarShowLabel: false,
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" size={size} color="black" />
+            <Ionicons name="home" size={size} color="white" />
           ),
         }}
       />
@@ -121,9 +123,10 @@ function AuthenticatedStack() {
           options={{
             tabBarShowLabel: false,
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name="stats-chart" size={size} color="black" />
+              <Ionicons name="stats-chart" size={size} color="white" />
             ),
             headerTitleAlign: "center",
+            headerTintColor: "white",
           }}
         />
       )}
@@ -134,19 +137,20 @@ function AuthenticatedStack() {
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" size={size} color="black" />
+            <Ionicons name="person" size={size} color="white" />
           ),
           headerTitleAlign: "center",
           headerRight: () => {
             return (
               <IconButton
                 icon="exit"
-                color="black"
+                color="white"
                 size={24}
                 onPressProp={() => logOutUser()}
               />
             );
           },
+          headerTintColor: "white",
         }}
       />
     </Bottom.Navigator>

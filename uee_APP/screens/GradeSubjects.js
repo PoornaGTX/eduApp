@@ -1,7 +1,15 @@
-import { useLayoutEffect, useContext, useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text } from "react-native";
+import { useLayoutEffect, useEffect } from "react";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  ImageBackground,
+  Dimensions,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/core";
+import { LinearGradient } from "expo-linear-gradient";
+import { images } from "../constants/Images/images";
 
 //components
 import SubjectGirdTitle from "../components/SubjectGirdTitle";
@@ -55,9 +63,9 @@ const GradeSubjects = ({ route }) => {
       headerRight: () => {
         return (
           <IconButton
-            icon="add-circle"
-            color="black"
-            size={24}
+            icon="add"
+            color="white"
+            size={30}
             onPressProp={headerButtonHandler}
           />
         );
@@ -72,12 +80,14 @@ const GradeSubjects = ({ route }) => {
   }
 
   return (
-    <FlatList
-      data={displaySubjects}
-      keyExtractor={(item) => item._id}
-      renderItem={renderSubjectItem}
-      numColumns={2}
-    />
+    <LinearGradient colors={["#DA22FF", "#9733EE"]} style={styles.container}>
+      <FlatList
+        data={displaySubjects}
+        keyExtractor={(item) => item._id}
+        renderItem={renderSubjectItem}
+        numColumns={2}
+      />
+    </LinearGradient>
   );
 };
 
@@ -89,5 +99,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     marginTop: 32,
+  },
+  container: {
+    backgroundColor: "red",
+    flex: 1,
+  },
+  backImage: {
+    opacity: 0.6,
+  },
+  imageStyle: {
+    flex: 1,
+    position: "absolute",
+    left: 0,
+    top: 0,
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
   },
 });

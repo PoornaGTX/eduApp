@@ -1,7 +1,16 @@
 import { useState, useContext } from "react";
-import { Alert, View, StyleSheet } from "react-native";
+import {
+  Alert,
+  View,
+  StyleSheet,
+  Dimensions,
+  ImageBackground,
+  Text,
+} from "react-native";
 import ForgotPasswordAuthCon from "../components/Auth/ForgotPasswordAuthCon";
 import { useAppContext } from "../context/appContext";
+import { LinearGradient } from "expo-linear-gradient";
+import { images } from "../constants/Images/images";
 
 function ForgotPasswordScreen({ navigation }) {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
@@ -25,9 +34,21 @@ function ForgotPasswordScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.form}>
-      <ForgotPasswordAuthCon isLogin onAuthenticate={resetPasswordHandler} />
-    </View>
+    <LinearGradient colors={["black", "black"]} style={styles.container}>
+      <ImageBackground
+        source={images.LoginImage}
+        resizeMode="cover"
+        style={styles.imageStyle}
+        imageStyle={styles.backImage}
+      >
+        <View style={styles.form}>
+          <ForgotPasswordAuthCon
+            isLogin
+            onAuthenticate={resetPasswordHandler}
+          />
+        </View>
+      </ImageBackground>
+    </LinearGradient>
   );
 }
 
@@ -36,5 +57,24 @@ export default ForgotPasswordScreen;
 const styles = StyleSheet.create({
   form: {
     marginTop: 80,
+  },
+  container: {
+    backgroundColor: "red",
+    flex: 1,
+  },
+  backImage: {
+    opacity: 0.6,
+  },
+  imageStyle: {
+    flex: 1,
+    position: "absolute",
+    left: 0,
+    top: 0,
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
+  },
+  forgetText: {
+    textAlign: "center",
+    paddingTop: 10,
   },
 });
