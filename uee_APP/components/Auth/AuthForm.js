@@ -12,6 +12,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
   const [enteredTeacherSub, setEnteredTeacherSub] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
   const [enteredConfirmPassword, setEnteredConfirmPassword] = useState("");
+  const [enteredTeacherDes, setEnteredTeacherDes] = useState("");
 
   const dropDownData = [
     { label: "Teacher", value: "teacher" },
@@ -59,6 +60,8 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
         break;
       case "subject":
         setEnteredTeacherSub(enteredValue);
+      case "description":
+        setEnteredTeacherDes(enteredValue);
         break;
     }
   }
@@ -73,6 +76,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
       type: dropValue,
       password: enteredPassword,
       confirmPassword: enteredConfirmPassword,
+      teacherDescription: enteredTeacherDes
     });
   }
 
@@ -139,6 +143,15 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
           <Input
             label="Subject"
             onUpdateValue={updateInputValueHandler.bind(this, "subject")}
+            value={enteredTeacherSub}
+            // isInvalid={lastNameIsInvalid}
+          />
+        )}
+
+        {!isLogin && dropValue == "teacher" && (
+          <Input
+            label="description"
+            onUpdateValue={updateInputValueHandler.bind(this, "description")}
             value={enteredTeacherSub}
             // isInvalid={lastNameIsInvalid}
           />
