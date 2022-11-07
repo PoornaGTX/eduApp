@@ -36,8 +36,6 @@ function LoginScreen({ navigation }) {
     navigation.navigate("Login");
   };
 
-  console.log(alertType);
-
   if (showAlert && alertType === "danger") {
     Alert.alert(
       "Authntication failed!",

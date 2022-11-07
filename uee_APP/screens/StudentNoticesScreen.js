@@ -29,16 +29,10 @@ const StudentNoticesScreen = ({ route }) => {
   useEffect(() => {
     if (isFocused) {
       getAllNoticesStd();
-      console.log("##################################");
-      console.log(studentNotices);
-      console.log("##################################");
     }
   }, [isFocused]);
 
   const renderNoticeItem = (itemData) => {
-    console.log("##################################");
-    console.log(itemData);
-    console.log("##################################");
     return (
       <View style={styles.singleNotice}>
         <StudentNotice
@@ -58,7 +52,8 @@ const StudentNoticesScreen = ({ route }) => {
         data={studentNotices}
         keyExtractor={(item) => item._id}
         renderItem={renderNoticeItem}
-        style={{ backgroundColor: "#FEFEFE" }}
+        style={{ backgroundColor: "transparent" }}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
@@ -76,5 +71,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 10,
     padding: 15,
+    borderRadius: 8,
   },
 });

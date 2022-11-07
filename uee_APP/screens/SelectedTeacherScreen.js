@@ -35,16 +35,14 @@ const SelectedTeacherScreen = ({ route, navigation }) => {
     if (isFocused) {
       //   getAllSubjects();
       getAllUsersStd();
-      console.log(user.subscribeIds, subId);
     }
   }, [isFocused]);
 
   const isSubscribe = mySubscribeList.includes(teacherID);
   const teacher = usersStd.find((user) => user._id === teacherID);
-  console.log(teacher, usersStd);
+
   const subUnsubHandler = async () => {
     const subData = { subId: teacherID, isSubscribe: isSubscribe };
-    console.log(subData);
     subscribeHandler(subData);
     return Alert.alert(
       alertText,
@@ -173,6 +171,8 @@ const styles = StyleSheet.create({
 
   header: {
     backgroundColor: "#624F82",
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
   },
   headerContent: {
     padding: 30,
@@ -202,6 +202,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#3F3B6C",
     paddingBottom: 20,
     paddingRight: 20,
+    borderBottomRightRadius: 8,
+    borderBottomLeftRadius: 8,
   },
   item: {
     flexDirection: "row",
