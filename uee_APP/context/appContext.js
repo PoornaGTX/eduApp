@@ -495,7 +495,7 @@ const AppProvider = ({ children }) => {
         // payload: { msg: error.response.data.msg },
       });
     }
-    getAllSubjects();
+    teacherGetAllNotices();
   };
 
   // Teacher get all notices

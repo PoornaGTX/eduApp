@@ -658,7 +658,17 @@ const reducer = (state, action) => {
       alertText: "hello",
     };
   }
+
+    //get messages error
+    if (action.type === GET_MESSAGES_ERROR) {
+      return {
+        ...state,
+        isLoading: false,
+        showAlert: true,
+        alertType: "danger",
+        alertText: "hello",
+      };
   throw new Error(`no such action : ${action.type}`);
 };
-
+}
 export default reducer;

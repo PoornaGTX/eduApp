@@ -53,6 +53,10 @@ const userScheme = new mongoose.Schema(
       minlength: 6,
       select: false,
     },
+    teacherDescription: {
+      type: String,
+      default: "no",
+    },
   },
   { timestamps: true }
 );

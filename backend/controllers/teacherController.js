@@ -12,7 +12,6 @@ const createNotice = async (req, res) => {
 };
 
 const getAllNotices = async (req, res) => {
-  console.log(req.params.id);
   const allNotices = await Notice.find({ createdBy: req.params.id });
   res.status(StatusCodes.OK).json({ allNotices });
 };
@@ -63,7 +62,7 @@ const deleteNotice = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "Success! Notice removed" });
 };
 
-
+// send message
 const sendMessage = async (req, res) => {
   const { messageSender, chatRoomOwner, message } = req.body;
   //   req.body.createdBy = req.user.userId;

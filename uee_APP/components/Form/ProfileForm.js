@@ -10,6 +10,7 @@ const ProfileForm = ({
   labelName3,
   labelName4,
   labelName5,
+  labelName6,
   onCancel,
   updateProfileHandler,
   user,
@@ -21,10 +22,16 @@ const ProfileForm = ({
   const [subject, setSubject] = useState(user.teacherSubject);
   const [email, setEmail] = useState(user.email);
   const [type, setType] = useState(user.type);
+  const [description, setDescription] = useState(user.teacherDescription);
 
   //subject input handler
   const subjectChangeHandler = (enteredAmount) => {
     setSubject(enteredAmount);
+  };
+
+   //description input handler
+   const descriptionChangeHandler = (enteredAmount) => {
+    setDescription(enteredAmount);
   };
 
   //grade input Handler
@@ -69,7 +76,7 @@ const ProfileForm = ({
     }
 
     const userMogoID = user._id;
-    updateProfileHandler(userMogoID, fname, lname, email, subject, grade, type);
+    updateProfileHandler(userMogoID, fname, lname, email, subject, grade, description, type);
   };
 
   return (
@@ -111,6 +118,7 @@ const ProfileForm = ({
             }}
           />
         )}
+
         <AdminInput
           label={labelName5}
           textInputAllProps={{
@@ -119,6 +127,16 @@ const ProfileForm = ({
             editable: false,
           }}
         />
+
+        {user.teacherDescription !== "no" && (
+          <AdminInput
+            label={labelName6}
+            textInputAllProps={{
+              onChangeText: descriptionChangeHandler,
+              value: description,
+            }}
+          />
+        )}
 
         <View style={styles.buttons}>
           <Button

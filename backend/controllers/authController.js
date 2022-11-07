@@ -4,7 +4,7 @@ import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
 import moment from "moment";
 
 const register = async (req, res) => {
-  const { firstName, lastName, email, teacherSubject, Grade, type, password } =
+  const { firstName, lastName, email, teacherSubject, Grade, type, password, teacherDescription } =
     req.body;
 
   if (!firstName || !lastName || !email || !password || !type) {
@@ -25,6 +25,7 @@ const register = async (req, res) => {
     Grade,
     type,
     password,
+    teacherDescription
   });
 
   const token = user.createJWT();
@@ -37,6 +38,7 @@ const register = async (req, res) => {
       firstName: user.firstName,
       teacherSubject: user.teacherSubject,
       Grade: user.Grade,
+      teacherDescription: user.teacherDescription,
     },
     token,
   });
@@ -67,9 +69,9 @@ const login = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const { firstName, lastName, email, teacherSubject, Grade } = req.body;
+  const { firstName, lastName, email, teacherSubject, Grade, teacherDescription } = req.body;
   const { id: id } = req.params;
-  if (!email || !firstName || !lastName || !teacherSubject || Grade) {
+  if (!email || !firstName || !lastName || !teacherSubject || Grade || !teacherDescription) {
     // throw new BadRequestError("Please provide all values");
   }
 
@@ -80,6 +82,7 @@ const updateUser = async (req, res) => {
   user.lastName = lastName;
   user.Grade = Grade;
   user.teacherSubject = teacherSubject;
+  user.teacherDescription = teacherDescription
 
   await user.save();
 

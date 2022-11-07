@@ -30,13 +30,15 @@ const ProfileScreen = () => {
     lname,
     email,
     subject,
-    grade
+    grade,
+    description
   ) => {
     updateUser(userMogoID, {
       firstName: fname,
       lastName: lname,
       email,
       teacherSubject: subject,
+      teacherDescription: description,
       Grade: grade,
     });
   };
@@ -53,6 +55,7 @@ const ProfileScreen = () => {
         labelName3="Grade"
         labelName4="Subject"
         labelName5="Email"
+        labelName6="Description"
         user={user}
         updateProfileHandler={updateProfileHandler}
       />
