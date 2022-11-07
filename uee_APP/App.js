@@ -241,6 +241,45 @@ function AuthenticatedStack() {
           />
         </>
       )}
+      {user.type === "student" && (
+        <>
+          <Bottom.Screen
+            name="StudentHome"
+            component={StudentBottomTabHome}
+            options={{
+              headerShown: false,
+              tabBarShowLabel: false,
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="home" size={size} color="black" />
+              ),
+            }}
+          />
+          <Bottom.Screen
+            name="Timetable"
+            component={StudentTimeTableScreen}
+            options={{
+              headerShown: true,
+              tabBarShowLabel: false,
+              headerTitleAlign: "center",
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="calendar" size={size} color="black" />
+              ),
+            }}
+          />
+          <Bottom.Screen
+            name="My Notices"
+            component={StudentNoticesScreen}
+            options={{
+              headerShown: true,
+              tabBarShowLabel: false,
+              headerTitleAlign: "center",
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="notifications" size={size} color="black" />
+              ),
+            }}
+          />
+        </>
+      )}
       <Bottom.Screen
         name="Profile"
         component={ProfileScreen}
