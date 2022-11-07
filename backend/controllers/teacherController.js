@@ -62,7 +62,7 @@ const deleteNotice = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "Success! Notice removed" });
 };
 
-
+// send message
 const sendMessage = async (req, res) => {
   const { messageSender, chatRoomOwner, message } = req.body;
   //   req.body.createdBy = req.user.userId;
