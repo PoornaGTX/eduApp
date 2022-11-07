@@ -142,11 +142,11 @@ const AdminForm = ({
           onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
         />
         <ColorPixer
-          subjectColor="#f5a442"
+          subjectColor="#f05da9"
           onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
         />
         <ColorPixer
-          subjectColor="#f5428d"
+          subjectColor="#636df2"
           onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
         />
         <ColorPixer
@@ -154,7 +154,7 @@ const AdminForm = ({
           onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
         />
         <ColorPixer
-          subjectColor="#368dff"
+          subjectColor="#d0d0d6"
           onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
         />
         <ColorPixer
@@ -162,7 +162,7 @@ const AdminForm = ({
           onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
         />
         <ColorPixer
-          subjectColor="#f5428d"
+          subjectColor="#c9d5f0"
           onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
         />
         <ColorPixer
@@ -174,11 +174,11 @@ const AdminForm = ({
           onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
         />
         <ColorPixer
-          subjectColor="#47fced"
+          subjectColor="black"
           onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
         />
         <ColorPixer
-          subjectColor="#dbde3c"
+          subjectColor="#ffdc8f"
           onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
         />
         <ColorPixer
@@ -186,11 +186,11 @@ const AdminForm = ({
           onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
         />
         <ColorPixer
-          subjectColor="#ff5c95"
+          subjectColor="#dee6a8" //
           onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
         />
         <ColorPixer
-          subjectColor="red"
+          subjectColor="#9e8cfa"
           onPressProp={labelName2 ? subjectColorHandler : gradeColorHandler}
         />
       </View>
@@ -202,6 +202,7 @@ const AdminForm = ({
         <Button
           onPressProp={labelName2 ? sumbitHandler : sumbitHandlerGrade}
           style={styles.button}
+          color="#09b88e"
         >
           {submitButtonLabel}
         </Button>
@@ -227,6 +228,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 10,
   },
   button: {
     minWidth: 120,

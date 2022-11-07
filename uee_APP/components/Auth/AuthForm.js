@@ -4,6 +4,7 @@ import { StyleSheet, View } from "react-native";
 import Button from "../ui/Button";
 import Input from "./Input";
 import { Dropdown } from "react-native-element-dropdown";
+import { Colors } from "../constants/styles";
 
 function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
   const [enteredFirstName, setEnteredFirstName] = useState("");
@@ -178,7 +179,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
           />
         )}
         <View style={styles.buttons}>
-          <Button onPress={submitHandler}>
+          <Button onPress={submitHandler} color="#09b88e">
             {isLogin ? "Log In" : "Sign Up"}
           </Button>
         </View>
@@ -194,10 +195,14 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   dropown: {
-    borderWidth: 2,
-    borderColor: "white",
     marginVertical: 8,
-    backgroundColor: "white",
+    backgroundColor: Colors.InputBackgroudColor,
     borderRadius: 4,
+    paddingVertical: 8,
+    paddingHorizontal: 6,
+  },
+  form: {
+    alignContent: "center",
+    justifyContent: "center",
   },
 });

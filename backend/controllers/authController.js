@@ -1,22 +1,20 @@
 import User from "../models/User.js";
 import { StatusCodes } from "http-status-codes";
-// import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
+import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
 import moment from "moment";
-import nodemailer from "nodemailer";
-import jwt from "jsonwebtoken";
 
 const register = async (req, res) => {
   const { firstName, lastName, email, teacherSubject, Grade, type, password, teacherDescription } =
     req.body;
 
   if (!firstName || !lastName || !email || !password || !type) {
-    // throw new BadRequestError("please provide all values");
+    throw new BadRequestError("please provide all values");
   }
 
   const userAlreadyExsisits = await User.findOne({ email });
 
   if (userAlreadyExsisits) {
-    // throw new BadRequestError("Email already in use");
+    throw new BadRequestError("Email already in use");
   }
 
   const user = await User.create({
@@ -49,7 +47,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    // throw new BadRequestError("Please provide all values");
+    throw new BadRequestError("Please provide all values");
   }
 
   const user = await User.findOne({ email }).select("+password");
@@ -61,13 +59,13 @@ const login = async (req, res) => {
   const isPasswordCorrect = await user.comparePassword(password);
 
   if (!isPasswordCorrect) {
-    throw new UnauthenticatedError("Invalid credentials");
+    throw new UnAuthenticatedError("Invalid credentials");
   }
 
   const token = user.createJWT();
   user.password = undefined;
 
-  res.status(StatusCodes.OK).json({ user, token, location: user.location });
+  res.status(StatusCodes.OK).json({ user, token });
 };
 
 const updateUser = async (req, res) => {

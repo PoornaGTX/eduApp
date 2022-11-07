@@ -48,6 +48,10 @@ const ProfileForm = ({
     setGrade(enteredAmount);
   };
 
+  console.log("====================================");
+  console.log(user.Grade);
+  console.log("====================================");
+
   //for subject
   const sumbitHandler = () => {
     //validate input
@@ -139,7 +143,12 @@ const ProfileForm = ({
         )}
 
         <View style={styles.buttons}>
-          <Button onPressProp={sumbitHandler} style={styles.button}>
+          <Button
+            onPressProp={sumbitHandler}
+            style={styles.button}
+            color="#09b88e"
+            fontSize={17}
+          >
             update
           </Button>
         </View>
