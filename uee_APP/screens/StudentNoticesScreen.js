@@ -13,6 +13,8 @@ import LoadingOverLay from "../components/LoadingOverLay/LoadingOverLay";
 
 //context
 import { useAppContext } from "../context/appContext";
+import StudentNotice from "../components/StudentNotice";
+import { Colors } from "../constants/styles";
 
 //route will resive to any registred screens
 const StudentNoticesScreen = ({ route }) => {
@@ -27,62 +29,37 @@ const StudentNoticesScreen = ({ route }) => {
   useEffect(() => {
     if (isFocused) {
       getAllNoticesStd();
-      console.log(
-        "##########################################################################################################"
-      );
+      console.log("##################################");
       console.log(studentNotices);
-      console.log(
-        "##########################################################################################################"
-      );
+      console.log("##################################");
     }
   }, [isFocused]);
 
-  //   const displaySubjects = subjects.filter((singleSubject) => {
-  //     return singleSubject.gID === gradeID;
-  //   });
-
-  //for header button for adding new subject
-  const headerButtonHandler = () => {
-    // navigation.navigate("ManageSubjects", { gradeNameID: gradeID });
-  };
-
-  const renderSubjectItem = (itemData) => {
+  const renderNoticeItem = (itemData) => {
+    console.log("##################################");
+    console.log(itemData);
+    console.log("##################################");
     return (
-      <SubjectGirdTitle
-        subjectName={itemData.item.subjectName}
-        subjectcolor={itemData.item.color}
-        subjectID={itemData.item._id}
-        // Grade={gradeID}
-      />
+      <View style={styles.singleNotice}>
+        <StudentNotice
+          labelName2={itemData.item.title}
+          titleProp={itemData.item.title}
+          descriptionProp={itemData.item.description}
+          linkProp={itemData.item.link}
+          dateProp={itemData.item.date}
+        />
+      </View>
     );
   };
 
-  //header Button
-
-  //   useLayoutEffect(() => {
-  //     navigation.setOptions({
-  //       headerRight: () => {
-  //         return (
-  //           <IconButton
-  //             icon="add-circle"
-  //             color="black"
-  //             size={24}
-  //             onPressProp={headerButtonHandler}
-  //           />
-  //         );
-  //       },
-  //     });
-  //   }, []);
-
-  //get all subjects
-
-  if (subjects.length === 0) {
-    return <Text style={styles.infoText}>No subjects availble</Text>;
-  }
-
   return (
-    <View>
-      <Text>My Notices</Text>
+    <View style={styles.root}>
+      <FlatList
+        data={studentNotices}
+        keyExtractor={(item) => item._id}
+        renderItem={renderNoticeItem}
+        style={{ backgroundColor: "#FEFEFE" }}
+      />
     </View>
   );
 };
@@ -90,10 +67,14 @@ const StudentNoticesScreen = ({ route }) => {
 export default StudentNoticesScreen;
 
 const styles = StyleSheet.create({
-  infoText: {
-    color: "black",
-    fontSize: 16,
-    textAlign: "center",
-    marginTop: 32,
+  root: {
+    padding: 10,
+    backgroundColor: Colors.primaryBackgroud,
+  },
+  singleNotice: {
+    backgroundColor: "#432C7A",
+    marginBottom: 10,
+    marginTop: 10,
+    padding: 15,
   },
 });
