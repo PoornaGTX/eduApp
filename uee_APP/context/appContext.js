@@ -706,14 +706,16 @@ const AppProvider = ({ children }) => {
 
   //get all notices
   const getAllNoticesStd = async () => {
+    getAllUsersStd();
     dispatch({ type: STUDENT_GET_ALL_NOTICES_BEGIN });
 
     try {
       const response = await axios.get(
         "http://10.0.2.2:5000/api/v1/students/notices",
-        { subscribeIds: state.user.subscribeIds }
+        { params: { subscribeIds: state.mySubscribeList } }
       );
       const { notices } = response.data;
+      console.log("here" + notices);
       dispatch({
         type: STUDENT_GET_ALL_NOTICES_SUCCESS,
         payload: { notices },
