@@ -31,6 +31,30 @@ import {
   UPDATE_GRADE_ERROR,
   DELETE_GRADE_BEGIN,
   LOGOUT_BEGIN,
+  GET_ALL_USERS_BEGIN,
+  GET_ALL_USERS_ERROR,
+  GET_ALL_USERS_SUCCESS,
+  SUBSCRIBE_TEACHER_BEGIN,
+  SUBSCRIBE_TEACHER_END,
+  SUBSCRIBE_TEACHER_SUCCESS,
+  TEACHER_GET_ALL_NOTICES_BEGIN,
+  TEACHER_GET_ALL_NOTICES_SUCCESS,
+  TEACHER_GET_ALL_NOTICES_ERROR,
+  TEACHER_ADD_NOTICE_BEGIN,
+  TEACHER_ADD_NOTICE_SUCCESS,
+  TEACHER_ADD_NOTICE_ERROR,
+  TEACHER_DELETE_NOTICE_BEGIN,
+  TEACHER_DELETE_NOTICE_SUCCESS,
+  TEACHER_UPDATE_NOTICE_BEGIN,
+  TEACHER_UPDATE_NOTICE_SUCCESS,
+  TEACHER_UPDATE_NOTICE_ERROR,
+  GET_MESSAGES_BEGIN,
+  GET_MESSAGES_SUCCESS,
+  GET_MESSAGES_ERROR,
+  SEND_MESSAGES_BEGIN,
+  SEND_MESSAGES_SUCCESS,
+  SEND_MESSAGES_ERROR,
+
   UPDATE_USER_BEGIN,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_ERROR,
@@ -42,6 +66,9 @@ import {
   LOGIN_NEWPASSWORD,
   LOGIN_NEWPASSWORD_COMPLETE,
   LOGIN_NEWPASSWORD_ERROR,
+  STUDENT_GET_ALL_NOTICES_BEGIN,
+  STUDENT_GET_ALL_NOTICES_SUCCESS,
+  STUDENT_GET_ALL_NOTICES_ERROR,
 } from "./action";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -55,9 +82,15 @@ const initialState = {
   isLogedIn: false,
   subjects: [],
   grades: [],
+  usersStd: [],
+  mySubscribeList: [],
+  teacherAllNotices: [],
+  messages: [],
+
   users: [],
   adminStats: {},
   monthelUserCreations: [],
+  studentNotices: [],
 };
 
 const AppContext = React.createContext();
@@ -65,26 +98,26 @@ const AppContext = React.createContext();
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const authFetch = axios.create({
-    baseURL: "http://10.0.2.2:5000/api",
-    headers: {
-      Authorization: `Bearer ${state.token}`,
-    },
-  });
-  authFetch.interceptors.response.use(
-    (response) => {
-      return response;
-    },
-    (error) => {
-      if (error.response.status === 401) {
-        // logoutUser();
-        console.log("====================================");
-        console.log("axios error");
-        console.log("====================================");
-      }
-      return Promise.reject(error);
-    }
-  );
+  // const authFetch = axios.create({
+  //   baseURL: "http://10.0.2.2:5000/api",
+  //   headers: {
+  //     Authorization: `Bearer ${state.token}`,
+  //   },
+  // });
+  // authFetch.interceptors.response.use(
+  //   (response) => {
+  //     return response;
+  //   },
+  //   (error) => {
+  //     if (error.response.status === 401) {
+  //       // logoutUser();
+  //       console.log("====================================");
+  //       console.log("axios error");
+  //       console.log("====================================");
+  //     }
+  //     return Promise.reject(error);
+  //   }
+  // );
 
   //register user
 
@@ -240,6 +273,10 @@ const AppProvider = ({ children }) => {
     try {
       const response = await axios.get("http://10.0.2.2:5000/api/v1/admin/");
       const { AllSubjects } = response.data;
+      console.log("##########################");
+      console.log(AllSubjects);
+      console.log("##########################");
+
       dispatch({
         type: GET_SUBJECTS_SUCCESS,
         payload: { AllSubjects },
@@ -300,6 +337,64 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  //get all Grades
+  const getAllUsersStd = async () => {
+    dispatch({ type: GET_ALL_USERS_BEGIN });
+
+    try {
+      const response = await axios.get("http://10.0.2.2:5000/api/v1/students");
+      const { users } = response.data;
+      const userId = state.user._id;
+      dispatch({
+        type: GET_ALL_USERS_SUCCESS,
+        payload: { users, userId },
+      });
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: GET_ALL_USERS_ERROR,
+      });
+    }
+  };
+
+  // Teacher get all notices
+  const teacherGetAllNotices = async () => {
+    dispatch({ type: TEACHER_GET_ALL_NOTICES_BEGIN });
+    try {
+      const response = await axios.get(
+        `http://10.0.2.2:5000/api/v1/teacher/${state.user._id}`
+      );
+      const { allNotices } = response.data;
+      dispatch({
+        type: TEACHER_GET_ALL_NOTICES_SUCCESS,
+        payload: { allNotices },
+      });
+    } catch (error) {
+      dispatch({
+        type: TEACHER_GET_ALL_NOTICES_ERROR,
+        // payload: { msg: error.response.data.msg },
+      });
+    }
+  };
+
+  //Teacher add notice
+  const teacherAddNotice = async (notice) => {
+    dispatch({ type: TEACHER_ADD_NOTICE_BEGIN });
+    try {
+      const response = await axios.post(
+        `http://10.0.2.2:5000/api/v1/teacher/${state.user._id}`,
+        notice
+      );
+      dispatch({
+        type: TEACHER_ADD_NOTICE_SUCCESS,
+      });
+    } catch (error) {
+      dispatch({
+        type: TEACHER_ADD_NOTICE_ERROR,
+      });
+    }
+  };
+
   //update user
   const updateUser = async (userMogoID, currentUser) => {
     dispatch({ type: UPDATE_USER_BEGIN });
@@ -345,6 +440,236 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  //subscribe handler
+  //update subject
+  const subscribeHandler = async (subData) => {
+    console.log("here");
+    dispatch({ type: SUBSCRIBE_TEACHER_BEGIN });
+    try {
+      const response = await axios.patch(
+        `http://10.0.2.2:5000/api/v1/students/subscribe/${state.user._id}`,
+        subData
+      );
+      console.log(response.data);
+      getAllUsersStd();
+      dispatch({
+        type: SUBSCRIBE_TEACHER_SUCCESS,
+        // payload: { AllSubjects },
+        payload: { userID: state.user._id },
+      });
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: SUBSCRIBE_TEACHER_END,
+        // payload: { msg: error.response.data.msg },
+      });
+    }
+    // getAllSubjects();
+  };
+
+  //Teacher delete notice
+  const teacherDeleteNotice = async (noticeMongoId) => {
+    dispatch({ type: TEACHER_DELETE_NOTICE_BEGIN });
+    try {
+      const response = await axios.delete(
+        `http://10.0.2.2:5000/api/v1/teacher/${noticeMongoId}`
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //Teacher delete notice
+  const teacherUpdateNotice = async (subjectID, subData) => {
+    dispatch({ type: TEACHER_UPDATE_NOTICE_BEGIN });
+
+    try {
+      const response = await axios.patch(
+        `http://10.0.2.2:5000/api/v1/teacher/${subjectID}`,
+        subData
+      );
+      dispatch({
+        type: TEACHER_UPDATE_NOTICE_SUCCESS,
+        // payload: { AllSubjects },
+      });
+    } catch (error) {
+      dispatch({
+        type: TEACHER_UPDATE_NOTICE_ERROR,
+        // payload: { msg: error.response.data.msg },
+      });
+    }
+    getAllSubjects();
+  };
+
+  // Teacher get all notices
+  const getAllMessages = async (teacherName) => {
+    dispatch({ type: GET_MESSAGES_BEGIN });
+    try {
+      const response = await axios.get(
+        `http://10.0.2.2:5000/api/v1/teacher/message/${teacherName}`
+      );
+      const { allMessages } = response.data;
+      dispatch({
+        type: GET_MESSAGES_SUCCESS,
+        payload: { allMessages },
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_MESSAGES_ERROR,
+        // payload: { msg: error.response.data.msg },
+      });
+    }
+  };
+
+  //Send message
+  const sendMessage = async (message) => {
+    dispatch({ type: SEND_MESSAGES_BEGIN });
+    try {
+      const response = await axios.post(
+        `http://10.0.2.2:5000/api/v1/teacher/message`, message );
+      dispatch({
+        type: SEND_MESSAGES_SUCCESS,
+      });
+    } catch (error) {
+      dispatch({
+        type:SEND_MESSAGES_ERROR,
+        // payload: { msg: error.response.data.msg },
+      });
+    }
+  };
+  //   //login user
+
+  //   //get cart
+  //   const getCart = async () => {
+  //     dispatch({ type: GET_CART_BEGIN });
+
+  //     try {
+  //       const response = await authFetch.get("/Customers/cart");
+  //       const { carts } = response.data;
+
+  //       dispatch({
+  //         type: GET_CART_SUCCESS,
+  //         payload: { carts },
+  //       });
+  //     } catch (error) {
+  //       dispatch({
+  //         type: GET_CART_ERROR,
+  //         // payload: { msg: error.response.data.msg },
+  //       });
+  //     }
+  //   };
+
+  //   //get all products
+  //   const getAllProducts = async () => {
+  //     dispatch({ type: GET_PRODUCTS_BEGIN });
+
+  //     try {
+  //       const response = await axios.get(
+  //         "http://10.0.2.2:5000/api/Customers/Products"
+  //       );
+  //       const { products } = response.data;
+
+  //       dispatch({
+  //         type: GET_PRODUCTS_SUCCESS,
+  //         payload: { products },
+  //       });
+  //     } catch (error) {
+  //       dispatch({
+  //         type: GET_CART_ERROR,
+  //         // payload: { msg: error.response.data.msg },
+  //       });
+  //     }
+  //   };
+
+  //   //deleteCartitem
+  //   const deleteCartitem = async (cartItemID) => {
+  //     dispatch({ type: DELETE_TOCART_BEGIN });
+  //     try {
+  //       const response = await authFetch.delete(`/Customers/cart/${cartItemID}`);
+
+  //       dispatch({
+  //         type: DELETE_TOCART_SUCCESS,
+  //       });
+  //       getCart();
+  //     } catch (error) {
+  //       dispatch({
+  //         type: DELETE_TOCART_ERROR,
+  //         // payload: { msg: error.response.data.msg },
+  //       });
+  //     }
+  //   };
+
+  //   //get all products
+  //   const getAllProjectDetails = async () => {
+  //     dispatch({ type: GET_PROJECT_BEGIN });
+
+  //     const email = state.user.email;
+
+  //     try {
+  //       const response = await axios.get(
+  //         `http://10.0.2.2:5000/api/Projects/${email}`
+  //       );
+  //       const { project } = response.data;
+
+  //       dispatch({
+  //         type: GET_PROJECT_SUCCESS,
+  //         payload: { project },
+  //       });
+  //     } catch (error) {
+  //       dispatch({
+  //         type: GET_PROJECT_ERROR,
+  //         // payload: { msg: error.response.data.msg },
+  //       });
+  //     }
+  //   };
+
+  //   const addToOrder = async (cart, totalCart) => {
+  //     dispatch({ type: CREATE_ORDER_BEGIN });
+
+  //     let status;
+  //     try {
+  //       if (totalCart >= 100000) {
+  //         status = "pending";
+  //       } else {
+  //         status = "approved";
+  //       }
+  //       const response = await authFetch.post("/order", {
+  //         createdBy: state.user._id,
+  //         cartproducts: cart,
+  //         total: totalCart,
+  //         status,
+  //       });
+  //       dispatch({
+  //         type: CREATE_ORDER_SUCCESS,
+  //       });
+  //     } catch (error) {
+  //       dispatch({
+  //         type: CREATE_ORDER_ERROR,
+  //         // payload: { msg: error.response.data.msg },
+  //       });
+  //     }
+  //     getCart();
+  //   };
+
+  //   //get all products
+  //   const getOrderSummery = async () => {
+  //     dispatch({ type: GET_ORDER_BEGIN });
+
+  //     try {
+  //       const response = await authFetch.get("/order");
+  //       const { Orders } = response.data;
+
+  //       dispatch({
+  //         type: GET_ORDER_SUCCESS,
+  //         payload: { Orders },
+  //       });
+  //     } catch (error) {
+  //       dispatch({
+  //         type: GET_ORDER_ERROR,
+  //         // payload: { msg: error.response.data.msg },
+  //       });
+  //     }
+  //   };
   const adminShowStats = async () => {
     dispatch({ type: SHOW_STATS_BEGIN });
 
@@ -379,6 +704,29 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  //get all notices
+  const getAllNoticesStd = async () => {
+    getAllUsersStd();
+    dispatch({ type: STUDENT_GET_ALL_NOTICES_BEGIN });
+
+    try {
+      const response = await axios.get(
+        "http://10.0.2.2:5000/api/v1/students/notices",
+        { params: { subscribeIds: state.mySubscribeList } }
+      );
+      const { notices } = response.data;
+      console.log("here" + notices);
+      dispatch({
+        type: STUDENT_GET_ALL_NOTICES_SUCCESS,
+        payload: { notices },
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_ALL_USERS_ERROR,
+      });
+    }
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -394,10 +742,19 @@ const AppProvider = ({ children }) => {
         updateGrade,
         deleteGrade,
         logOutUser,
+        getAllUsersStd,
+        subscribeHandler,
+        teacherGetAllNotices,
+        teacherAddNotice,
+        teacherDeleteNotice,
+        teacherUpdateNotice,
+        getAllMessages,
+        sendMessage,
         updateUser,
         getAllUsers,
         adminShowStats,
         passwordReset,
+        getAllNoticesStd,
       }}
     >
       {children}

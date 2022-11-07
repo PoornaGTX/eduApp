@@ -13,6 +13,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 //screens
+import MySubjects from "./screens/MySubjects";
 import GradesScreen from "./screens/GradesScreen";
 import GradeSubjects from "./screens/GradeSubjects";
 import ManageSubjectScreen from "./screens/ManageSubjectScreen";
@@ -28,6 +29,17 @@ const Bottom = createBottomTabNavigator();
 
 import { useAppContext } from "./context/appContext";
 import { AppProvider } from "./context/appContext";
+
+import StudentTimeTableScreen from "./screens/StudentTimeTableScreen";
+import AllTeachersScreen from "./screens/AllTeachersScreen";
+import SelectedTeacherScreen from "./screens/SelectedTeacherScreen";
+import StudentNoticesScreen from "./screens/StudentNoticesScreen";
+
+// export const user = { type: "Student", grade: "Grade 5", subscribeIds: ["2"] };
+
+import TeacherAllNotices from "./screens/TeacherAllNotices";
+import TeacherAddNotice from "./screens/TeacherAddNotice";
+import ChatRoom from "./screens/ChatRoom";
 
 //for unathunticated users
 function AuthStack() {
@@ -82,11 +94,80 @@ const AdminBottomTabHome = () => {
           headerTitleAlign: "center",
         }}
       />
-
       <Stack.Screen
         name="ManageGrade"
         component={ManageGradesScreen}
         options={{ presentation: "modal", title: "Manage Grades" }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+//use by Teacher
+const TeacherBottomTabHome = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: "#3db1ff" },
+        headerTitleAlign: "center",
+      }}
+    >
+      <Stack.Screen
+        name="All Notices"
+        component={TeacherAllNotices}
+        options={{
+          contentStyle: { backgroundColor: "white" },
+          headerTitleAlign: "center",
+        }}
+      />
+
+      <Stack.Screen
+        name="AddNotice"
+        component={TeacherAddNotice}
+        options={{
+          presentation: "modal",
+          title: "Add Notice",
+          headerTitleAlign: "center",
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+//use by student
+const StudentBottomTabHome = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: "#3db1ff" },
+        headerTitleAlign: "center",
+      }}
+    >
+      <Stack.Screen
+        name="My Subjects"
+        component={MySubjects}
+        options={{
+          contentStyle: { backgroundColor: "white" },
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="AllTeachersScreen"
+        component={AllTeachersScreen}
+        options={{
+          presentation: "modal",
+          title: "All Teachers",
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="SelectedTeacher"
+        component={SelectedTeacherScreen}
+        options={{
+          presentation: "modal",
+          title: "Teacher",
+          headerTitleAlign: "center",
+        }}
       />
     </Stack.Navigator>
   );
@@ -104,17 +185,20 @@ function AuthenticatedStack() {
         tabBarActiveTintColor: "red",
       }}
     >
-      <Bottom.Screen
-        name="AdminHome"
-        component={AdminBottomTabHome}
-        options={{
-          headerShown: false,
-          tabBarShowLabel: false,
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" size={size} color="white" />
-          ),
-        }}
-      />
+
+      {user.type === "Admin" && (
+        <Bottom.Screen
+          name="AdminHome"
+          component={AdminBottomTabHome}
+          options={{
+            headerShown: false,
+            tabBarShowLabel: false,
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="home" size={size} color="black" />
+            ),
+          }}
+        />
+      )}
 
       {user.type === "Admin" && (
         <Bottom.Screen
@@ -130,7 +214,76 @@ function AuthenticatedStack() {
           }}
         />
       )}
+      {user.type === "teacher" && (
+        <>
+          <Bottom.Screen
+            name="TeacherAllNotice"
+            component={TeacherBottomTabHome}
+            options={{
+              headerShown: false,
 
+              tabBarShowLabel: false,
+
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="home" size={size} color="white" />
+              ),
+            }}
+          />
+
+          <Bottom.Screen
+            name="ChatRoom"
+            component={ChatRoom}
+            options={{
+              headerShown: false,
+
+              tabBarShowLabel: false,
+
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="chatbox" size={size} color="white" />
+              ),
+            }}
+          />
+        </>
+      )}
+      {user.type === "student" && (
+        <>
+          <Bottom.Screen
+            name="StudentHome"
+            component={StudentBottomTabHome}
+            options={{
+              headerShown: false,
+              tabBarShowLabel: false,
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="home" size={size} color="black" />
+              ),
+            }}
+          />
+          <Bottom.Screen
+            name="Timetable"
+            component={StudentTimeTableScreen}
+            options={{
+              headerShown: true,
+              tabBarShowLabel: false,
+              headerTitleAlign: "center",
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="calendar" size={size} color="black" />
+              ),
+            }}
+          />
+          <Bottom.Screen
+            name="My Notices"
+            component={StudentNoticesScreen}
+            options={{
+              headerShown: true,
+              tabBarShowLabel: false,
+              headerTitleAlign: "center",
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="notifications" size={size} color="black" />
+              ),
+            }}
+          />
+        </>
+      )}
       <Bottom.Screen
         name="Profile"
         component={ProfileScreen}

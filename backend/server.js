@@ -13,7 +13,9 @@ import connectDB from "./db/connect.js";
 
 // // routers
 import adminRoutes from "./routes/adminRoutes.js";
+import teacherRoutes from "./routes/teacherRoutes.js"
 import authRoutes from "./routes/authRoutes.js";
+import studentRoutes from "./routes/studentRoutes.js";
 
 // // middleware
 // import errorHandlerMiddleware from "./middleware/error-handler.js";
@@ -32,6 +34,11 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/admin", adminRoutes);
+
+app.use("/api/v1/students", studentRoutes);
+
+app.use("/api/v1/teacher", teacherRoutes);
+
 app.use("/api/auth", authRoutes);
 
 const start = async () => {

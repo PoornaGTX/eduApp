@@ -26,6 +26,23 @@ import {
   UPDATE_GRADE_ERROR,
   DELETE_GRADE_BEGIN,
   LOGOUT_BEGIN,
+  TEACHER_GET_ALL_NOTICES_BEGIN,
+  TEACHER_GET_ALL_NOTICES_SUCCESS,
+  TEACHER_GET_ALL_NOTICES_ERROR,
+  TEACHER_ADD_NOTICE_BEGIN,
+  TEACHER_ADD_NOTICE_SUCCESS,
+  TEACHER_ADD_NOTICE_ERROR,
+  TEACHER_DELETE_NOTICE_BEGIN,
+  TEACHER_UPDATE_NOTICE_BEGIN,
+  TEACHER_UPDATE_NOTICE_SUCCESS,
+  TEACHER_UPDATE_NOTICE_ERROR,
+  GET_MESSAGES_BEGIN,
+  GET_MESSAGES_SUCCESS,
+  GET_MESSAGES_ERROR,
+  SEND_MESSAGES_BEGIN,
+  SEND_MESSAGES_SUCCESS,
+  SEND_MESSAGES_ERROR,
+
   UPDATE_USER_BEGIN,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_ERROR,
@@ -37,6 +54,15 @@ import {
   LOGIN_NEWPASSWORD,
   LOGIN_NEWPASSWORD_COMPLETE,
   LOGIN_NEWPASSWORD_ERROR,
+  STUDENT_GET_ALL_NOTICES_BEGIN,
+  STUDENT_GET_ALL_NOTICES_SUCCESS,
+  STUDENT_GET_ALL_NOTICES_ERROR,
+  GET_ALL_USERS_BEGIN,
+  GET_ALL_USERS_ERROR,
+  GET_ALL_USERS_SUCCESS,
+  SUBSCRIBE_TEACHER_BEGIN,
+  SUBSCRIBE_TEACHER_SUCCESS,
+  SUBSCRIBE_TEACHER_END,
 } from "./action";
 
 const reducer = (state, action) => {
@@ -279,8 +305,35 @@ const reducer = (state, action) => {
     };
   }
 
-  //update user
+  // teacher get all notices begin
+  if (action.type === TEACHER_GET_ALL_NOTICES_BEGIN) {
+    return { ...state, isLoading: true, showAlert: false };
+  }
 
+  // teacher get all notices success
+  if (action.type === TEACHER_GET_ALL_NOTICES_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      teacherAllNotices: action.payload.allNotices,
+      alertType: "success",
+      alertText: "All notices!",
+    };
+  }
+
+  // teacher get all notices error
+  if (action.type === TEACHER_GET_ALL_NOTICES_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: "hello",
+    };
+
+    //update user
+  }
   if (action.type === UPDATE_USER_BEGIN) {
     return { ...state, isLoading: true };
   }
@@ -303,7 +356,24 @@ const reducer = (state, action) => {
       isLoading: false,
       showAlert: true,
       alertType: "danger",
-      alertText: action.payload.msg,
+      alertText: "Error getting notices",
+    };
+  }
+
+  //teacher add notice begin
+  if (action.type === TEACHER_ADD_NOTICE_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+
+  //teacher add notice success
+
+  if (action.type === TEACHER_ADD_NOTICE_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: "Notice added! Redirecting",
     };
   }
 
@@ -317,9 +387,20 @@ const reducer = (state, action) => {
       ...state,
       isLoading: false,
       showAlert: true,
-      users: action.payload.users,
       alertType: "success",
-      alertText: "User Created! Redirecting",
+      alertText: "Notice added! Redirecting",
+    };
+  }
+
+  //teacher add notice error
+
+  if (action.type === TEACHER_ADD_NOTICE_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: "hello",
     };
   }
 
@@ -330,6 +411,119 @@ const reducer = (state, action) => {
       showAlert: true,
       alertType: "danger",
       alertText: "hello",
+    };
+  }
+  //teacher delete notice
+  if (action.type === TEACHER_DELETE_NOTICE_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+
+  //teacher update notice begin
+ if (action.type === TEACHER_UPDATE_NOTICE_BEGIN) {
+  return {
+    ...state,
+    isLoading: true,
+  };
+}
+//teacher update notice
+if (action.type === TEACHER_UPDATE_NOTICE_SUCCESS) {
+  return {
+    ...state,
+    isLoading: false,
+    showAlert: true,
+    alertType: "success",
+    alertText: "Notice Updated",
+  };
+}
+
+if (action.type === TEACHER_UPDATE_NOTICE_ERROR) {
+  return {
+    ...state,
+    isLoading: false,
+    showAlert: true,
+    alertType: "danger",
+    alertText: action.payload.msg,
+  };
+}
+
+// teacher get all messages begin
+if (action.type === GET_MESSAGES_BEGIN) {
+  return { ...state, isLoading: true, showAlert: false };
+}
+
+// teacher get all messages success
+if (action.type === GET_MESSAGES_SUCCESS) {
+  return {
+    ...state,
+    isLoading: false,
+    showAlert: true,
+    messages: action.payload.allMessages,
+    alertType: "success",
+    alertText: "All messages!",
+  };
+}
+
+// teacher get all messages error
+if (action.type === GET_GRADES_ERROR) {
+  return {
+    ...state,
+    isLoading: false,
+    showAlert: true,
+    alertType: "danger",
+    alertText: "Error getting messages",
+  };
+}
+
+//send message begin
+if (action.type === SEND_MESSAGES_BEGIN) {
+  return { ...state, isLoading: true };
+}
+
+//add message success
+if (action.type === SEND_MESSAGES_SUCCESS) {
+  return {
+    ...state,
+    isLoading: false,
+    showAlert: true,
+    alertType: "success",
+    alertText: "Notice added! Redirecting",
+  };
+}
+
+//send message error
+if (action.type === SEND_MESSAGES_ERROR) {
+  return {
+    ...state,
+    isLoading: false,
+    showAlert: true,
+    alertType: "danger",
+    alertText: "hello",
+  };
+}
+  if (action.type === TEACHER_UPDATE_NOTICE_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }
+  //teacher update notice
+  if (action.type === TEACHER_UPDATE_NOTICE_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: "Notice Updated",
+    };
+  }
+
+  if (action.type === TEACHER_UPDATE_NOTICE_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
     };
   }
 
@@ -377,6 +571,92 @@ const reducer = (state, action) => {
     };
   }
 
+  //get all users for students
+  if (action.type === GET_ALL_USERS_BEGIN) {
+    return { ...state, isLoading: true, showAlert: false };
+  }
+
+  if (action.type === GET_ALL_USERS_SUCCESS) {
+    // console.log(updatedUser, state.users);
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      usersStd: action.payload.users,
+      alertType: "success",
+      alertText: "Success",
+      mySubscribeList: action.payload.users.find(
+        (user) => user._id === action.payload.userId
+      ).subscribeIds,
+    };
+  }
+
+  if (action.type === GET_ALL_USERS_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: "hello",
+    };
+  }
+
+  //subscribe handler
+  if (action.type === SUBSCRIBE_TEACHER_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }
+
+  if (action.type === SUBSCRIBE_TEACHER_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: "Success",
+    };
+  }
+
+  if (action.type === SUBSCRIBE_TEACHER_END) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
+    };
+  }
+
+  if (action.type === STUDENT_GET_ALL_NOTICES_BEGIN) {
+    return { ...state, isLoading: true, showAlert: false };
+  }
+
+  if (action.type === STUDENT_GET_ALL_NOTICES_SUCCESS) {
+    // console.log(updatedUser, state.users);
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      studentNotices: action.payload.notices,
+      alertType: "success",
+      alertText: "Success",
+      // mySubscribeList: action.payload.users.find(
+      //   (user) => user._id === action.payload.userId
+      // ).subscribeIds,
+    };
+  }
+
+  if (action.type === STUDENT_GET_ALL_NOTICES_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: "hello",
+    };
+  }
   throw new Error(`no such action : ${action.type}`);
 };
 
