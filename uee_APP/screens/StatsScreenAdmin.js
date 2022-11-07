@@ -1,9 +1,17 @@
 import { useEffect } from "react";
-import { View, Text, Dimensions, StyleSheet, ScrollView } from "react-native";
-import { LineChart } from "react-native-chart-kit";
+import {
+  View,
+  Text,
+  Dimensions,
+  StyleSheet,
+  ScrollView,
+  Platform,
+} from "react-native";
+import { LineChart, BarChart } from "react-native-chart-kit";
 
 import { useAppContext } from "../context/appContext";
 import { useIsFocused } from "@react-navigation/core";
+import { LinearGradient } from "expo-linear-gradient";
 
 const StatsScreenAdmin = () => {
   const {
@@ -85,11 +93,9 @@ const StatsScreenAdmin = () => {
                 Grade 6 : {SubjectCount("Grade 6")}
               </Text>
               <Text style={styles.userText}>
-                Grade 7 :{SubjectCount("Grade 7")}
+                Grade 7 : {SubjectCount("Grade 7")}
               </Text>
-              <Text style={styles.userText}>
-                Grade 8 : {SubjectCount("Grade 8")}
-              </Text>
+              <Text style={styles.userText}>Grade 8 : 40</Text>
               <Text style={styles.userText}>
                 Grade 9 : {SubjectCount("Grade 9")}
               </Text>
@@ -109,7 +115,7 @@ const StatsScreenAdmin = () => {
           </View>
         </View>
 
-        <Text style={styles.headingText}>Monthly User Creation</Text>
+        <Text style={styles.headingText}>MONTHLY USER CREATION</Text>
         <View style={styles.chartContainer}>
           <LineChart
             data={{
@@ -121,17 +127,17 @@ const StatsScreenAdmin = () => {
               ],
             }}
             width={390} // from react-native
-            height={220}
+            height={320}
             yAxisInterval={1} // optional, defaults to 1
             y
             chartConfig={{
               backgroundColor: "#e26a00",
               strokeWidth: 0,
-              backgroundGradientFrom: "#fb8c00",
-              backgroundGradientTo: "#ffa726",
+              backgroundGradientFrom: "#cfb7ed",
+              backgroundGradientTo: "#cfb7ed",
               decimalPlaces: 0, // optional, defaults to 2dp
-              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-              labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+              labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
               style: {
                 borderRadius: 16,
               },
@@ -144,7 +150,7 @@ const StatsScreenAdmin = () => {
             bezier
             style={{
               marginVertical: 8,
-              borderRadius: 16,
+              borderRadius: 10,
             }}
           />
         </View>
@@ -159,7 +165,7 @@ const styles = StyleSheet.create({
   container: {
     alignContent: "center",
     alignItems: "center",
-    backgroundColor: "#200364",
+    backgroundColor: "#8208E2",
     flex: 1,
   },
   statstext: {
@@ -168,11 +174,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 25,
     marginTop: 10,
+    textDecorationLine: "underline",
   },
 
   chartContainer: {
     marginTop: 10,
-    marginBottom: 60,
+    marginBottom: 30,
   },
   headingText: {
     textAlign: "center",
@@ -180,19 +187,26 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: "white",
     marginTop: 30,
+    textDecorationLine: "underline",
   },
   totalUsers: {
     width: 390,
     height: 100,
-    backgroundColor: "#57c98c",
+    backgroundColor: "#cfb7ed",
     marginTop: 20,
     borderRadius: 10,
+    elevation: 5,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    overflow: Platform.OS === "android" ? "hidden" : "visible",
+    justifyContent: "center",
+    alignItems: "center",
   },
   totalUsersText: {
     textAlign: "center",
     fontWeight: "bold",
-    color: "white",
-    fontSize: 20,
+    color: "#8208E2",
+    fontSize: 22,
   },
 
   userContainer: {
@@ -201,18 +215,27 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   subjectContainer: {
-    height: 260,
+    height: 200,
+    alignContent: "center",
+    justifyContent: "center",
+    alignItems: "center",
   },
   userText: {
     fontSize: 22,
-    minWidth: 120,
-    marginHorizontal: 30,
+    minWidth: 130,
+    marginHorizontal: 25,
     marginVertical: 4,
+    fontWeight: "bold",
+    color: "black",
   },
   totalSubRow: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
     justifyContent: "space-between",
+  },
+  container2: {
+    backgroundColor: "red",
+    flex: 1,
   },
 });

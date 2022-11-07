@@ -1,12 +1,18 @@
 import { useEffect } from "react";
-import { Alert, StyleSheet, View, ScrollView } from "react-native";
+import {
+  Alert,
+  StyleSheet,
+  View,
+  ScrollView,
+  Pressable,
+  Text,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/core";
 import { useAppContext } from "../../context/appContext";
 
-import FlatButton from "../icons/Button";
 import ForgotPasswordForm from "./ForgotPasswordForm";
-import { Colors } from "../../constants/styles";
+import { Colors } from "../constants/styles";
 
 function ForgotPasswordAuthCon({ isLogin, onAuthenticate }) {
   const navigation = useNavigation();
@@ -54,9 +60,12 @@ function ForgotPasswordAuthCon({ isLogin, onAuthenticate }) {
   return (
     <View style={styles.authContent}>
       <ScrollView>
+        <Text style={styles.forgetText}>Reset Password</Text>
         <ForgotPasswordForm isLogin={isLogin} onSubmit={submitHandler} />
         <View style={styles.buttons}>
-          <FlatButton onPressProp={switchAuthModeHandler}>Log in</FlatButton>
+          <Pressable onPress={switchAuthModeHandler}>
+            <Text style={styles.forgetPasswordText}>Log in</Text>
+          </Pressable>
         </View>
       </ScrollView>
     </View>
@@ -71,7 +80,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     padding: 16,
     borderRadius: 8,
-    backgroundColor: Colors.primartBlack,
+    backgroundColor: Colors.formBackground,
     elevation: 2,
     shadowColor: "black",
     shadowOffset: { width: 1, height: 1 },
@@ -80,5 +89,15 @@ const styles = StyleSheet.create({
   },
   buttons: {
     marginTop: 8,
+  },
+  forgetPasswordText: {
+    color: "white",
+    textAlign: "center",
+  },
+  forgetText: {
+    textAlign: "center",
+    color: "white",
+    fontSize: 22,
+    fontWeight: "bold",
   },
 });

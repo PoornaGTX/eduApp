@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Alert } from "react-native";
 import { useAppContext } from "../context/appContext";
 import { useIsFocused } from "@react-navigation/core";
 
@@ -7,7 +7,7 @@ import { useIsFocused } from "@react-navigation/core";
 import ProfileForm from "../components/Form/ProfileForm";
 
 const ProfileScreen = () => {
-  const { user } = useAppContext();
+  const { user, alertType, alertText, showAlert } = useAppContext();
   const isFocused = useIsFocused();
   const { updateUser } = useAppContext();
 
@@ -38,10 +38,14 @@ const ProfileScreen = () => {
       lastName: lname,
       email,
       teacherSubject: subject,
-      grade,
-      teacherDescription: description
+      teacherDescription: description,
+      Grade: grade,
     });
   };
+
+  if (showAlert && alertType === "danger") {
+    Alert.alert("Invalid!!", "Please check the profile values");
+  }
 
   return (
     <View style={styles.container}>
@@ -65,7 +69,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    backgroundColor: "#200364",
+    backgroundColor: "#8208E2",
   },
   deleteContainer: {
     marginTop: 16,

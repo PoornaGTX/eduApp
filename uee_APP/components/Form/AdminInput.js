@@ -17,9 +17,10 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   label: {
-    fontSize: 14,
-    color: "#c6affc",
+    fontSize: 16,
+    color: "white",
     marginBottom: 4,
+    fontWeight: "bold",
   },
   input: {
     backgroundColor: "#c6affc",

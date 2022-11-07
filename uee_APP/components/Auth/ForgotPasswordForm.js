@@ -35,7 +35,7 @@ function ForgotPasswordForm({ isLogin, onSubmit, credentialsInvalid }) {
     <View style={styles.form}>
       <View>
         <Input
-          label="Email Address your email address"
+          label="Email Address"
           onUpdateValue={updateInputValueHandler.bind(this, "email")}
           value={enteredEmail}
           keyboardType="email-address"
@@ -56,7 +56,9 @@ function ForgotPasswordForm({ isLogin, onSubmit, credentialsInvalid }) {
         />
 
         <View style={styles.buttons}>
-          <Button onPress={submitHandler}>Rest Password</Button>
+          <Button onPress={submitHandler} color="#09b88e">
+            Rest Password
+          </Button>
         </View>
       </View>
     </View>
