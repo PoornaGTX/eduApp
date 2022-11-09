@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Alert, StyleSheet, View, Pressable, Text } from "react-native";
+import { Alert, StyleSheet, View, Pressable, Text, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import AuthForm from "./AuthForm";
@@ -104,7 +104,7 @@ function AuthContent({ isLogin, onAuthenticate }) {
   }
 
   return (
-    <View style={[styles.authContent, isLogin && { marginTop: 60 }]}>
+    <ScrollView style={[styles.authContent, isLogin && { marginTop: 60 }]} showsVerticalScrollIndicator={false}>
       <Text style={styles.forgetText}>{isLogin ? "Login" : "Sign Up"}</Text>
       <AuthForm
         isLogin={isLogin}
@@ -126,7 +126,7 @@ function AuthContent({ isLogin, onAuthenticate }) {
           </Pressable>
         )}
       </View>
-    </View>
+    </ScrollView>
   );
 }
 

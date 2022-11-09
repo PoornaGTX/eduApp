@@ -1,7 +1,9 @@
 import { useEffect } from "react";
-import { View, StyleSheet, Text, Alert } from "react-native";
+import { View, StyleSheet, Text, Alert, ImageBackground } from "react-native";
 import { useAppContext } from "../context/appContext";
 import { useIsFocused } from "@react-navigation/core";
+import { LinearGradient } from "expo-linear-gradient";
+import { images } from "../constants/Images/images";
 
 //components
 import ProfileForm from "../components/Form/ProfileForm";
@@ -48,18 +50,27 @@ const ProfileScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <ProfileForm
-        labelName1="First Name"
-        labelName2="Last Name"
-        labelName3="Grade"
-        labelName4="Subject"
-        labelName5="Email"
-        labelName6="Description"
-        user={user}
-        updateProfileHandler={updateProfileHandler}
-      />
-    </View>
+    <LinearGradient colors={["white", "black"]} style={styles.linerContainer}>
+      <ImageBackground
+        source={images.profile}
+        resizeMode="cover"
+        style={styles.imageStyle}
+        imageStyle={styles.backImage}
+      >
+        <View style={styles.container}>
+          <ProfileForm
+            labelName1="First Name"
+            labelName2="Last Name"
+            labelName3="Grade"
+            labelName4="Subject"
+            labelName5="Email"
+            labelName6="Description"
+            user={user}
+            updateProfileHandler={updateProfileHandler}
+          />
+        </View>
+      </ImageBackground>
+    </LinearGradient>
   );
 };
 
@@ -69,7 +80,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    backgroundColor: "#8208E2",
+    // backgroundColor: "#8208E2",
   },
   deleteContainer: {
     marginTop: 16,
@@ -86,5 +97,8 @@ const styles = StyleSheet.create({
   },
   backImage: {
     opacity: 0.4,
+  },
+  linerContainer: {
+    flex: 1,
   },
 });

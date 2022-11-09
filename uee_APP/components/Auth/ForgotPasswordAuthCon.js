@@ -59,7 +59,7 @@ function ForgotPasswordAuthCon({ isLogin, onAuthenticate }) {
 
   return (
     <View style={styles.authContent}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.forgetText}>Reset Password</Text>
         <ForgotPasswordForm isLogin={isLogin} onSubmit={submitHandler} />
         <View style={styles.buttons}>

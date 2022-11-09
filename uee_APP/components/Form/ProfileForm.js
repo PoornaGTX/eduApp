@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Alert, ScrollView } from "react-native";
 
 import AdminInput from "./AdminInput";
 import Button from "../icons/Button";
+import { Colors } from "../../constants/styles";
 
 const ProfileForm = ({
   labelName1,
@@ -29,8 +30,8 @@ const ProfileForm = ({
     setSubject(enteredAmount);
   };
 
-   //description input handler
-   const descriptionChangeHandler = (enteredAmount) => {
+  //description input handler
+  const descriptionChangeHandler = (enteredAmount) => {
     setDescription(enteredAmount);
   };
 
@@ -76,7 +77,16 @@ const ProfileForm = ({
     }
 
     const userMogoID = user._id;
-    updateProfileHandler(userMogoID, fname, lname, email, subject, grade, description, type);
+    updateProfileHandler(
+      userMogoID,
+      fname,
+      lname,
+      email,
+      subject,
+      grade,
+      description,
+      type
+    );
   };
 
   return (
@@ -89,6 +99,7 @@ const ProfileForm = ({
             onChangeText: fNameChangeHandler,
             value: fname,
           }}
+          profile
         />
 
         <AdminInput
@@ -97,6 +108,7 @@ const ProfileForm = ({
             onChangeText: lNameChangeHandler,
             value: lname,
           }}
+          profile
         />
 
         {user.Grade !== "no" && (
@@ -106,6 +118,7 @@ const ProfileForm = ({
               onChangeText: gradeChangeHandler,
               value: grade,
             }}
+            profile
           />
         )}
 
@@ -116,6 +129,7 @@ const ProfileForm = ({
               onChangeText: subjectChangeHandler,
               value: subject,
             }}
+            profile
           />
         )}
 
@@ -126,6 +140,7 @@ const ProfileForm = ({
             value: email,
             editable: false,
           }}
+          profile
         />
 
         {user.teacherDescription !== "no" && (
@@ -135,6 +150,7 @@ const ProfileForm = ({
               onChangeText: descriptionChangeHandler,
               value: description,
             }}
+            profile
           />
         )}
 
@@ -161,7 +177,7 @@ const styles = StyleSheet.create({
   },
   formTitle: {
     fontSize: 25,
-    color: "white",
+    color: Colors.primaryBackgroud,
     textAlign: "center",
     fontWeight: "bold",
     marginVertical: 16,

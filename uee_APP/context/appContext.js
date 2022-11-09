@@ -272,9 +272,6 @@ const AppProvider = ({ children }) => {
     try {
       const response = await axios.get("http://10.0.2.2:5000/api/v1/admin/");
       const { AllSubjects } = response.data;
-      console.log("##########################");
-      console.log(AllSubjects);
-      console.log("##########################");
 
       dispatch({
         type: GET_SUBJECTS_SUCCESS,
