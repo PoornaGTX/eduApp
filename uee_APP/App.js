@@ -309,6 +309,7 @@ function AuthenticatedStack() {
             );
           },
           headerTintColor: "white",
+          tabBarHideOnKeyboard: true,
         }}
       />
     </Bottom.Navigator>

@@ -60,13 +60,20 @@ const GradesScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <LinearGradient colors={["#DA22FF", "#9733EE"]} style={styles.container}>
-      <FlatList
-        data={grades}
-        keyExtractor={(item) => item._id}
-        renderItem={renderGradesItem}
-        numColumns={2}
-      />
+    <LinearGradient colors={["white", "white"]} style={styles.container}>
+      <ImageBackground
+        source={images.HomeImage}
+        resizeMode="cover"
+        style={styles.imageStyle}
+        imageStyle={styles.backImage}
+      >
+        <FlatList
+          data={grades}
+          keyExtractor={(item) => item._id}
+          renderItem={renderGradesItem}
+          numColumns={2}
+        />
+      </ImageBackground>
     </LinearGradient>
   );
 };
@@ -83,7 +90,7 @@ const styles = StyleSheet.create({
   },
   imageStyle: {
     flex: 1,
-    position: "absolute",
+    position: "relative",
     left: 0,
     top: 0,
     width: Dimensions.get("window").width,

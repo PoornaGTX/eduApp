@@ -6,12 +6,14 @@ import {
   StyleSheet,
   ScrollView,
   Platform,
+  ImageBackground,
 } from "react-native";
 import { LineChart, BarChart } from "react-native-chart-kit";
 
 import { useAppContext } from "../context/appContext";
 import { useIsFocused } from "@react-navigation/core";
 import { LinearGradient } from "expo-linear-gradient";
+import { images } from "../constants/Images/images";
 
 const StatsScreenAdmin = () => {
   const {
@@ -67,95 +69,104 @@ const StatsScreenAdmin = () => {
   }, [isFocused]);
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.statstext}>APP STATISTICS</Text>
-        <View style={styles.totalUsers}>
-          <Text style={styles.totalUsersText}>Total users</Text>
-          <View style={styles.userContainer}>
-            <Text style={styles.userText}>
-              Teachers : {userCount("teacher")}
-            </Text>
-            <Text style={styles.userText}>
-              Students : {userCount("student")}
-            </Text>
-          </View>
-        </View>
+    <LinearGradient colors={["white", "white"]} style={styles.linerContainer}>
+      <ImageBackground
+        source={images.stats}
+        resizeMode="cover"
+        style={styles.imageStyle}
+        imageStyle={styles.backImage}
+      >
+        <ScrollView>
+          <View style={styles.container}>
+            <Text style={styles.statstext}>APP STATISTICS</Text>
+            <View style={styles.totalUsers}>
+              <Text style={styles.totalUsersText}>Total users</Text>
+              <View style={styles.userContainer}>
+                <Text style={styles.userText}>
+                  Teachers : {userCount("teacher")}
+                </Text>
+                <Text style={styles.userText}>
+                  Students : {userCount("student")}
+                </Text>
+              </View>
+            </View>
 
-        <View style={[styles.totalUsers, styles.subjectContainer]}>
-          <Text style={styles.totalUsersText}>Total subjects</Text>
-          <View style={styles.userContainer}>
-            <View style={styles.totalSubRow}>
-              <Text style={styles.userText}>
-                Grade 5 : {SubjectCount("Grade 5")}
-              </Text>
-              <Text style={styles.userText}>
-                Grade 6 : {SubjectCount("Grade 6")}
-              </Text>
-              <Text style={styles.userText}>
-                Grade 7 : {SubjectCount("Grade 7")}
-              </Text>
-              <Text style={styles.userText}>Grade 8 : 40</Text>
-              <Text style={styles.userText}>
-                Grade 9 : {SubjectCount("Grade 9")}
-              </Text>
-              <Text style={styles.userText}>
-                Grade 10 : {SubjectCount("Grade 10")}
-              </Text>
-              <Text style={styles.userText}>
-                Grade 11 : {SubjectCount("Grade 11")}
-              </Text>
-              <Text style={styles.userText}>
-                Grade 12 : {SubjectCount("Grade 12")}
-              </Text>
-              {/* <Text style={styles.userText}>
+            <View style={[styles.totalUsers, styles.subjectContainer]}>
+              <Text style={styles.totalUsersText}>Total subjects</Text>
+              <View style={styles.userContainer}>
+                <View style={styles.totalSubRow}>
+                  <Text style={styles.userText}>
+                    Grade 5 : {SubjectCount("Grade 5")}
+                  </Text>
+                  <Text style={styles.userText}>
+                    Grade 6 : {SubjectCount("Grade 6")}
+                  </Text>
+                  <Text style={styles.userText}>
+                    Grade 7 : {SubjectCount("Grade 7")}
+                  </Text>
+                  <Text style={styles.userText}>Grade 8 : 40</Text>
+                  <Text style={styles.userText}>
+                    Grade 9 : {SubjectCount("Grade 9")}
+                  </Text>
+                  <Text style={styles.userText}>
+                    Grade 10 : {SubjectCount("Grade 10")}
+                  </Text>
+                  <Text style={styles.userText}>
+                    Grade 11 : {SubjectCount("Grade 11")}
+                  </Text>
+                  <Text style={styles.userText}>
+                    Grade 12 : {SubjectCount("Grade 12")}
+                  </Text>
+                  {/* <Text style={styles.userText}>
                 Grade 13 : {usersCount("Grade 13")}
               </Text> */}
+                </View>
+              </View>
+            </View>
+
+            <Text style={styles.headingText}>MONTHLY USER CREATION</Text>
+            <View style={styles.chartContainer}>
+              <LineChart
+                data={{
+                  labels: date,
+                  datasets: [
+                    {
+                      data: value,
+                    },
+                  ],
+                }}
+                width={390} // from react-native
+                height={320}
+                yAxisInterval={1} // optional, defaults to 1
+                y
+                chartConfig={{
+                  backgroundColor: "#e26a00",
+                  strokeWidth: 0,
+                  backgroundGradientFrom: "#cfb7ed",
+                  backgroundGradientTo: "#cfb7ed",
+                  decimalPlaces: 0, // optional, defaults to 2dp
+                  color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                  labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                  style: {
+                    borderRadius: 16,
+                  },
+                  propsForDots: {
+                    r: "6",
+                    strokeWidth: "5",
+                    stroke: "#ffa726",
+                  },
+                }}
+                bezier
+                style={{
+                  marginVertical: 8,
+                  borderRadius: 10,
+                }}
+              />
             </View>
           </View>
-        </View>
-
-        <Text style={styles.headingText}>MONTHLY USER CREATION</Text>
-        <View style={styles.chartContainer}>
-          <LineChart
-            data={{
-              labels: date,
-              datasets: [
-                {
-                  data: value,
-                },
-              ],
-            }}
-            width={390} // from react-native
-            height={320}
-            yAxisInterval={1} // optional, defaults to 1
-            y
-            chartConfig={{
-              backgroundColor: "#e26a00",
-              strokeWidth: 0,
-              backgroundGradientFrom: "#cfb7ed",
-              backgroundGradientTo: "#cfb7ed",
-              decimalPlaces: 0, // optional, defaults to 2dp
-              color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-              labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-              style: {
-                borderRadius: 16,
-              },
-              propsForDots: {
-                r: "6",
-                strokeWidth: "5",
-                stroke: "#ffa726",
-              },
-            }}
-            bezier
-            style={{
-              marginVertical: 8,
-              borderRadius: 10,
-            }}
-          />
-        </View>
-      </View>
-    </ScrollView>
+        </ScrollView>
+      </ImageBackground>
+    </LinearGradient>
   );
 };
 
@@ -165,12 +176,12 @@ const styles = StyleSheet.create({
   container: {
     alignContent: "center",
     alignItems: "center",
-    backgroundColor: "#8208E2",
+    // backgroundColor: "#8208E2",
     flex: 1,
   },
   statstext: {
     textAlign: "center",
-    color: "white",
+    color: "black",
     fontWeight: "bold",
     fontSize: 25,
     marginTop: 10,
@@ -185,7 +196,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     fontSize: 24,
-    color: "white",
+    color: "black",
     marginTop: 30,
     textDecorationLine: "underline",
   },
@@ -237,5 +248,19 @@ const styles = StyleSheet.create({
   container2: {
     backgroundColor: "red",
     flex: 1,
+  },
+  linerContainer: {
+    flex: 1,
+  },
+  backImage: {
+    opacity: 0.6,
+  },
+  imageStyle: {
+    flex: 1,
+    position: "relative",
+    left: 0,
+    top: 0,
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
   },
 });

@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   },
   imageStyle: {
     flex: 1,
-    position: "absolute",
+    position:"relative",
     left: 0,
     top: 0,
     width: Dimensions.get("window").width,

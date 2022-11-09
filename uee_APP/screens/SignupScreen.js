@@ -6,14 +6,11 @@ import {
   View,
   ImageBackground,
   Dimensions,
-  KeyboardAvoidingView,
-  Platform,
 } from "react-native";
 import AuthContent from "../components/Auth/AuthContent";
 import { useAppContext } from "../context/appContext";
 import { LinearGradient } from "expo-linear-gradient";
 import { images } from "../constants/Images/images";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 function SignupScreen() {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
@@ -28,7 +25,7 @@ function SignupScreen() {
     Grade,
     type,
     password,
-    teacherDescription
+    teacherDescription,
   }) => {
     setIsAuthenticating(true);
     try {
@@ -40,7 +37,7 @@ function SignupScreen() {
         Grade,
         type,
         password,
-        teacherDescription
+        teacherDescription,
       });
     } catch (error) {
       Alert.alert(
@@ -56,9 +53,18 @@ function SignupScreen() {
   // }
 
   return (
-    <ScrollView style={styles.form}>
-      <AuthContent onAuthenticate={signupHandler} />
-    </ScrollView>
+    <LinearGradient colors={["black", "black"]} style={styles.container}>
+      <ImageBackground
+        source={images.LoginImage}
+        resizeMode="cover"
+        style={styles.imageStyle}
+        imageStyle={styles.backImage}
+      >
+        <ScrollView style={styles.form}>
+          <AuthContent onAuthenticate={signupHandler} />
+        </ScrollView>
+      </ImageBackground>
+    </LinearGradient>
   );
 }
 
@@ -67,18 +73,18 @@ export default SignupScreen;
 const styles = StyleSheet.create({
   form: {
     marginTop: 40,
-    marginBottom: 40,
+    marginBottom: 10,
   },
   container: {
     backgroundColor: "red",
-    // flex: 1,
+    flex: 1,
   },
   backImage: {
     opacity: 0.6,
   },
   imageStyle: {
     flex: 1,
-    position: "absolute",
+    position: "relative",
     left: 0,
     top: 0,
     width: Dimensions.get("window").width,

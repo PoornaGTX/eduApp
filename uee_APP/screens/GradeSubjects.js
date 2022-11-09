@@ -80,13 +80,20 @@ const GradeSubjects = ({ route }) => {
   }
 
   return (
-    <LinearGradient colors={["#DA22FF", "#9733EE"]} style={styles.container}>
-      <FlatList
-        data={displaySubjects}
-        keyExtractor={(item) => item._id}
-        renderItem={renderSubjectItem}
-        numColumns={2}
-      />
+    <LinearGradient colors={["white", "white"]} style={styles.container}>
+      <ImageBackground
+        source={images.subject}
+        resizeMode="cover"
+        style={styles.imageStyle}
+        imageStyle={styles.backImage}
+      >
+        <FlatList
+          data={displaySubjects}
+          keyExtractor={(item) => item._id}
+          renderItem={renderSubjectItem}
+          numColumns={2}
+        />
+      </ImageBackground>
     </LinearGradient>
   );
 };
