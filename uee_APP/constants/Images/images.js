@@ -4,4 +4,5 @@ export const images = {
   subject: require("../Images/subjects.jpg"),
   stats: require("../Images/statsNew.jpg"),
   profile: require("../Images/profile.jpg"),
+  TeacherHomeBackground: require("../Images/TeacherHome.png")
 };

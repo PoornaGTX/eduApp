@@ -27,7 +27,10 @@ const ChatRoom = ({ route, navigation }) => {
   const renderNoticeItem = () => {
     return (
       messages.map((message)=>{
-        return <MessageText key={message._id} message={message.message} sender={message.messageSender} styleProp={message.messageSender==user.firstName&&{
+        if (message.messageSender==user.firstName) {
+          message.messageSender='You'
+        }
+        return <MessageText key={message._id} message={message.message} sender={message.messageSender} styleProp={message.messageSender=='You'&&{
           alignSelf:'flex-end'
         }}/>   
       })
