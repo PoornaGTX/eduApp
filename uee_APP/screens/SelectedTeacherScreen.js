@@ -8,6 +8,8 @@ import {
   Alert,
   Image,
   ScrollView,
+  Dimensions,
+  ImageBackground,
 } from "react-native";
 
 //http request
@@ -16,6 +18,8 @@ import { useAppContext } from "../context/appContext";
 import { useIsFocused } from "@react-navigation/core";
 import LoadingOverLay from "../components/LoadingOverLay/LoadingOverLay";
 import { Colors } from "../constants/styles";
+import { LinearGradient } from "expo-linear-gradient";
+import { images } from "../constants/Images/images";
 // import { user } from "../App";
 
 const SelectedTeacherScreen = ({ route, navigation }) => {
@@ -53,94 +57,96 @@ const SelectedTeacherScreen = ({ route, navigation }) => {
     return <LoadingOverLay />;
   }
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <View style={styles.headerContent}>
-            <Image
-              style={styles.avatar}
-              source={{
-                uri: "https://bootdey.com/img/Content/avatar/avatar6.png",
-              }}
-            />
+    <LinearGradient colors={["black", "black"]} style={styles.ImageContainer}>
+      <ImageBackground
+        source={images.TeacherHomeBackground}
+        resizeMode="cover"
+        style={styles.imageStyle}
+        imageStyle={styles.backImage}
+      >
+        <ScrollView style={styles.form}>
+          <View style={styles.container}>
+            <View style={styles.header}>
+              <View style={styles.headerContent}>
+                <Image
+                  style={styles.avatar}
+                  source={{
+                    uri: "https://bootdey.com/img/Content/avatar/avatar6.png",
+                  }}
+                />
 
-            <View>
-              <Text style={styles.name}>{teacher.firstName}</Text>
-              <Text style={styles.userInfo}>{teacher.email}</Text>
-              <View>
-                <Button
-                  title={isSubscribe ? "unsubscribe" : "Subscribe"}
-                  onPress={subUnsubHandler}
-                  style={styles.button}
-                ></Button>
+                <View>
+                  <Text style={styles.name}>{teacher.firstName}</Text>
+                  <Text style={styles.userInfo}>{teacher.email}</Text>
+                  <View>
+                    <Button
+                      title={isSubscribe ? "unsubscribe" : "Subscribe"}
+                      onPress={subUnsubHandler}
+                      style={styles.button}
+                    ></Button>
+                  </View>
+                </View>
+              </View>
+            </View>
+
+            <View style={styles.body}>
+              <View style={styles.item}>
+                <View style={styles.iconContent}>
+                  <Image
+                    style={styles.icon}
+                    source={{
+                      uri: "https://img.icons8.com/color/70/000000/administrator-male.png",
+                    }}
+                  />
+                </View>
+                <View style={styles.infoContent}>
+                  <Text
+                    style={styles.info}
+                  >{`Hey I'm ${teacher.firstName} ${teacher.lastName}`}</Text>
+                </View>
+              </View>
+
+              <View style={styles.item}>
+                <View style={styles.iconContent}>
+                  <Image
+                    style={styles.icon}
+                    source={{
+                      uri: "https://img.icons8.com/color/70/000000/university.png",
+                    }}
+                  />
+                </View>
+                <View style={styles.infoContent}>
+                  <Text
+                    style={styles.info}
+                  >{`I'm ${teacher.teacherSubject} ${teacher.type}`}</Text>
+                </View>
+              </View>
+
+              <View style={styles.item}>
+                <View style={styles.iconContent}>
+                  <Image
+                    style={styles.icon}
+                    source={{
+                      uri: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAABmJLR0QA/wD/AP+gvaeTAAABH0lEQVRIie3Uvy5EQRTH8c+qVAqyohGFXuEJFB7AA3gCjUqr9BqUCpVWwWroRLOJjkhk/UuIkGDtVeyKm5u9f2Z2V+WXTObfmfOdM2dyasp1jtkSmxUcV/CVq0UkFdoN5gYB7VcEJWhiMgYyj04AKMEBxkJB64GQn7YZCtqJBLWxFAJqRIISnGSdFb3nRMitMloIAY0PADoKMT4V92xnmMo6K4roIeRWPR3qfoTHENBdBGgNz/02ikCNCNBTxBl1vAnLz0yes6KI7nWrQwt7qfV2anyLr9Q8qRhEobZwgWVs4BqruPQb0fQwQHlqpkD1PKPgSluizl+BcnP0D+qnWmr8OUpQWu28jWGAXnv9Oz5GCWr1+isjztEuXrBdZPQNeMyRQY0CIxoAAAAASUVORK5CYII=",
+                    }}
+                  />
+                </View>
+                <View style={styles.infoContent}>
+                  <Text style={styles.info}>More about Me</Text>
+                </View>
+              </View>
+
+              <View style={styles.item}>
+                <View style={styles.iconContent}></View>
+                <View style={styles.infoContent}>
+                  <Text style={styles.info}>{teacher.teacherDescription}</Text>
+                </View>
               </View>
             </View>
           </View>
-        </View>
-
-        <View style={styles.body}>
-          <View style={styles.item}>
-            <View style={styles.iconContent}>
-              <Image
-                style={styles.icon}
-                source={{
-                  uri: "https://img.icons8.com/color/70/000000/administrator-male.png",
-                }}
-              />
-            </View>
-            <View style={styles.infoContent}>
-              <Text
-                style={styles.info}
-              >{`Hey I'm ${teacher.firstName} ${teacher.lastName}`}</Text>
-            </View>
-          </View>
-
-          <View style={styles.item}>
-            <View style={styles.iconContent}>
-              <Image
-                style={styles.icon}
-                source={{
-                  uri: "https://img.icons8.com/color/70/000000/university.png",
-                }}
-              />
-            </View>
-            <View style={styles.infoContent}>
-              <Text
-                style={styles.info}
-              >{`I'm ${teacher.teacherSubject} ${teacher.type}`}</Text>
-            </View>
-          </View>
-
-          <View style={styles.item}>
-            <View style={styles.iconContent}>
-              <Image
-                style={styles.icon}
-                source={{
-                  uri: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAABmJLR0QA/wD/AP+gvaeTAAABH0lEQVRIie3Uvy5EQRTH8c+qVAqyohGFXuEJFB7AA3gCjUqr9BqUCpVWwWroRLOJjkhk/UuIkGDtVeyKm5u9f2Z2V+WXTObfmfOdM2dyasp1jtkSmxUcV/CVq0UkFdoN5gYB7VcEJWhiMgYyj04AKMEBxkJB64GQn7YZCtqJBLWxFAJqRIISnGSdFb3nRMitMloIAY0PADoKMT4V92xnmMo6K4roIeRWPR3qfoTHENBdBGgNz/02ikCNCNBTxBl1vAnLz0yes6KI7nWrQwt7qfV2anyLr9Q8qRhEobZwgWVs4BqruPQb0fQwQHlqpkD1PKPgSluizl+BcnP0D+qnWmr8OUpQWu28jWGAXnv9Oz5GCWr1+isjztEuXrBdZPQNeMyRQY0CIxoAAAAASUVORK5CYII=",
-                }}
-              />
-            </View>
-            <View style={styles.infoContent}>
-              <Text style={styles.info}>More about Me</Text>
-            </View>
-          </View>
-
-          <View style={styles.item}>
-            <View style={styles.iconContent}></View>
-            <View style={styles.infoContent}>
-              <Text style={styles.info}>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Doloremque nam cupiditate nulla! Fugiat porro eius facilis animi
-                corporis, maxime nulla totam. Mollitia quos at quam iure quas
-                ut! Aperiam, illum error velit quia fugit, quisquam aspernatur
-                ratione quis incidunt voluptas sapiente quibusdam ducimus
-                veritatis maiores at veniam laudantium quo consectetur?
-              </Text>
-            </View>
-          </View>
-        </View>
-      </View>
-    </ScrollView>
+        </ScrollView>
+      </ImageBackground>
+    </LinearGradient>
   );
 };
 
@@ -150,7 +156,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    backgroundColor: Colors.primaryBackgroud,
   },
   deleteContainer: {
     marginTop: 16,
@@ -227,5 +232,24 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: 20,
     color: "#FFFFFF",
+  },
+
+  form: {
+    marginTop: 10,
+  },
+  ImageContainer: {
+    backgroundColor: "red",
+    flex: 1,
+  },
+  backImage: {
+    opacity: 0.6,
+  },
+  imageStyle: {
+    flex: 1,
+    position: "relative",
+    left: 0,
+    top: 0,
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
   },
 });

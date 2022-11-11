@@ -11,21 +11,19 @@ const getAllUsers = async (req, res) => {
 };
 
 const getMyNotices = async (req, res) => {
-  console.log("#################");
-  console.log(req.query.subscribeIds);
-  const teacherIds = req.query.subscribeIds.map((id) =>
-    mongoose.Types.ObjectId(id)
-  );
-  console.log("#################");
+  if (req.query.subscribeIds) {
+    const teacherIds = req.query.subscribeIds.map((id) =>
+      mongoose.Types.ObjectId(id)
+    );
 
-  const notices = await Notice.find({ createdBy: teacherIds });
-  console.log(notices);
-  res.status(200).json({ notices });
+    const notices = await Notice.find({ createdBy: teacherIds });
+    return res.status(200).json({ notices });
+  }
+  return res.status(200).json({ notices: [] });
 };
 
 const subscribeTeacher = async (req, res) => {
   const { id: userId } = req.params;
-  //   console.log(userId, req.body);
   //   const user = await User.findOne({ _id: new Object(userId.toString()) });
 
   if (req.body.isSubscribe) {
