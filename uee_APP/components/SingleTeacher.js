@@ -7,7 +7,6 @@ const SingleTeacher = ({ id, name, grade, subId, color }) => {
   const navigation = useNavigation();
 
   const headerButtonHandlerSubject = () => {
-    console.log({ id, name, grade, subId });
     navigation.navigate("SelectedTeacher", {
       teacherID: id,
       name,
@@ -15,7 +14,6 @@ const SingleTeacher = ({ id, name, grade, subId, color }) => {
       subId,
     });
   };
-  console.log(color);
   return (
     <View style={[styles.gridItem, styles.gridItemupdate]}>
       <Pressable

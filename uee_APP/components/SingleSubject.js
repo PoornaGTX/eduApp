@@ -7,7 +7,6 @@ const SingleSubject = ({ subjectName, subjectID, subjectcolor, Grade }) => {
   const navigation = useNavigation();
 
   const headerButtonHandlerSubject = () => {
-    console.log({ subID: subjectID, Grade: Grade });
     navigation.navigate("AllTeachersScreen", {
       subID: subjectID,
       Grade: Grade,
