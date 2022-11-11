@@ -1,5 +1,12 @@
 import { useLayoutEffect, useContext, useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  Dimensions,
+  FlatList,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/core";
 
@@ -16,6 +23,8 @@ import { useAppContext } from "../context/appContext";
 import SingleSubject from "../components/SingleSubject";
 // import { users } from "../dummyData/data";
 import SingleTeacher from "../components/SingleTeacher";
+import { images } from "../constants/Images/images";
+import { LinearGradient } from "expo-linear-gradient";
 
 //route will resive to any registred screens
 const AllTeachersScreen = ({ route }) => {
@@ -33,19 +42,12 @@ const AllTeachersScreen = ({ route }) => {
   }, [isFocused]);
 
   const displayTeachers = usersStd.filter((user) => {
-    console.log(subjectcolor);
     if (user.teacherSubject === subID) {
       return { ...user, subjectcolor };
     }
   });
 
-  //for header button for adding new subject
-  // const headerButtonHandler = () => {
-  //   navigation.navigate("ManageSubjects", { gradeNameID: gradeID });
-  // };
-
   const renderSubjectItem = (itemData) => {
-    console.log(itemData.item);
     return (
       <SingleTeacher
         name={itemData.item.firstName}
@@ -57,38 +59,22 @@ const AllTeachersScreen = ({ route }) => {
     );
   };
 
-  //header Button
-
-  // useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     headerRight: () => {
-  //       return (
-  //         <IconButton
-  //           icon="add-circle"
-  //           color="black"
-  //           size={24}
-  //           onPressProp={headerButtonHandler}
-  //         />
-  //       );
-  //     },
-  //   });
-  // }, []);
-
-  //get all subjects
-
-  // if (subjects.length === 0) {
-  //   return <Text style={styles.infoText}>No subjects availble</Text>;
-  // }
-
   return (
-    <View>
-      <FlatList
-        data={displayTeachers}
-        keyExtractor={(item) => item._id}
-        renderItem={renderSubjectItem}
-        numColumns={2}
-      />
-    </View>
+    <LinearGradient colors={["black", "black"]} style={styles.container}>
+      <ImageBackground
+        source={images.TeacherHomeBackground}
+        resizeMode="cover"
+        style={styles.imageStyle}
+        imageStyle={styles.backImage}
+      >
+        <FlatList
+          data={displayTeachers}
+          keyExtractor={(item) => item._id}
+          renderItem={renderSubjectItem}
+          numColumns={2}
+        />
+      </ImageBackground>
+    </LinearGradient>
   );
 };
 
@@ -100,5 +86,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     marginTop: 32,
+  },
+  form: {
+    marginTop: 100,
+  },
+  container: {
+    backgroundColor: "red",
+    flex: 1,
+  },
+  backImage: {
+    opacity: 0.6,
+  },
+  imageStyle: {
+    flex: 1,
+    position: "relative",
+    left: 0,
+    top: 0,
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
   },
 });

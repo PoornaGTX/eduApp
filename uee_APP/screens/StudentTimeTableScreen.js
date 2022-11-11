@@ -1,5 +1,13 @@
 import { useLayoutEffect, useContext, useEffect, useState } from "react";
-import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  Dimensions,
+  FlatList,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/core";
 import TimeTable from "@mikezzb/react-native-timetable";
@@ -13,6 +21,8 @@ import LoadingOverLay from "../components/LoadingOverLay/LoadingOverLay";
 
 //context
 import { useAppContext } from "../context/appContext";
+import { LinearGradient } from "expo-linear-gradient";
+import { images } from "../constants/Images/images";
 
 //route will resive to any registred screens
 const StudentTimeTableScreen = ({ route }) => {
@@ -46,10 +56,9 @@ const StudentTimeTableScreen = ({ route }) => {
     return `${getHour}:${Number(startTime.split(":")[1])}`;
   };
   const events = studentNotices.map((notice) => {
-    // console.log(getDateValue(notice.date.split("-")[0]));
     return {
       courseId: notice.title,
-      location: notice.description,
+      location: `${notice.description}\n ${notice.link}`,
       day: getDateValue(notice.date.split("-")[0]),
       startTime: notice.date.split("-")[1],
       endTime: getEndTime(notice.date.split("-")[1]),
@@ -58,16 +67,17 @@ const StudentTimeTableScreen = ({ route }) => {
   useEffect(() => {
     if (isFocused) {
       getAllNoticesStd();
+      console.log(studentNotices);
     }
   }, [isFocused]);
 
   return (
-    <View>
-      <TimeTable
-        events={events}
-        eventOnPress={(event) => Alert.alert(`${JSON.stringify(event)}`)}
-      />
-    </View>
+    <TimeTable
+      events={events}
+      eventOnPress={(event) =>
+        Alert.alert(`${event.courseId}`, `${event.location}`)
+      }
+    />
   );
 };
 
@@ -79,5 +89,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     marginTop: 32,
+  },
+  form: {
+    marginTop: 100,
+  },
+  container: {
+    backgroundColor: "red",
+    flex: 1,
+  },
+  backImage: {
+    opacity: 0.6,
+  },
+  imageStyle: {
+    flex: 1,
+    position: "relative",
+    left: 0,
+    top: 0,
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
   },
 });

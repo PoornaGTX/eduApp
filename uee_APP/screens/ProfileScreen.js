@@ -46,7 +46,7 @@ const ProfileScreen = () => {
   };
 
   if (showAlert && alertType === "danger") {
-    Alert.alert("Invalid!!", "Please check the profile values");
+    // Alert.alert("Invalid!!", "Please check the profile values");
   }
 
   return (
