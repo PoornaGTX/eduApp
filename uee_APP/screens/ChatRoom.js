@@ -1,3 +1,4 @@
+import { useIsFocused } from "@react-navigation/core";
 import { useLayoutEffect, useEffect, useState } from "react";
 import {
   Text,
@@ -11,12 +12,12 @@ import IconButton from "../components/icons/IconButton";
 import MessageText from "../components/MessageText";
 import TeacherNoticeGirdTitle from "../components/TeacherNoticeGridTile";
 import { useAppContext } from "../context/appContext";
-
 const ChatRoom = ({ route, navigation }) => {
   const [message, setMessage] = useState("");
   const { user, getAllMessages, messages, sendMessage } = useAppContext();
 
   const { teacherFname } = route.params;
+  const isFocused = useIsFocused();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -24,16 +25,15 @@ const ChatRoom = ({ route, navigation }) => {
     });
   }, [navigation]);
 
-  useEffect(
-    (isFocused) => {
+  useEffect(() => {
+    if (isFocused) {
       if (user.type === "teacher") {
         getAllMessages(user.firstName);
       } else {
         getAllMessages(teacherFname);
       }
-    },
-    [isFocused]
-  );
+    }
+  }, [isFocused]);
 
   const handleSendMessage = () => {
     if (user.type === "teacher") {
