@@ -15,8 +15,10 @@ import { useAppContext } from "../context/appContext";
 const ChatRoom = ({ route, navigation }) => {
   const [message, setMessage] = useState("");
   const { user, getAllMessages, messages, sendMessage } = useAppContext();
-
-  const { teacherFname } = route.params;
+  let teacher;
+  if (user.type === "student") {
+    teacher = route.params.teacherFname;
+  }
   const isFocused = useIsFocused();
 
   useLayoutEffect(() => {
@@ -30,7 +32,7 @@ const ChatRoom = ({ route, navigation }) => {
       if (user.type === "teacher") {
         getAllMessages(user.firstName);
       } else {
-        getAllMessages(teacherFname);
+        getAllMessages(teacher);
       }
     }
   }, [isFocused]);
@@ -45,14 +47,14 @@ const ChatRoom = ({ route, navigation }) => {
     } else {
       sendMessage({
         messageSender: user.firstName,
-        chatRoomOwner: teacherFname,
+        chatRoomOwner: teacher,
         message: message,
       });
-      if (user.type === "teacher") {
-        getAllMessages(user.firstName);
-      } else {
-        getAllMessages(teacherFname);
-      }
+    }
+    if (user.type === "teacher") {
+      getAllMessages(user.firstName);
+    } else {
+      getAllMessages(teacher);
     }
     setMessage("");
   };
