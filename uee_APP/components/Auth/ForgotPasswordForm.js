@@ -39,6 +39,7 @@ function ForgotPasswordForm({ isLogin, onSubmit, credentialsInvalid }) {
           onUpdateValue={updateInputValueHandler.bind(this, "email")}
           value={enteredEmail}
           keyboardType="email-address"
+          placeholder="Your Email"
         />
 
         <Input
@@ -46,6 +47,7 @@ function ForgotPasswordForm({ isLogin, onSubmit, credentialsInvalid }) {
           onUpdateValue={updateInputValueHandler.bind(this, "password")}
           secure
           value={enteredPassword}
+          placeholder="Password"
         />
 
         <Input
@@ -53,6 +55,7 @@ function ForgotPasswordForm({ isLogin, onSubmit, credentialsInvalid }) {
           onUpdateValue={updateInputValueHandler.bind(this, "confirmPassword")}
           secure
           value={enteredConfirmPassword}
+          placeholder="Confirm Password"
         />
 
         <View style={styles.buttons}>

@@ -14,6 +14,7 @@ const AdminForm = ({
   submitButtonLabel,
   defaultValuesForEdit,
   GradeValueForNewSubject,
+  Manage,
 }) => {
   const [subjectValue, setSubjectValue] = useState(
     defaultValuesForEdit ? defaultValuesForEdit.subjectName : ""
@@ -114,6 +115,7 @@ const AdminForm = ({
           value: gradeValue || Grade || GradeValueForNewSubject,
           editable: !labelName2,
         }}
+        Manage
       />
       {labelName2 && (
         <AdminInput

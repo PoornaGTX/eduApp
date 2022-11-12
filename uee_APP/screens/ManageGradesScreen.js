@@ -105,9 +105,7 @@ const ManageGradesScreen = ({ route, navigation }) => {
         (grade) => grade.Grade === gradeValue
       );
       if (checkExsisitigGrade) {
-        return Alert.alert("DB ERROR", "Sorry Grade is already in DB!!!!!!", [
-          { text: "OK", onPress: () => navigation.goBack() },
-        ]);
+        return Alert.alert("DB ERROR", "Sorry Grade is already in DB!!!!!!");
       }
     }
 
@@ -143,6 +141,7 @@ const ManageGradesScreen = ({ route, navigation }) => {
         defaultValuesForEdit={gardeDataForForm}
         alertText={alertText}
         showAlert={showAlert}
+        Manage
       />
 
       {isEditing && (

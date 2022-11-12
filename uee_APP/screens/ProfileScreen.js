@@ -1,5 +1,12 @@
 import { useEffect } from "react";
-import { View, StyleSheet, Text, Alert, ImageBackground } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Alert,
+  ImageBackground,
+  Dimensions,
+} from "react-native";
 import { useAppContext } from "../context/appContext";
 import { useIsFocused } from "@react-navigation/core";
 import { LinearGradient } from "expo-linear-gradient";
@@ -21,7 +28,7 @@ const ProfileScreen = () => {
   if (user.length <= 0) {
     return (
       <View>
-        <Text>no projects</Text>
+        <Text>No user data</Text>
       </View>
     );
   }
@@ -43,6 +50,7 @@ const ProfileScreen = () => {
       teacherDescription: description,
       Grade: grade,
     });
+    Alert.alert("Success!!", "Profile details updated");
   };
 
   if (showAlert && alertType === "danger") {
@@ -91,6 +99,11 @@ const styles = StyleSheet.create({
   },
   imageStyle: {
     flex: 1,
+    position: "relative",
+    left: 0,
+    top: 0,
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
   },
   liner: {
     flex: 1,

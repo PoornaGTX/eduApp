@@ -77,7 +77,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
       type: dropValue,
       password: enteredPassword,
       confirmPassword: enteredConfirmPassword,
-      teacherDescription: enteredTeacherDes
+      teacherDescription: enteredTeacherDes,
     });
   }
 
@@ -119,6 +119,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
             value={enteredFirstName}
             // keyboardType=""
             isInvalid={firstNameIsInvalid}
+            placeholder="First Name"
           />
         )}
 
@@ -129,6 +130,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
             value={enteredLastName}
             // keyboardType=""
             isInvalid={lastNameIsInvalid}
+            placeholder="Last Name"
           />
         )}
 
@@ -138,6 +140,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
           value={enteredEmail}
           keyboardType="email-address"
           isInvalid={emailIsInvalid}
+          placeholder="Your email"
         />
 
         {!isLogin && dropValue == "teacher" && (
@@ -146,15 +149,17 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
             onUpdateValue={updateInputValueHandler.bind(this, "subject")}
             value={enteredTeacherSub}
             // isInvalid={lastNameIsInvalid}
+            placeholder="Subject"
           />
         )}
 
         {!isLogin && dropValue == "teacher" && (
           <Input
-            label="description"
+            label="Description"
             onUpdateValue={updateInputValueHandler.bind(this, "description")}
             value={enteredTeacherSub}
             // isInvalid={lastNameIsInvalid}
+            placeholder="Description"
           />
         )}
 
@@ -164,6 +169,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
           secure
           value={enteredPassword}
           isInvalid={passwordIsInvalid}
+          placeholder="Password"
         />
 
         {!isLogin && (
@@ -176,6 +182,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
             secure
             value={enteredConfirmPassword}
             isInvalid={passwordsDontMatch}
+            placeholder="Confirm Password"
           />
         )}
         <View style={styles.buttons}>
