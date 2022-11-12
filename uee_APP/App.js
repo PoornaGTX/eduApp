@@ -173,6 +173,16 @@ const StudentBottomTabHome = () => {
           headerTintColor: "white",
         }}
       />
+      <Bottom.Screen
+        name="ChatRoom"
+        component={ChatRoom}
+        options={{
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="chatbox" size={size} color="white" />
+          ),
+        }}
+      />
     </Stack.Navigator>
   );
 };

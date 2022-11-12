@@ -578,7 +578,6 @@ const reducer = (state, action) => {
   }
 
   if (action.type === GET_ALL_USERS_SUCCESS) {
-    // console.log(updatedUser, state.users);
     return {
       ...state,
       isLoading: false,
@@ -635,7 +634,6 @@ const reducer = (state, action) => {
   }
 
   if (action.type === STUDENT_GET_ALL_NOTICES_SUCCESS) {
-    // console.log(updatedUser, state.users);
     return {
       ...state,
       isLoading: false,
@@ -659,16 +657,16 @@ const reducer = (state, action) => {
     };
   }
 
-    //get messages error
-    if (action.type === GET_MESSAGES_ERROR) {
-      return {
-        ...state,
-        isLoading: false,
-        showAlert: true,
-        alertType: "danger",
-        alertText: "hello",
-      };
-  throw new Error(`no such action : ${action.type}`);
+  //get messages error
+  if (action.type === GET_MESSAGES_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: "hello",
+    };
+    throw new Error(`no such action : ${action.type}`);
+  }
 };
-}
 export default reducer;

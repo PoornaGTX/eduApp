@@ -44,7 +44,11 @@ const SelectedTeacherScreen = ({ route, navigation }) => {
 
   const isSubscribe = mySubscribeList.includes(teacherID);
   const teacher = usersStd.find((user) => user._id === teacherID);
-
+  const ButtonHandlerChat = () => {
+    navigation.navigate("ChatRoom", {
+      teacherFname: teacher.firstName,
+    });
+  };
   const subUnsubHandler = async () => {
     const subData = { subId: teacherID, isSubscribe: isSubscribe };
     subscribeHandler(subData);
@@ -84,6 +88,15 @@ const SelectedTeacherScreen = ({ route, navigation }) => {
                       onPress={subUnsubHandler}
                       style={styles.button}
                     ></Button>
+                    {isSubscribe && (
+                      <View style={styles.chatButton}>
+                        <Button
+                          title={"chat"}
+                          onPress={ButtonHandlerChat}
+                          style={styles.button}
+                        ></Button>
+                      </View>
+                    )}
                   </View>
                 </View>
               </View>
@@ -173,7 +186,9 @@ const styles = StyleSheet.create({
     minWidth: 120,
     marginHorizontal: 8,
   },
-
+  chatButton: {
+    marginTop: 10,
+  },
   header: {
     backgroundColor: "#624F82",
     borderTopLeftRadius: 8,
@@ -194,12 +209,13 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 22,
-    color: "#000000",
-    fontWeight: "600",
+    color: "white",
+    fontWeight: "bold",
+    textTransform: "capitalize",
   },
   userInfo: {
     fontSize: 16,
-    // color: "#778899",
+    color: "white",
     fontWeight: "600",
     marginBottom: 10,
   },
