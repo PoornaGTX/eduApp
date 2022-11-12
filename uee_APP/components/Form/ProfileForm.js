@@ -122,7 +122,7 @@ const ProfileForm = ({
           />
         )}
 
-        {user.teacherSubject !== "no" && (
+        {user.teacherSubject !== "no" && user.type === "teacher" && (
           <AdminInput
             label={labelName4}
             textInputAllProps={{
