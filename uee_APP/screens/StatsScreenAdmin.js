@@ -14,6 +14,7 @@ import { useAppContext } from "../context/appContext";
 import { useIsFocused } from "@react-navigation/core";
 import { LinearGradient } from "expo-linear-gradient";
 import { images } from "../constants/Images/images";
+import { Colors } from "../constants/styles";
 
 const StatsScreenAdmin = () => {
   const {
@@ -92,7 +93,7 @@ const StatsScreenAdmin = () => {
             </View>
 
             <View style={[styles.totalUsers, styles.subjectContainer]}>
-              <Text style={styles.totalUsersText}>Total subjects</Text>
+              <Text style={styles.totalUsersTextSub}>Total subjects</Text>
               <View style={styles.userContainer}>
                 <View style={styles.totalSubRow}>
                   <Text style={styles.userText}>
@@ -140,13 +141,14 @@ const StatsScreenAdmin = () => {
                 yAxisInterval={1} // optional, defaults to 1
                 y
                 chartConfig={{
-                  backgroundColor: "#e26a00",
+                  backgroundColor: "white",
                   strokeWidth: 0,
-                  backgroundGradientFrom: "#cfb7ed",
-                  backgroundGradientTo: "#cfb7ed",
+                  backgroundGradientFrom: Colors.primaryBackgroud,
+                  backgroundGradientTo: Colors.primaryBackgroud,
                   decimalPlaces: 0, // optional, defaults to 2dp
-                  color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                  labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                  color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                  labelColor: (opacity = 1) =>
+                    `rgba(255, 255, 255, ${opacity})`,
                   style: {
                     borderRadius: 16,
                   },
@@ -181,11 +183,14 @@ const styles = StyleSheet.create({
   },
   statstext: {
     textAlign: "center",
-    color: "black",
+    color: "white",
     fontWeight: "bold",
-    fontSize: 25,
+    fontSize: 20,
     marginTop: 10,
-    textDecorationLine: "underline",
+    // textDecorationLine: "underline",
+    padding: 10,
+    borderRadius: 8,
+    backgroundColor: Colors.primaryBackgroud,
   },
 
   chartContainer: {
@@ -195,15 +200,18 @@ const styles = StyleSheet.create({
   headingText: {
     textAlign: "center",
     fontWeight: "bold",
-    fontSize: 24,
-    color: "black",
+    fontSize: 20,
+    color: "white",
     marginTop: 30,
-    textDecorationLine: "underline",
+    // textDecorationLine: "underline",
+    backgroundColor: Colors.primaryBackgroud,
+    padding: 10,
+    borderRadius: 8,
   },
   totalUsers: {
     width: 390,
     height: 100,
-    backgroundColor: "#cfb7ed",
+    backgroundColor: Colors.primaryBackgroud,
     marginTop: 20,
     borderRadius: 10,
     elevation: 5,
@@ -216,7 +224,7 @@ const styles = StyleSheet.create({
   totalUsersText: {
     textAlign: "center",
     fontWeight: "bold",
-    color: "#8208E2",
+    color: "white",
     fontSize: 22,
   },
 
@@ -237,7 +245,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 25,
     marginVertical: 4,
     fontWeight: "bold",
-    color: "black",
+    color: "white",
+    opacity: 0.9,
   },
   totalSubRow: {
     flexDirection: "row",
@@ -262,5 +271,12 @@ const styles = StyleSheet.create({
     top: 0,
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
+  },
+  totalUsersTextSub: {
+    textAlign: "center",
+    fontWeight: "bold",
+    color: "white",
+    fontSize: 22,
+    paddingTop: 10,
   },
 });

@@ -1,12 +1,10 @@
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Colors } from "../../constants/styles";
 
-const AdminInput = ({ label, textInputAllProps, profile }) => {
+const AdminInput = ({ label, textInputAllProps, profile, Manage }) => {
   return (
     <View style={styles.inputConainer}>
-      <Text style={[styles.label, profile && { color: Colors.primartBlack }]}>
-        {label}
-      </Text>
+      <Text style={[styles.label, Manage && { color: "white" }]}>{label}</Text>
       <TextInput {...textInputAllProps} style={styles.input} />
     </View>
   );
@@ -21,7 +19,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
-    color: "black",
+    color: "white",
     marginBottom: 4,
     fontWeight: "bold",
   },

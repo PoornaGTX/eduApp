@@ -173,11 +173,15 @@ export default ProfileForm;
 
 const styles = StyleSheet.create({
   form: {
-    marginBottom: 20,
+    marginTop: 20,
+    padding: 16,
+    borderRadius: 8,
+    backgroundColor: Colors.primaryBackgroud,
+    opacity: 0.9,
   },
   formTitle: {
     fontSize: 25,
-    color: Colors.primaryBackgroud,
+    color: "white",
     textAlign: "center",
     fontWeight: "bold",
     marginVertical: 16,
